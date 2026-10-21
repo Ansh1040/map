@@ -23,7 +23,7 @@ flowchart TD
   R -- no --> W[Welcome]
   W --> HIW["How it works with Google Maps<br/>(limitation text above)"]
   HIW --> SAF["Safety: obey limits,<br/>don't touch phone while driving"]
-  SAF --> LOC["Prominent disclosure:<br/>what location is used for,<br/>only while alerts are on,<br/>processed on device"]
+  SAF --> LOC["Prominent disclosure:<br/>map while the app is open;<br/>after Start Drive also in the<br/>background until the drive ends;<br/>processed on device"]
   LOC -- "Continue & allow location" --> ACC[acceptDisclosure → DataStore]
   ACC --> SYS1{{"System dialog<br/>FINE + COARSE"}}
   LOC -- "Not now" --> N
@@ -155,20 +155,27 @@ flowchart TD
   MV -- yes --> PC["Warning + 'I am a passenger' required"]
   MV -- no --> F[Fill form]
   PC --> F
-  F --> LOCQ["Location (if needed): cached ≤ 30 s<br/>or one balanced fix"]
-  LOCQ --> SUB[Submit]
+  F --> LOCQ["Location (new / temporary / wrong position):<br/>fresh high-accuracy fix, accuracy shown;<br/>fallback ≤ 30 s cached fix (never published if > ±30 m)"]
+  LOCQ --> CONS["Consent checkbox 'Publish publicly on OpenStreetMap'<br/>(off by default; hidden for TEST-ONLY cameras)"]
+  CONS --> SUB[Submit]
   SUB --> POL{"ReportModerationPolicy.checkSubmission"}
   POL -- Invalid --> E1[Red banner]
   POL -- RateLimited --> E2["'Try again in N min'"]
   POL -- Duplicate --> E3["Already known / reported"]
-  POL -- Accepted --> Q["Room: PENDING_UPLOAD + audit CREATED"]
-  Q --> CFG{API configured?}
-  CFG -- no --> KEEP[Stays queued locally]
-  CFG -- yes --> W["ReportUploadWorker → POST v1/reports"]
-  W -- 2xx --> OK["status from server + audit UPLOADED"]
-  W -- "IO / 5xx / 429" --> RETRY["retry (≤ 5 attempts, 5 min backoff)"]
-  W -- "other 4xx" --> REJ["REJECTED + audit REJECTED_BY_SERVER"]
-  OK --> MOD["Server moderation (not in repo).<br/>Alerts change only via a later package delta."]
+  POL -- Accepted --> GATE{"Publish requested and allowed?"}
+  GATE -- "no consent" --> DEV["SAVED_ON_DEVICE (report saved on this phone only)"]
+  GATE -- "TEST-ONLY camera · mock position ·<br/>accuracy > ±30 m · wrong position > 300 m from camera" --> KEPT["SAVED_ON_DEVICE + WARN banner with the reason"]
+  GATE -- "yes (OpenStreetMap mode)" --> PEND["PENDING_OSM_NOTE + audit CREATED"]
+  GATE -- "yes (optional custom server)" --> SRV["PENDING_UPLOAD → POST v1/reports"]
+  PEND --> W["ReportUploadWorker (APPEND_OR_REPLACE, network required)"]
+  W --> ATT{"Earlier OSM_NOTE_ATTEMPT?"}
+  ATT -- yes --> SEARCH["Search notes for the 'Ref:' token<br/>(found → adopt it; search error → retry)"]
+  ATT -- no --> POST
+  SEARCH -- "not found" --> POST["audit OSM_NOTE_ATTEMPT → POST api/0.6/notes.json<br/>(debug builds: OSM test server)"]
+  POST -- 2xx --> OK["UNDER_REVIEW, remote_id osm-note-N + audit PUBLISHED_OSM_NOTE"]
+  POST -- "IO / 5xx / 429" --> RETRY["retry with backoff"]
+  POST -- "other 4xx" --> REJ["REJECTED + audit REJECTED_BY_SERVER"]
+  OK --> MOD["OpenStreetMap volunteers review the public note.<br/>Alerts change only via a later camera-data update."]
 ```
 
 ## 8. Sync flow

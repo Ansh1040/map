@@ -110,3 +110,23 @@ Mark each row ☒ in **Pass** or **Fail** and add notes (time, distance spoken, 
 | Fail (non-blocking) | |
 
 Tester: ____________ Date: ________ Release decision: ☐ Go ☐ No-go
+
+## Quick self-test on the OnePlus 13 (no USB, no driving)
+
+Device facts (public specs): 6.82″ 1440×3168 (510 ppi) curved AMOLED; launched on OxygenOS 15 (Android 15); OxygenOS 16 (Android 16) rolled out in India. Drive Alert targets Android 16 (API 36).
+
+| # | Step | Expected | Pass |
+|---|---|---|---|
+| Q1 | Install `app-debug.apk` (allow "Install unknown apps" for your file manager/browser) | Installs; launcher icon "Drive Alert (debug)" | ☐ |
+| Q2 | Onboarding: allow precise location + notifications | Home shows "GPS Ready" and the map (needs internet) | ☐ |
+| Q3 | Settings → Camera data packages | 36 states/UTs, e.g. Kerala 284, Karnataka 96, Maharashtra 87, Delhi 50 | ☐ |
+| Q4 | Setup assistant | All "Required" rows ✓; OnePlus card shows the battery path | ☐ |
+| Q5 | Recents → long-press Drive Alert → **Lock** | Lock icon on the card | ☐ |
+| Q6 | Developer options → Select mock location app → Drive Alert (debug); Settings → Developer → **Simulate a test drive** | "Camera alerts active" notification; progress shown | ☐ |
+| Q7 | Open Google Maps during the simulation | Maps follows the virtual car; heads-up + voice "Speed camera ahead in 500 metres…" over Maps | ☐ |
+| Q8 | Lock the screen before the second camera (≈ 5 min in) | Voice warning for TEST-006 with the screen off; notification on the lock screen | ☐ |
+| Q9 | Turn on Battery saver and repeat Q6 | Warnings still arrive (possibly slightly later) | ☐ |
+| Q10 | Let a simulated drive finish (or tap **Stop simulated drive**) | Alerts stop by themselves: the "Camera alerts active" notification disappears; History shows only TEST-001 / TEST-006 | ☐ |
+| Q10b | Start another simulated drive and, while it runs, tap **Stop alerts** in the notification | Notification disappears at once; no further warnings for the rest of that drive | ☐ |
+| Q11 | Swipe Drive Alert away in Recents while unlocked, during a simulation | If alerts stop, Q5 (Lock) is needed on this OxygenOS version; note the result | ☐ |
+| Q12 | Real road near a mapped camera (Kerala, Bengaluru, Pune/Mumbai, Delhi) | Warning before the camera in your direction only | ☐ |

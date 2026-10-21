@@ -2,7 +2,7 @@
 
 The camera-data backend is **not part of this repository**. This document is the contract the Android client implements in `network/CameraDataApi.kt` (Retrofit + kotlinx.serialization, `ignoreUnknownKeys = true`, `explicitNulls = false`).
 
-> **TODO (required before release):** deploy a server implementing this contract over HTTPS, operated under a licence that permits redistributing the camera data to app users, and set `CAMERA_API_BASE_URL`.
+> **Optional.** By default Drive Alert needs no server: camera data comes from the weekly OpenStreetMap snapshot and reports become public OpenStreetMap notes (opt-in). Implement this contract only to add an official or licensed data source with its own moderation, then set `CAMERA_API_BASE_URL`.
 
 ## 1. Conventions
 

@@ -21,32 +21,20 @@ cd drive-alert
 
 Android Studio writes `local.properties` with `sdk.dir`. On the command line create it yourself (Windows paths need escaped backslashes, e.g. `sdk.dir=C\:\\Users\\you\\AppData\\Local\\Android\\Sdk`).
 
-## 3. Required configuration — `local.properties`
+## 3. Configuration — nothing is required
 
-`app/build.gradle.kts` reads each key from, in order: `-P` Gradle property → `local.properties` → environment variable. `local.properties` is git-ignored; **never commit keys**.
+Every setting has a free, open default, so a fresh clone builds and runs with no accounts or keys. To override one, set it as a `-P` Gradle property, in `local.properties` (git-ignored) or as an environment variable:
 
-```properties
-sdk.dir=/path/to/Android/Sdk
-
-# TODO (required before release): Google Maps SDK for Android key, restricted to
-# package com.drivealert.app (and com.drivealert.app.debug for debug builds) + signing SHA-1.
-MAPS_API_KEY=
-
-# TODO (required before release): HTTPS base URL of the LICENSED camera-data service.
-# Must start with https:// — otherwise sync and report upload stay disabled.
-CAMERA_API_BASE_URL=
-
-# TODO (required before release): public URL of the hosted privacy policy (Play Console requires it).
-PRIVACY_POLICY_URL=
-```
-
-| Key | If missing | Exposed as |
+| Key | Default | Purpose |
 |---|---|---|
-| `MAPS_API_KEY` | Home map shows a "Map preview unavailable" placeholder; **alerts still work** | Manifest `com.google.android.geo.API_KEY`, `BuildConfig.MAPS_CONFIGURED` |
-| `CAMERA_API_BASE_URL` | `ApiConfig.isConfigured = false`: no catalog, no sync, reports stay queued locally | `BuildConfig.CAMERA_API_BASE_URL` |
-| `PRIVACY_POLICY_URL` | In-app policy only; no "view online" link | `BuildConfig.PRIVACY_POLICY_URL` |
+| `OSM_SNAPSHOT_URL` | `https://raw.githubusercontent.com/Ansh1040/map/main/app/src/main/assets/osm/india_cameras.json` | Weekly OpenStreetMap camera snapshot the app downloads (no location sent) |
+| `MAP_STYLE_URL` | `https://tiles.openfreemap.org/styles/liberty` | MapLibre style (OpenFreeMap, free, no key) |
+| `PRIVACY_POLICY_URL` | `https://github.com/Ansh1040/map/blob/main/PRIVACY.md` | Linked from the in-app policy and for Play Console |
+| `CAMERA_API_BASE_URL` | *(empty)* | **Optional** licensed server ([server-api-contract.md](server-api-contract.md)). Empty = OpenStreetMap mode |
 
-> The build currently **does not fail** when these are empty. Before release, verify all three are set in the CI release job (consider failing `assembleRelease` when blank).
+The camera snapshot is regenerated every Monday by `.github/workflows/update-osm-snapshot.yml` (runs `tools/fetch_osm_cameras.py` against Overpass and commits the file if it changed). To refresh it by hand: `python tools/fetch_osm_cameras.py`.
+
+**Safety guard.** The builder refuses to overwrite the snapshot (exit code 2, nothing committed) when Overpass returned an incomplete result, when a state that had cameras disappears, or when a state with 5 or more cameras drops to 0 or loses more than 5 cameras and more than half. If such a change is real (e.g. a large OpenStreetMap clean-up), override it locally with `python tools/fetch_osm_cameras.py --force`, or run the workflow manually (GitHub → Actions → Update OSM camera snapshot → Run workflow) with the **force** input ticked.
 
 ## 4. Build and test commands
 
@@ -54,32 +42,48 @@ Use `./gradlew` (macOS/Linux/Git Bash) or `gradlew.bat` (Windows cmd/PowerShell)
 
 | Task | Command |
 |---|---|
-| Debug APK | `./gradlew assembleDebug` → `app/build/outputs/apk/debug/app-debug.apk` |
-| Install debug on a device | `./gradlew installDebug` |
+| Debug APK (includes test tools + simulated drive) | `./gradlew assembleDebug` → `app/build/outputs/apk/debug/app-debug.apk` |
+| Install debug on a USB-connected device | `./gradlew installDebug` |
 | JVM unit + Robolectric tests | `./gradlew testDebugUnitTest` |
-| Single test class | `./gradlew testDebugUnitTest --tests "com.drivealert.app.domain.relevance.CameraRelevanceEngineTest"` |
+| Single test class | `./gradlew testDebugUnitTest --tests "com.drivealert.app.data.osm.OsmCameraParserTest"` |
 | Instrumented tests (device/emulator connected) | `./gradlew connectedDebugAndroidTest` |
-| Lint | `./gradlew lintDebug` |
-| Release APK (minified) | `./gradlew assembleRelease` |
+| Release APK (minified, signed) | `./gradlew assembleRelease` → `app/build/outputs/apk/release/app-release.apk` |
 | Release bundle for Play | `./gradlew bundleRelease` |
 
-## 5. Signing — TODO (required before release)
+## 5. Signing
 
-`release` has no `signingConfig` (`TODO(release)` in `app/build.gradle.kts`). Before publishing:
+`app/build.gradle.kts` signs `release` with the key described in a git-ignored **`keystore.properties`** at the repo root:
 
-1. Create an upload keystore (outside the repo) and enrol in **Play App Signing**.
-2. Add a `signingConfigs { create("release") { … } }` block reading from a git-ignored `keystore.properties` or CI secrets (`*.jks`, `*.keystore`, `keystore.properties` are already in `.gitignore`).
-3. Add the upload and app-signing SHA-1 fingerprints to the Maps API key restriction.
+```properties
+storeFile=keystore/drivealert-upload.jks
+storePassword=…
+keyAlias=drivealert-upload
+keyPassword=…
+```
 
-## 6. Loading test cameras in a debug build
+Without that file the release build is signed with the **debug key** (it installs fine, but cannot be published to Play). To create your own upload key:
 
-See [11-mock-dataset.md](11-mock-dataset.md). Summary: install the **debug** variant → stand at the start of a straight test road facing the direction of travel → *Settings → Developer (debug build only) → Load TEST-ONLY cameras ahead of me* (calls `TestDataTools.loadSyntheticCamerasAround`) → start alerts. Remove with *Remove TEST-ONLY cameras*. The release variant contains neither the asset nor the loader.
+```bash
+mkdir -p keystore   # PowerShell: New-Item -ItemType Directory -Force keystore
+keytool -genkeypair -keystore keystore/drivealert-upload.jks -storetype PKCS12 -alias drivealert-upload -keyalg RSA -keysize 4096 -validity 10000
+```
+
+**Back up `keystore/` and `keystore.properties` somewhere safe** (both are git-ignored). For Google Play, enrol in Play App Signing and upload with this key; a lost upload key can be reset through Play support.
+
+## 6. Testing without driving (debug build)
+
+See [11-mock-dataset.md](11-mock-dataset.md). On the phone:
+
+1. Install `app-debug.apk`, finish onboarding.
+2. Developer options → **Select mock location app → Drive Alert (debug)** (Settings → Developer in the app has a shortcut).
+3. Drive Alert → Settings → Developer → **Simulate a test drive (mock GPS)**. Alerts start automatically and a virtual car drives 7 km north at 72 km/h past the TEST-ONLY scenario; expect warnings for **TEST-001** and **TEST-006** only. Open Google Maps or lock the screen while it runs. Tap again to stop; mock mode is switched off when the drive ends.
+
+Manual alternative: *Load TEST-ONLY cameras ahead of me*, then drive a straight road. Release builds contain neither the dataset nor the simulator.
 
 Useful debug commands (debug package id is `com.drivealert.app.debug`):
 
 ```bash
 adb logcat -s FusedLocationSource CameraAlertService   # plan changes (debug-only log), service events
-adb shell dumpsys location | grep -A3 drivealert         # active location requests and priorities
 adb shell dumpsys activity services com.drivealert.app.debug
 adb shell pm clear com.drivealert.app.debug              # reset onboarding, database, settings
 ```
@@ -89,12 +93,12 @@ adb shell pm clear com.drivealert.app.debug              # reset onboarding, dat
 | Symptom | Likely cause / fix |
 |---|---|
 | `Unresolved reference: R.string.…` | A key used in code is missing from `res/values/strings.xml`. |
-| Unresolved screen composables in `DriveAlertNavHost` | History/Settings/Setup/Privacy/Packages screens not yet merged. |
 | KSP / Hilt "cannot find symbol … Hilt_…" | Run `./gradlew clean` then rebuild; ensure the JDK in *Settings → Build Tools → Gradle* is 17+. |
 | "Unsupported class file major version" | Gradle is running on an old JDK; point `JAVA_HOME` / Studio's Gradle JDK to 17 or 21. |
 | Room "Schema export directory" warning | Expected on first build; commit the generated `app/schemas/*.json`. |
-| Map card shows "Map preview unavailable" | `MAPS_API_KEY` missing, or key restricted to a different package/SHA-1 (debug uses `.debug`). |
-| "No camera data" chip; sync does nothing | `CAMERA_API_BASE_URL` missing or not `https://`; or no package installed. Load test cameras in debug. |
+| Map card says "Map needs an internet connection" | Offline or OpenFreeMap unreachable; alerts still work offline. |
+| "No camera data" chip | All state packages switched off (Settings → Camera data packages), or the first-launch import has not finished yet. |
+| "Simulate a test drive" says to choose a mock location app | Developer options → Select mock location app → Drive Alert (debug). |
 | *Start Drive* disabled | Precise location not granted or location services off (banner explains). It enables after 20 s even with weak GPS ("Start drive anyway"). |
 | No heads-up, but voice works | Notifications denied or the "Camera alerts" channel turned off → Setup Assistant. |
 | Alerts stop after a while on OnePlus | Battery management — see [06-permissions-and-battery-setup.md](06-permissions-and-battery-setup.md) §4. |

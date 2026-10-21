@@ -12,29 +12,35 @@ plugins {
 }
 
 // ---------------------------------------------------------------------------
-// Deployment configuration that MUST be supplied before a production release.
-// Values are read (in order) from: -P Gradle properties, local.properties,
-// then environment variables. Nothing secret is committed to the repository.
+// Deployment configuration. Everything has a free, open default, so the app
+// builds and works with no accounts or keys. Override (in order) with -P Gradle
+// properties, local.properties, or environment variables:
 //
-//   MAPS_API_KEY         Google Maps SDK key (restricted to this app's package
-//                        + signing certificate). Without it the map card shows
-//                        a placeholder; camera alerts still work.
-//   CAMERA_API_BASE_URL  HTTPS base URL of the licensed camera-data service,
-//                        e.g. https://api.your-domain.in/ . Without it, sync
-//                        and report upload are disabled.
-//   PRIVACY_POLICY_URL   Public URL of the hosted privacy policy (Play Console
-//                        requires one). The in-app policy is always available.
+//   OSM_SNAPSHOT_URL     Weekly OpenStreetMap camera snapshot (HTTPS). Default:
+//                        the file published in this GitHub repository.
+//   MAP_STYLE_URL        MapLibre style. Default: OpenFreeMap "liberty" (free, no key).
+//   PRIVACY_POLICY_URL   Public privacy policy. Default: PRIVACY.md on GitHub.
+//   CAMERA_API_BASE_URL  OPTIONAL licensed camera-data server (see
+//                        docs/server-api-contract.md). Empty = OpenStreetMap mode.
+//
+// Release signing reads keystore.properties (git-ignored); without it the
+// release build is signed with the debug key so it still installs.
 // ---------------------------------------------------------------------------
 val localProperties = Properties().apply {
     val file = rootProject.file("local.properties")
     if (file.exists()) file.inputStream().use { load(it) }
 }
 
-fun deploymentValue(key: String): String =
+fun deploymentValue(key: String, default: String = ""): String =
     (project.findProperty(key) as String?)
         ?: localProperties.getProperty(key)
         ?: System.getenv(key)
-        ?: ""
+        ?: default
+
+val keystoreProperties = Properties().apply {
+    val file = rootProject.file("keystore.properties")
+    if (file.exists()) file.inputStream().use { load(it) }
+}
 
 fun String.asBuildConfigString(): String = "\"" + replace("\\", "\\\\").replace("\"", "\\\"") + "\""
 
@@ -51,17 +57,35 @@ android {
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
 
-        val mapsApiKey = deploymentValue("MAPS_API_KEY")
-        manifestPlaceholders["mapsApiKey"] = mapsApiKey
-        buildConfigField("boolean", "MAPS_CONFIGURED", mapsApiKey.isNotBlank().toString())
         buildConfigField("String", "CAMERA_API_BASE_URL", deploymentValue("CAMERA_API_BASE_URL").asBuildConfigString())
-        buildConfigField("String", "PRIVACY_POLICY_URL", deploymentValue("PRIVACY_POLICY_URL").asBuildConfigString())
+        buildConfigField(
+            "String", "OSM_SNAPSHOT_URL",
+            deploymentValue("OSM_SNAPSHOT_URL", "https://raw.githubusercontent.com/Ansh1040/map/main/app/src/main/assets/osm/india_cameras.json").asBuildConfigString(),
+        )
+        buildConfigField("String", "MAP_STYLE_URL", deploymentValue("MAP_STYLE_URL", "https://tiles.openfreemap.org/styles/liberty").asBuildConfigString())
+        buildConfigField(
+            "String", "PRIVACY_POLICY_URL",
+            deploymentValue("PRIVACY_POLICY_URL", "https://github.com/Ansh1040/map/blob/main/PRIVACY.md").asBuildConfigString(),
+        )
+    }
+
+    signingConfigs {
+        if (keystoreProperties.isNotEmpty()) {
+            create("release") {
+                storeFile = rootProject.file(keystoreProperties.getProperty("storeFile"))
+                storePassword = keystoreProperties.getProperty("storePassword")
+                keyAlias = keystoreProperties.getProperty("keyAlias")
+                keyPassword = keystoreProperties.getProperty("keyPassword")
+            }
+        }
     }
 
     buildTypes {
         debug {
             applicationIdSuffix = ".debug"
             versionNameSuffix = "-debug"
+            // Reports from test builds go to the OpenStreetMap TEST server, never the real map.
+            buildConfigField("String", "OSM_API_URL", "\"https://master.apis.dev.openstreetmap.org/\"")
         }
         release {
             isMinifyEnabled = true
@@ -70,7 +94,8 @@ android {
                 getDefaultProguardFile("proguard-android-optimize.txt"),
                 "proguard-rules.pro",
             )
-            // TODO(release): attach a real signingConfig before publishing.
+            signingConfig = if (keystoreProperties.isNotEmpty()) signingConfigs.getByName("release") else signingConfigs.getByName("debug")
+            buildConfigField("String", "OSM_API_URL", "\"https://api.openstreetmap.org/\"")
         }
     }
 
@@ -100,6 +125,8 @@ android {
     sourceSets {
         // Unit tests validate the TEST-ONLY synthetic dataset that ships in debug assets.
         getByName("test").resources.srcDir("src/debug/assets")
+        // ...and the bundled OpenStreetMap snapshot.
+        getByName("test").resources.srcDir("src/main/assets")
     }
 
     lint {
@@ -157,7 +184,7 @@ dependencies {
     ksp(libs.androidx.hilt.compiler)
 
     implementation(libs.play.services.location)
-    implementation(libs.maps.compose)
+    implementation(libs.maplibre.android)
 
     implementation(libs.retrofit)
     implementation(libs.retrofit.converter.kotlinx.serialization)

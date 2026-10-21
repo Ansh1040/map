@@ -4,6 +4,10 @@
     <string name="app_name">Drive Alert</string>
     <string name="app_tagline">Safer roads for a better India</string>
     <string name="version_label">Version %1$s</string>
+    <string name="open_data_licences">Open data and licences</string>
+    <string name="open_data_licences_subtitle">Camera data © OpenStreetMap contributors (ODbL). Map: OpenFreeMap, OpenMapTiles, MapLibre.</string>
+    <string name="source_code">Source code</string>
+    <string name="source_code_subtitle">Open source (Apache-2.0) on GitHub</string>
 
     <!-- Navigation -->
     <string name="nav_home">Home</string>
@@ -58,7 +62,7 @@
         <item quantity="other">%d cameras nearby</item>
     </plurals>
     <string name="disclaimer_short">Camera data may be incomplete or outdated. Always follow posted speed limits.</string>
-    <string name="disclaimer_full">Drive Alert supports speed-limit compliance and safer driving. Camera data comes from official, licensed or moderated community sources and may be incomplete, outdated or wrong. Not every camera is included, and a missing warning never means that speeding is safe or permitted. Always obey posted speed limits, signals and road signs.</string>
+    <string name="disclaimer_full">Drive Alert supports speed-limit compliance and safer driving. Camera data comes mainly from OpenStreetMap volunteers (open data) and may be incomplete, outdated or wrong. Not every camera is included, and a missing warning never means that speeding is safe or permitted. Always obey posted speed limits, signals and road signs.</string>
 
     <!-- GPS status -->
     <string name="gps_ready">GPS Ready</string>
@@ -70,9 +74,8 @@
     <string name="gps_accuracy">GPS accuracy</string>
 
     <!-- Map -->
-    <string name="map_unavailable_title">Map preview unavailable</string>
-    <string name="map_unavailable_body">Camera alerts work without the map.</string>
-    <string name="map_unavailable_debug">Add MAPS_API_KEY to local.properties to show the map. Camera alerts work without it.</string>
+    <string name="map_unavailable_title">Map needs an internet connection</string>
+    <string name="map_unavailable_body">Camera alerts work offline without the map.</string>
     <string name="speed_limit_value">%1$d km/h</string>
 
     <!-- Tracking modes -->
@@ -179,7 +182,7 @@
 
     <!-- Prominent location disclosure (shown before the system permission dialog) -->
     <string name="disclosure_title">How Drive Alert uses your location</string>
-    <string name="disclosure_body">Drive Alert collects precise location data to warn you about verified traffic cameras ahead. While camera alerts are on, location is used even when Drive Alert is closed or not in use, for example while Google Maps is on screen or the phone is locked. Location is only used after you press Start Drive, and stops when the drive ends.</string>
+    <string name="disclosure_body">Drive Alert collects precise location data to warn you about traffic cameras ahead. While the app is open it shows your position on the map. After you press Start Drive, location is also used when Drive Alert is closed or not in use, for example while Google Maps is on screen or the phone is locked, until the drive ends. Camera checks happen on your phone.</string>
     <string name="disclosure_point_1">Camera checks happen on your phone. Your location and trips are not uploaded.</string>
     <string name="disclosure_point_2">Location is never sold, shared with advertisers or used for ads.</string>
     <string name="disclosure_point_3">A notification is always shown while alerts are on, with a Stop button.</string>
@@ -209,6 +212,7 @@
     <string name="source_licensed">Licensed data provider</string>
     <string name="source_admin">Drive Alert administrator</string>
     <string name="source_community">Moderated community report</string>
+    <string name="source_osm">OpenStreetMap contributors (ODbL open data)</string>
     <string name="source_test">TEST-ONLY synthetic data</string>
     <string name="direction_unknown">Not known</string>
     <string name="direction_one">%1$s (%2$d°)</string>
@@ -245,7 +249,22 @@
     <string name="report_passenger_confirm">I am a passenger, not the driver</string>
     <string name="report_submit">Submit report</string>
     <string name="report_queued">Report sent for review.</string>
-    <string name="report_saved_offline">Report saved on this device. It will be sent when the camera-data server is available.</string>
+    <string name="report_queued_osm">Thank you. Your report will be published as a public OpenStreetMap note for volunteers to review.</string>
+    <string name="report_saved_device">Report saved on this phone only.</string>
+    <string name="map_attribution" translatable="false">© OpenMapTiles © OpenStreetMap contributors</string>
+    <string name="report_location_accuracy">±%1$d m accuracy</string>
+    <string name="report_location_unavailable">No precise position yet. Reporting a position needs precise location permission and a clear view of the sky; try again outdoors.</string>
+    <string name="report_position_hint">Stand where the camera really is before using your location: that position is what gets reported.</string>
+    <string name="report_kept_test">Saved on this phone only: TEST-ONLY cameras are never published.</string>
+    <string name="report_kept_mock">Saved on this phone only: simulated (mock) positions are never published.</string>
+    <string name="report_kept_accuracy">Saved on this phone only: your position was not precise enough to publish (needs ±30 m or better). Try again outdoors.</string>
+    <string name="report_kept_far">Saved on this phone only: for a wrong-position report, stand at the correct position, within 300 m of the mapped camera.</string>
+    <string name="debug_simulation_starting">Getting your position and starting… tap to cancel</string>
+    <string name="open_source_licences">Open-source licences</string>
+    <string name="open_source_licences_subtitle">Licences of the libraries and data used by the app</string>
+    <string name="report_publish_osm">Publish publicly on OpenStreetMap so volunteers can review it</string>
+    <string name="report_publish_osm_detail">Creates a public OpenStreetMap note without an account name. New, temporary and wrong-position reports are placed at your phone’s current position; other reports at the mapped camera. OpenStreetMap receives your IP address and stores it with the note (visible to its administrators, not shown publicly). Leave unticked to keep the report on this phone.</string>
+    <string name="report_moderation_note_osm">Camera data comes from OpenStreetMap. Reports never change alerts directly: volunteers check them and update the map, and the next data update brings the change.</string>
     <string name="report_rate_limited">Too many reports. Please try again in %1$d min.</string>
     <string name="report_duplicate_recent">You already reported this recently.</string>
     <string name="report_duplicate_known">A camera is already listed at this location.</string>
@@ -285,8 +304,6 @@
     <string name="update_now">Update camera database</string>
     <string name="database_last_updated">Database last updated %1$s</string>
     <string name="database_never_updated">Not downloaded yet</string>
-    <string name="server_not_configured">Camera-data server not configured</string>
-    <string name="server_not_configured_long">Camera-data server not configured in this build, so packages cannot be downloaded yet.</string>
     <string name="mobile_data_sync">Update on mobile data</string>
     <string name="mobile_data_sync_subtitle">Off: updates wait for Wi-Fi</string>
     <string name="setup_assistant">Setup assistant</string>
@@ -307,11 +324,21 @@
     <string name="debug_load_test_cameras">Load TEST-ONLY cameras ahead of me</string>
     <string name="debug_load_test_cameras_subtitle">Places the 10-camera test scenario relative to your position and heading</string>
     <string name="debug_clear_test_cameras">Remove TEST-ONLY cameras</string>
+    <string name="debug_simulate_drive">Simulate a test drive (mock GPS)</string>
+    <string name="debug_simulate_drive_subtitle">Loads the TEST-ONLY cameras, starts alerts and drives a virtual car 7 km north at 72 km/h. Switch to Google Maps or lock the screen to test.</string>
+    <string name="debug_stop_simulation">Stop simulated drive</string>
+    <string name="debug_simulation_progress">%1$.1f of %2$.1f km • %3$d km/h — tap to stop</string>
+    <string name="debug_open_developer_options">Open Developer options</string>
+    <string name="debug_open_developer_options_subtitle">Select mock location app → Drive Alert (debug)</string>
+    <string name="msg_simulation_started">Simulated drive started. Expected: warnings for TEST-001 and TEST-006 only.</string>
+    <string name="msg_mock_location_needed">Choose Drive Alert (debug) as the mock location app in Developer options, then try again.</string>
 
     <!-- Data packages -->
     <string name="packages_coverage_note">Coverage is limited to the cities and states listed. Drive Alert does not claim nationwide accuracy.</string>
     <string name="packages_empty">No packages available yet.</string>
-    <string name="packages_refresh">Refresh package list</string>
+    <string name="packages_refresh">Update camera data now</string>
+    <string name="packages_refresh_subtitle">Downloads the latest weekly OpenStreetMap snapshot</string>
+    <string name="packages_osm_source">Camera data: © OpenStreetMap contributors, open data under the ODbL. Coverage depends on what volunteers have mapped in each state.</string>
     <plurals name="package_camera_count">
         <item quantity="one">%d camera</item>
         <item quantity="other">%d cameras</item>
@@ -348,8 +375,8 @@
     <string name="cd_check_warn">Warning</string>
     <string name="cd_check_fail">Needs attention</string>
     <string name="oem_oneplus_title">OnePlus (OxygenOS)</string>
-    <string name="oem_oneplus_path">Settings → Battery → More settings → App battery management → Drive Alert → Allow background activity</string>
-    <string name="oem_oneplus_note">Menu wording can differ between OxygenOS releases. Usually the default setting works; change it only if alerts stop when the screen is locked. Do not enable High Performance mode for Drive Alert.</string>
+    <string name="oem_oneplus_path">Settings → Battery → More settings → App battery management → Drive Alert → Allow background activity (also reachable from App info → Battery usage)</string>
+    <string name="oem_oneplus_note">Guidance for OnePlus 13 (OxygenOS 15/16): 1) Lock Drive Alert in Recents (open Recents, long-press its card, tap Lock) so swiping does not end alerts. 2) If alerts stop with the screen locked, turn on Allow background activity above. OxygenOS can switch this back to Optimized after updates, so re-check it now and then. “Allow auto-launch” is not needed: Drive Alert never starts by itself. Do not enable High Performance mode. Menu wording differs between OxygenOS releases; search Settings for “App battery management” if needed.</string>
     <string name="oem_xiaomi_title">Xiaomi, Redmi, POCO</string>
     <string name="oem_xiaomi_path">Settings → Apps → Manage apps → Drive Alert → Battery saver → No restrictions</string>
     <string name="oem_vivo_title">vivo / iQOO</string>
@@ -363,21 +390,21 @@
     <!-- Privacy policy (in-app summary; TODO: host the full policy and set PRIVACY_POLICY_URL) -->
     <string name="privacy_full_online">Read the full policy online</string>
     <string name="privacy_h_summary">Summary</string>
-    <string name="privacy_p_summary">Drive Alert treats your location as sensitive personal data. It uses location only to warn you about traffic cameras during a drive you start, processes it on your phone, and never sells it or uses it for advertising.</string>
+    <string name="privacy_p_summary">Drive Alert treats your location as sensitive personal data. It reads your location only while you use the app or while camera alerts you started are running, processes it on your phone, and never sells it or uses it for advertising. Your position itself leaves the phone only in a camera report you explicitly choose to publish; the map does load map images for the area around you from OpenFreeMap (see Server communication).</string>
     <string name="privacy_h_location">Location</string>
-    <string name="privacy_p_location">When you press Start Drive, Drive Alert uses precise location until you stop alerts, the drive ends, or 30 minutes pass without movement. This includes while other apps such as Google Maps are on screen and while the phone is locked. A notification is shown the whole time. When alerts are off, Drive Alert does not track your location.</string>
+    <string name="privacy_p_location">While Drive Alert is open, it reads your current location on the phone to show where you are on the map, count nearby cameras, check GPS accuracy, and attach a position to a camera report you are writing. When you press Start Drive, it uses precise location until you stop alerts, the drive ends, or 30 minutes pass without movement, including while other apps such as Google Maps are on screen and while the phone is locked; a notification is shown the whole time. When the app is closed and alerts are off, Drive Alert does not use your location.</string>
     <string name="privacy_h_on_device">On your phone</string>
     <string name="privacy_p_on_device">Camera matching happens on the phone using the downloaded camera database. Alert history (which camera was announced and when, without your coordinates) and your settings are stored only on the phone and are excluded from cloud backup.</string>
     <string name="privacy_h_server">Server communication</string>
-    <string name="privacy_p_server">Over encrypted HTTPS, Drive Alert downloads camera data packages for the cities and states you choose. These requests contain only the package name and data version, never your location or trips.</string>
+    <string name="privacy_p_server">Over encrypted HTTPS only. Camera data: about once a day (and when you tap Update now) Drive Alert downloads the public OpenStreetMap camera file from GitHub; the file itself is refreshed weekly and the request contains no location or trip data. Map: the map opens around your position and loads map images for the area shown from OpenFreeMap, which (like any website) can see your IP address and that area. Alerts work without the map and fully offline.</string>
     <string name="privacy_h_reports">Camera reports</string>
-    <string name="privacy_p_reports">If you submit a camera report, the report details and the single location you attached are sent to the moderation service. Reports are reviewed before they affect alerts.</string>
+    <string name="privacy_p_reports">Reports stay on your phone unless you tick “Publish publicly on OpenStreetMap”. Then the report text and one position are published as a public OpenStreetMap note without an account name: your phone’s current position for new, temporary and wrong-position reports, or the mapped camera’s position for other reports. Anyone can read notes. OpenStreetMap receives your IP address and stores it with the note (visible to its administrators). Published notes cannot be deleted from the app.</string>
     <string name="privacy_h_never">What Drive Alert never does</string>
-    <string name="privacy_p_never">Drive Alert does not upload trip history, does not sell or share location data, does not show ads, does not read your Google Maps route or other apps’ screens, and does not log precise coordinates in production builds.</string>
+    <string name="privacy_p_never">Drive Alert does not upload trip history, does not sell location data or share it with advertisers, does not show ads, does not read your Google Maps route or other apps’ screens, and does not log precise coordinates in production builds.</string>
     <string name="privacy_h_retention">Retention</string>
     <string name="privacy_p_retention">Alert history older than 30 days is deleted automatically. You can delete all local history at any time in Settings.</string>
     <string name="privacy_h_choices">Your choices</string>
     <string name="privacy_p_choices">You can stop alerts at any time, revoke location or notification permission in Android settings, delete local history, or uninstall the app to remove all data stored on the phone.</string>
     <string name="privacy_h_contact">Contact</string>
-    <string name="privacy_p_contact">TODO before release: add the data controller’s name and grievance contact, as required under India’s Digital Personal Data Protection Act, 2023.</string>
+    <string name="privacy_p_contact">Drive Alert is an open-source project. For privacy questions, data requests or grievances, open an issue at github.com/Ansh1040/map/issues (do not post personal data there; ask for a private contact instead).</string>
 </resources>

@@ -10,7 +10,7 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.CloudOff
+import androidx.compose.material.icons.filled.Public
 import androidx.compose.material.icons.filled.Map
 import androidx.compose.material.icons.filled.Sync
 import androidx.compose.material.icons.outlined.Info
@@ -54,10 +54,12 @@ class DataPackagesViewModel @Inject constructor(
     val packages: StateFlow<List<DataPackageEntity>> =
         syncRepository.observePackages().stateIn(viewModelScope, SharingStarted.WhileSubscribed(5_000), emptyList())
 
-    val serverConfigured: Boolean = ApiConfig.isConfigured
+    val usesOpenStreetMap: Boolean = !ApiConfig.isConfigured
 
-    fun refreshCatalog() {
+    /** Downloads the latest published data (weekly OpenStreetMap snapshot or the configured server). */
+    fun updateNow() {
         viewModelScope.launch { syncRepository.refreshCatalog() }
+        scheduler.syncNow()
     }
 
     fun setInstalled(pkg: DataPackageEntity, installed: Boolean) {
@@ -81,11 +83,10 @@ fun DataPackagesScreen(onBack: () -> Unit, viewModel: DataPackagesViewModel = hi
             verticalArrangement = Arrangement.spacedBy(12.dp),
         ) {
             item { InfoBanner(icon = Icons.Outlined.Info, text = stringResource(R.string.packages_coverage_note), tone = Tone.NEUTRAL) }
-            if (!viewModel.serverConfigured) {
-                item { InfoBanner(icon = Icons.Filled.CloudOff, text = stringResource(R.string.server_not_configured_long), tone = Tone.WARN) }
-            } else {
-                item { SectionCard { NavRow(Icons.Filled.Sync, stringResource(R.string.packages_refresh), null, viewModel::refreshCatalog) } }
+            if (viewModel.usesOpenStreetMap) {
+                item { InfoBanner(icon = Icons.Filled.Public, text = stringResource(R.string.packages_osm_source), tone = Tone.NEUTRAL) }
             }
+            item { SectionCard { NavRow(Icons.Filled.Sync, stringResource(R.string.packages_refresh), stringResource(R.string.packages_refresh_subtitle), viewModel::updateNow) } }
             if (packages.isEmpty()) {
                 item {
                     Box(Modifier.padding(24.dp)) {

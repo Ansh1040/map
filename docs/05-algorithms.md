@@ -67,7 +67,7 @@ If the camera has `elevation_m` (WGS84 ellipsoidal) and the fix has altitude wit
 
 ### 1.6 Map-matching hook (`RoadContextProvider`)
 
-Optional port; **not configured** (`roadContextProvider = null` in `AppModule`). It must use a licensed road-data source and never read another app's route or screen.
+Optional port; **not configured** (`roadContextProvider = null` in `AppModule`) because no free map-matching service is bundled. It must use a licensed road-data source and never read another app's route or screen.
 
 | Result | Effect |
 |---|---|
@@ -195,3 +195,25 @@ Tick 3 s in CLOSE, 15 s otherwise · last-known location used at start if ≤ 2 
 
 - The stationary power downgrade (§4) and the 90 s stationary fallback interval are applied only when `DrivingSessionManager.evaluateLocked()` runs; while stationary, fixes closer than 10 m to the last evaluation skip that call, so with low GPS jitter the previous mode can persist while parked. Candidate fix: call `locationController.update()` on the skip path or from the tick.
 - No map matching is configured, so flyover / service-lane cameras rely on §1.4 heuristics only.
+
+## 8. OpenStreetMap import (`OsmCameraParser`, `OsmSnapshotImporter`)
+
+Source: OpenStreetMap, © OpenStreetMap contributors, ODbL 1.0. `tools/fetch_osm_cameras.py` runs one Overpass query per state / UT (`foreach` over `admin_level=4` areas with `ISO3166-2=IN-*`) and writes `app/src/main/assets/osm/india_cameras.json` (36 regions, 581 camera elements in the Oct 2026 snapshot). It keeps only the tags used below and drops contributor names. A GitHub Action refreshes it weekly; phones download that one file (`OSM_SNAPSHOT_URL`) instead of querying Overpass.
+
+| OSM element | Drive Alert camera |
+|---|---|
+| node `highway=speed_camera` | `FIXED_SPEED` |
+| node `surveillance:type=ALPR` | `ANPR` |
+| relation `type=enforcement` + `enforcement=maxspeed` / `average_speed` | `FIXED_SPEED` at each `device` node |
+| relation `type=enforcement` + `enforcement=traffic_signals` | `RED_LIGHT` at each `device` node (`SPEED_AND_RED_LIGHT` if the device is also a speed camera), road context `JUNCTION` |
+| `direction=90` / `NE` / `-120` | The way the camera **faces** (towards oncoming traffic), so the enforced travel bearing is the opposite: 270° / 225° / 60° (`ONE_DIRECTION`). Verified against the data: all three cameras that have both a node tag and an enforcement relation (e.g. node 11959592200: tag 165°, relation from→device 342°) agree only after this flip. |
+| `direction=0;180` (≥ 150° apart) | `BOTH_DIRECTIONS` |
+| `direction=forward/backward`, ranges, missing | `UNKNOWN` (needs way geometry) — unless an enforcement relation supplies a reliable bearing (below) |
+| Enforcement relation geometry | Used only when reliable: reference nodes ≥ 20 m from the device; with both `from` and `to` (≥ 20 m apart) every device gets the `from → to` bearing if it lies on that path; otherwise per-device `from → device` (or `device → to`) bearings, only if all devices agree within 30° and `from → device` and `device → to` do not contradict each other by more than 90°. A reliable relation bearing overrides a node tag that disagrees with it by more than 90°. Junction relations whose `from` sits 1–3 m from several devices (e.g. 17863216, 17931498) stay `UNKNOWN`. |
+| `maxspeed=60` / `60 km/h` / `40 mph` | 60 / 60 / 65 km/h (mph → km/h, rounded to 5); non-numeric (`IN:urban`, `none`) → unknown |
+
+Every record: `dataSource = OPENSTREETMAP`, `verificationStatus = COMMUNITY_CONFIRMED`, `sourceReference = "© OpenStreetMap contributors (ODbL) · node/<id>"`, `packageId = osm-IN-XX`, id `osm-node-<id>`. An element inside two state areas belongs to the first.
+
+Confidence: 0.65 (ANPR 0.60) + 0.15 if the direction is known + 0.05 if the speed limit is known − 0.15 if the OSM element is more than 4 years old. A known direction is what lets the engine filter opposite carriageways; cameras without one alert in both directions, at lower confidence.
+
+Import: at app start `CameraSyncRepository.importBundledOpenData()` applies the snapshot bundled in the APK (no network). It is a no-op once that snapshot version **and** the parser version (`OsmSnapshotImporter.PARSER_VERSION`, 2 in this release) have been applied; when the parser version changes, the bundled snapshot is re-applied to every installed state regardless of `dataVersion`, so data imported by an earlier build is corrected. Each region becomes a data package (installed by default). Otherwise a package is replaced only by a newer snapshot (`dataVersion` = OSM base timestamp); an update that would empty a region which had 5 or more cameras is ignored (protection against truncated downloads); switched-off packages stay empty until re-enabled, which fills them from the bundled file offline. All imports and package switches run under one mutex.

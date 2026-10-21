@@ -39,6 +39,7 @@ import com.drivealert.app.ui.calibration.CalibrationScreen
 import com.drivealert.app.ui.details.CameraDetailsScreen
 import com.drivealert.app.ui.history.HistoryScreen
 import com.drivealert.app.ui.home.HomeScreen
+import com.drivealert.app.ui.licenses.LicensesScreen
 import com.drivealert.app.ui.onboarding.OnboardingScreen
 import com.drivealert.app.ui.packages.DataPackagesScreen
 import com.drivealert.app.ui.privacy.PrivacyPolicyScreen
@@ -126,6 +127,7 @@ private fun DriveAlertNavHost(startWithOnboarding: Boolean, navController: NavHo
                     onOpenPrivacy = { navController.navigate(PrivacyPolicyRoute) },
                     onOpenPackages = { navController.navigate(DataPackagesRoute) },
                     onReportNewCamera = { navController.navigate(ReportRoute(null)) },
+                    onOpenLicences = { navController.navigate(LicensesRoute) },
                 )
             }
             composable<CalibrationRoute> {
@@ -151,6 +153,9 @@ private fun DriveAlertNavHost(startWithOnboarding: Boolean, navController: NavHo
             }
             composable<DataPackagesRoute> {
                 DataPackagesScreen(onBack = { navController.popBackStack() })
+            }
+            composable<LicensesRoute> {
+                LicensesScreen(onBack = { navController.popBackStack() })
             }
         }
     }

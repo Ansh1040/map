@@ -51,7 +51,7 @@ class CameraAlertService : LifecycleService() {
     override fun onStartCommand(intent: Intent?, flags: Int, startId: Int): Int {
         super.onStartCommand(intent, flags, startId)
         when (intent?.action) {
-            ACTION_START -> startSession()
+            ACTION_START -> startSession(restart = intent.getBooleanExtra(EXTRA_RESTART, false))
             ACTION_STOP -> stopSession(stopReasonFrom(intent))
             ACTION_KEEP_ALERTS -> {
                 alertNotifier.cancelDriveEndCheck()
@@ -65,8 +65,15 @@ class CameraAlertService : LifecycleService() {
         return START_NOT_STICKY
     }
 
-    private fun startSession() {
-        if (sessionStarted) return
+    private fun startSession(restart: Boolean) {
+        if (sessionStarted) {
+            if (restart) {
+                // Fresh session state (e.g. a new simulated test drive) without leaving the foreground.
+                sessionManager.stop(StopReason.USER_IN_APP)
+                sessionManager.start(lifecycleScope)
+            }
+            return
+        }
         if (!LocationPermissions.hasPreciseLocation(this)) {
             AppLog.w(TAG, "Precise location not granted; not starting")
             stopSelf()
@@ -140,12 +147,18 @@ class CameraAlertService : LifecycleService() {
         const val ACTION_STOP = "com.drivealert.app.action.STOP_ALERTS"
         const val ACTION_KEEP_ALERTS = "com.drivealert.app.action.KEEP_ALERTS"
         private const val EXTRA_STOP_REASON = "stop_reason"
+        private const val EXTRA_RESTART = "restart_session"
 
-        /** Must be called from a visible activity (user-initiated). */
-        fun start(context: Context) {
+        /**
+         * Must be called from a visible activity (user-initiated).
+         * @param restartSession reset per-session state if alerts are already running.
+         */
+        fun start(context: Context, restartSession: Boolean = false) {
             ContextCompat.startForegroundService(
                 context,
-                Intent(context, CameraAlertService::class.java).setAction(ACTION_START),
+                Intent(context, CameraAlertService::class.java)
+                    .setAction(ACTION_START)
+                    .putExtra(EXTRA_RESTART, restartSession),
             )
         }
 

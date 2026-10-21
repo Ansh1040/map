@@ -176,5 +176,6 @@ private fun dataSourceLabel(source: DataSource): Int = when (source) {
     DataSource.LICENSED_PROVIDER -> R.string.source_licensed
     DataSource.ADMINISTRATOR -> R.string.source_admin
     DataSource.COMMUNITY_MODERATED -> R.string.source_community
+    DataSource.OPENSTREETMAP -> R.string.source_osm
     DataSource.TEST_ONLY_SYNTHETIC -> R.string.source_test
 }

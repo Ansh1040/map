@@ -159,6 +159,11 @@ class HomeViewModel @Inject constructor(
         searchQuery.value = ""
     }
 
+    /** The map has moved to the selected search result; do not move it there again. */
+    fun onFocusConsumed() {
+        _ui.update { it.copy(focusPoint = null) }
+    }
+
     fun setVoiceAlerts(enabled: Boolean) {
         viewModelScope.launch { settingsRepository.setVoiceAlerts(enabled) }
     }

@@ -1,6 +1,6 @@
 # 01 · Product Requirements — Drive Alert
 
-> **Status:** v0.1.0 (pre-release). Items marked **TODO (required before release)** must be resolved before any public build.
+> **Status:** v0.2.0 (pre-release). Runs entirely on free, open services: OpenStreetMap data (ODbL), MapLibre + OpenFreeMap maps, OpenStreetMap notes for reports, and the policy hosted on GitHub.
 
 ## 1. Problem
 
@@ -112,9 +112,9 @@ Route-aware filtering using the Maps route · speed-limit data for roads without
 
 | # | Question | Owner | Status |
 |---|---|---|---|
-| Q1 | **Camera data licensing**: which official (state traffic police / smart-city) or licensed provider sources may legally be redistributed to app users? Each record needs a `source_reference`. | Product + Legal | **TODO (required before release)** |
-| Q2 | **Backend**: who operates `CAMERA_API_BASE_URL`, moderation queue and abuse handling? Hosting in India? | Product + Eng | **TODO (required before release)** |
+| Q1 | **Camera data licensing**: which official (state traffic police / smart-city) or licensed provider sources may legally be redistributed to app users? Each record needs a `source_reference`. | Product + Legal | **Resolved:** OpenStreetMap (ODbL) as the default source, with attribution; optional licensed server supported |
+| Q2 | **Backend**: who operates `CAMERA_API_BASE_URL`, moderation queue and abuse handling? Hosting in India? | Product + Eng | **Resolved:** no server needed. Reports become public OSM notes (opt-in), reviewed by OSM volunteers |
 | Q3 | Authentication / per-install identity for server-side report rate limiting. | Eng | Open |
 | Q4 | Licensed map-matching provider for `RoadContextProvider` (reduces flyover / service-lane ambiguity). | Eng | Open |
 | Q5 | Hindi copy review by a native speaker; other Indian languages? | Product | Open |
-| Q6 | Privacy policy hosting (`PRIVACY_POLICY_URL`) and grievance officer contact under the DPDP Act 2023. | Legal | **TODO (required before release)** |
+| Q6 | Privacy policy hosting (`PRIVACY_POLICY_URL`) and grievance officer contact under the DPDP Act 2023. | Legal | **Resolved:** [PRIVACY.md](../PRIVACY.md) on GitHub; contact via GitHub Issues (a named grievance officer is still advisable for a commercial release) |

@@ -36,11 +36,6 @@
         android:theme="@style/Theme.DriveAlert"
         tools:targetApi="36">
 
-        <!-- TODO(deployment): MAPS_API_KEY in local.properties (see app/build.gradle.kts). -->
-        <meta-data
-            android:name="com.google.android.geo.API_KEY"
-            android:value="${mapsApiKey}" />
-
         <activity
             android:name=".MainActivity"
             android:exported="true"

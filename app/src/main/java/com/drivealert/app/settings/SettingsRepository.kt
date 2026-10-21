@@ -7,6 +7,7 @@ import androidx.datastore.preferences.core.edit
 import androidx.datastore.preferences.core.emptyPreferences
 import androidx.datastore.preferences.core.intPreferencesKey
 import androidx.datastore.preferences.core.longPreferencesKey
+import androidx.datastore.preferences.core.stringPreferencesKey
 import com.drivealert.app.domain.model.AlertDistances
 import com.drivealert.app.domain.model.AlertSettings
 import java.io.IOException
@@ -79,6 +80,14 @@ class SettingsRepository @Inject constructor(
     suspend fun setAllowMobileDataSync(enabled: Boolean) = set(Keys.MOBILE_DATA_SYNC, enabled)
     suspend fun setSessionMarkedActive(active: Boolean) = set(Keys.SESSION_ACTIVE, active)
 
+    /** Version (osm_base) of the bundled OpenStreetMap snapshot already imported. */
+    suspend fun importedBundledSnapshot(): String? = safeData.first()[Keys.BUNDLED_SNAPSHOT]
+    suspend fun setImportedBundledSnapshot(version: String) = set(Keys.BUNDLED_SNAPSHOT, version)
+
+    /** Parser version (OsmSnapshotImporter.PARSER_VERSION) the stored OpenStreetMap cameras were imported with. */
+    suspend fun appliedOsmParserVersion(): Int? = safeData.first()[Keys.OSM_PARSER_VERSION]
+    suspend fun setAppliedOsmParserVersion(version: Int) = set(Keys.OSM_PARSER_VERSION, version)
+
     private suspend fun <T> set(key: Preferences.Key<T>, value: T) {
         dataStore.edit { it[key] = value }
     }
@@ -97,5 +106,7 @@ class SettingsRepository @Inject constructor(
         val MOBILE_DATA_SYNC = booleanPreferencesKey("allow_mobile_data_sync")
         val HISTORY_RETENTION_DAYS = intPreferencesKey("history_retention_days")
         val SESSION_ACTIVE = booleanPreferencesKey("session_marked_active")
+        val BUNDLED_SNAPSHOT = stringPreferencesKey("imported_bundled_osm_snapshot")
+        val OSM_PARSER_VERSION = intPreferencesKey("applied_osm_parser_version")
     }
 }

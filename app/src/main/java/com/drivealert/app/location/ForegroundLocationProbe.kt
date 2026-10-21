@@ -16,6 +16,7 @@ import com.google.android.gms.tasks.CancellationTokenSource
 import dagger.hilt.android.qualifiers.ApplicationContext
 import javax.inject.Inject
 import javax.inject.Singleton
+import kotlinx.coroutines.CancellationException
 import kotlinx.coroutines.channels.awaitClose
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.callbackFlow
@@ -48,6 +49,29 @@ class ForegroundLocationProbe @Inject constructor(
                 .setDurationMillis(15_000L)
                 .build()
             client.getCurrentLocation(request, CancellationTokenSource().token).awaitResult()?.toFix()
+        } catch (e: CancellationException) {
+            throw e
+        } catch (e: Exception) {
+            null
+        }
+    }
+
+    /**
+     * A fresh high-accuracy fix for a camera report (never a stale or coarse cached
+     * position). Returns null if no fix arrives within 20 s.
+     */
+    @SuppressLint("MissingPermission")
+    suspend fun freshPreciseLocation(): LocationFix? {
+        if (!LocationPermissions.hasPreciseLocation(context)) return null
+        return try {
+            val request = CurrentLocationRequest.Builder()
+                .setPriority(Priority.PRIORITY_HIGH_ACCURACY)
+                .setMaxUpdateAgeMillis(5_000L)
+                .setDurationMillis(20_000L)
+                .build()
+            client.getCurrentLocation(request, CancellationTokenSource().token).awaitResult()?.toFix()
+        } catch (e: CancellationException) {
+            throw e
         } catch (e: Exception) {
             null
         }

@@ -63,4 +63,7 @@ class DebugTestDataTools @Inject constructor(
 abstract class DebugToolsModule {
     @Binds
     abstract fun bindTestDataTools(impl: DebugTestDataTools): TestDataTools
+
+    @Binds
+    abstract fun bindDriveSimulator(impl: MockDriveSimulator): com.drivealert.app.data.testdata.DriveSimulator
 }

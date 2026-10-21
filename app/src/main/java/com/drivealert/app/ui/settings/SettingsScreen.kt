@@ -10,6 +10,12 @@ import androidx.compose.material.icons.automirrored.filled.VolumeUp
 import androidx.compose.material.icons.filled.AddLocationAlt
 import androidx.compose.material.icons.filled.BatteryChargingFull
 import androidx.compose.material.icons.filled.CloudDownload
+import androidx.compose.material.icons.filled.Code
+import androidx.compose.material.icons.filled.Description
+import androidx.compose.material.icons.filled.DeveloperMode
+import androidx.compose.material.icons.filled.DirectionsCar
+import androidx.compose.material.icons.filled.Stop
+import androidx.compose.material.icons.filled.Public
 import androidx.compose.material.icons.filled.DeleteForever
 import androidx.compose.material.icons.filled.Language
 import androidx.compose.material.icons.filled.MusicNote
@@ -44,6 +50,8 @@ import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.drivealert.app.BuildConfig
 import com.drivealert.app.R
 import com.drivealert.app.battery.SystemSettingsIntents
+import com.drivealert.app.data.osm.OsmConfig
+import com.drivealert.app.data.testdata.SimulationState
 import com.drivealert.app.ui.components.AlertDistanceSelector
 import com.drivealert.app.ui.components.BrandHeader
 import com.drivealert.app.ui.components.InfoBanner
@@ -61,12 +69,14 @@ fun SettingsScreen(
     onOpenPrivacy: () -> Unit,
     onOpenPackages: () -> Unit,
     onReportNewCamera: () -> Unit,
+    onOpenLicences: () -> Unit,
     viewModel: SettingsViewModel = hiltViewModel(),
 ) {
     val settings by viewModel.alertSettings.collectAsStateWithLifecycle()
     val prefs by viewModel.appPreferences.collectAsStateWithLifecycle()
     val lastUpdated by viewModel.lastUpdated.collectAsStateWithLifecycle()
     val message by viewModel.message.collectAsStateWithLifecycle()
+    val simulation by viewModel.simulation.collectAsStateWithLifecycle()
     val context = LocalContext.current
     var confirmDelete by rememberSaveable { mutableStateOf(false) }
 
@@ -92,6 +102,8 @@ fun SettingsScreen(
                                 SettingsMessage.NO_LOCATION -> R.string.msg_no_location
                                 SettingsMessage.TEST_DATA_LOADED -> R.string.msg_test_loaded
                                 SettingsMessage.TEST_DATA_CLEARED -> R.string.msg_test_cleared
+                                SettingsMessage.SIMULATION_STARTED -> R.string.msg_simulation_started
+                                SettingsMessage.MOCK_LOCATION_NEEDED -> R.string.msg_mock_location_needed
                             },
                         ),
                         tone = Tone.GOOD,
@@ -151,8 +163,8 @@ fun SettingsScreen(
                             Icons.Filled.Sync,
                             stringResource(R.string.update_now),
                             lastUpdated?.let { stringResource(R.string.database_last_updated, formatDateTime(it)) }
-                                ?: stringResource(if (viewModel.serverConfigured) R.string.database_never_updated else R.string.server_not_configured),
-                        ) { if (viewModel.serverConfigured) viewModel.syncNow() }
+                                ?: stringResource(R.string.database_never_updated),
+                        ) { viewModel.syncNow() }
                         HorizontalDivider()
                         ToggleRow(
                             Icons.Filled.SignalCellularAlt, stringResource(R.string.mobile_data_sync), prefs.allowMobileDataSync, viewModel::setMobileDataSync,
@@ -191,12 +203,46 @@ fun SettingsScreen(
                             NavRow(Icons.Filled.CloudDownload, stringResource(R.string.debug_load_test_cameras), stringResource(R.string.debug_load_test_cameras_subtitle), viewModel::loadTestCameras)
                             HorizontalDivider()
                             NavRow(Icons.Filled.DeleteForever, stringResource(R.string.debug_clear_test_cameras), null, viewModel::clearTestCameras)
+                            if (viewModel.simulatorAvailable) {
+                                HorizontalDivider()
+                                when (val sim = simulation) {
+                                    is SimulationState.Starting -> NavRow(
+                                        Icons.Filled.Stop,
+                                        stringResource(R.string.debug_stop_simulation),
+                                        stringResource(R.string.debug_simulation_starting),
+                                        viewModel::stopSimulation,
+                                    )
+                                    is SimulationState.Running -> NavRow(
+                                        Icons.Filled.Stop,
+                                        stringResource(R.string.debug_stop_simulation),
+                                        stringResource(R.string.debug_simulation_progress, sim.travelledM / 1000.0, sim.totalM / 1000.0, sim.speedKmh),
+                                        viewModel::stopSimulation,
+                                    )
+                                    else -> NavRow(
+                                        Icons.Filled.DirectionsCar,
+                                        stringResource(R.string.debug_simulate_drive),
+                                        stringResource(R.string.debug_simulate_drive_subtitle),
+                                        viewModel::startSimulation,
+                                    )
+                                }
+                                NavRow(Icons.Filled.DeveloperMode, stringResource(R.string.debug_open_developer_options), stringResource(R.string.debug_open_developer_options_subtitle)) {
+                                    SystemSettingsIntents.openDeveloperOptions(context)
+                                }
+                            }
                         }
                     }
 
                     SectionTitle(stringResource(R.string.settings_section_about))
                     SectionCard {
                         Text(stringResource(R.string.disclaimer_full), style = MaterialTheme.typography.bodyMedium)
+                        HorizontalDivider(Modifier.padding(vertical = 8.dp))
+                        NavRow(Icons.Filled.Public, stringResource(R.string.open_data_licences), stringResource(R.string.open_data_licences_subtitle)) {
+                            SystemSettingsIntents.openUrl(context, OsmConfig.COPYRIGHT_URL)
+                        }
+                        NavRow(Icons.Filled.Description, stringResource(R.string.open_source_licences), stringResource(R.string.open_source_licences_subtitle), onOpenLicences)
+                        NavRow(Icons.Filled.Code, stringResource(R.string.source_code), stringResource(R.string.source_code_subtitle)) {
+                            SystemSettingsIntents.openUrl(context, "https://github.com/Ansh1040/map")
+                        }
                         Text(
                             stringResource(R.string.version_label, BuildConfig.VERSION_NAME),
                             style = MaterialTheme.typography.bodySmall,

@@ -16,6 +16,8 @@ data class LocationFix(
     val elapsedRealtimeMillis: Long,
     /** True for dead-reckoned positions generated during short GPS loss. */
     val isEstimated: Boolean = false,
+    /** True when the platform marks the fix as coming from a mock location provider. */
+    val isMock: Boolean = false,
 )
 
 enum class HeadingQuality { HIGH, MEDIUM, LOW }

@@ -107,14 +107,14 @@ fun HomeScreen(
         contentPadding = PaddingValues(bottom = 24.dp),
         verticalArrangement = Arrangement.spacedBy(16.dp),
     ) {
-        item {
+        item(key = "header") {
             BrandHeader(title = stringResource(R.string.app_name), subtitle = stringResource(R.string.app_tagline)) {
                 Spacer(Modifier.height(16.dp))
                 SearchField(query = ui.searchQuery, onQueryChange = viewModel::onSearchQueryChange)
             }
         }
         if (ui.searchResults.isNotEmpty()) {
-            item {
+            item(key = "search") {
                 SearchResults(
                     results = ui.searchResults,
                     onSelect = {
@@ -125,7 +125,7 @@ fun HomeScreen(
                 )
             }
         }
-        item {
+        item(key = "banners") {
             Column(Modifier.padding(horizontal = 16.dp), verticalArrangement = Arrangement.spacedBy(8.dp)) {
                 if (ui.sessionEndedUnexpectedly) {
                     InfoBanner(
@@ -166,10 +166,10 @@ fun HomeScreen(
                 }
             }
         }
-        item {
-            MapCard(ui = ui, session = session, onOpenCamera = onOpenCamera, onMapIdle = viewModel::onMapIdle)
+        item(key = "map", contentType = "map") {
+            MapCard(ui = ui, session = session, onOpenCamera = onOpenCamera, onMapIdle = viewModel::onMapIdle, onFocusConsumed = viewModel::onFocusConsumed)
         }
-        item {
+        item(key = "session") {
             Box(Modifier.padding(horizontal = 16.dp)) {
                 val active = session as? SessionState.Active
                 if (active != null) {
@@ -190,7 +190,7 @@ fun HomeScreen(
                 }
             }
         }
-        item {
+        item(key = "quick-settings") {
             QuickSettingsCard(
                 settings = settings,
                 onVoiceChange = viewModel::setVoiceAlerts,
@@ -198,7 +198,7 @@ fun HomeScreen(
                 modifier = Modifier.padding(horizontal = 16.dp),
             )
         }
-        item {
+        item(key = "disclaimer") {
             Row(Modifier.padding(horizontal = 20.dp), verticalAlignment = Alignment.Top) {
                 Icon(Icons.Outlined.Info, contentDescription = null, modifier = Modifier.size(16.dp), tint = MaterialTheme.colorScheme.onSurfaceVariant)
                 Spacer(Modifier.width(8.dp))
@@ -280,15 +280,18 @@ private fun MapCard(
     session: SessionState,
     onOpenCamera: (String) -> Unit,
     onMapIdle: (com.drivealert.app.domain.geo.BoundingBox, Float) -> Unit,
+    onFocusConsumed: () -> Unit,
 ) {
     SectionCard(modifier = Modifier.padding(horizontal = 16.dp), contentPadding = PaddingValues(0.dp)) {
         CameraMap(
             cameras = ui.mapCameras,
             myLocation = ui.myLocation,
+            myLocationAccuracyM = ui.accuracyM,
             focusPoint = ui.focusPoint,
             showMyLocation = ui.hasLocationPermission,
             onCameraClick = onOpenCamera,
             onMapIdle = onMapIdle,
+            onFocusConsumed = onFocusConsumed,
             modifier = Modifier
                 .fillMaxWidth()
                 .height(240.dp)

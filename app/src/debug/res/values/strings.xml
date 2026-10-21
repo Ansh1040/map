@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Debug builds are labelled so testers can tell them apart in the launcher and in
+     Developer options > Select mock location app. -->
+<resources>
+    <string name="app_name">Drive Alert (debug)</string>
+</resources>

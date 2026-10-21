@@ -8,9 +8,9 @@ Drive Alert keeps all safety-relevant logic in the Android-free `domain` package
             ├──────────────────────────────┤
             │ Instrumented (androidTest) 3 │  real SQLite, real foreground service + notification
             ├──────────────────────────────┤
-            │ Robolectric (test)        19 │  Room, notification content/channels, service lifecycle
+            │ Robolectric (test)        29 │  Room, reports, notifications, service lifecycle     
             ├──────────────────────────────┤
-            │ Pure JVM unit (test)      96 │  geometry, relevance, alerts, power modes, full drive sim
+            │ Pure JVM unit (test)     111 │  geometry, relevance, alerts, power modes, OSM, drive sim
             └──────────────────────────────┘
 ```
 
@@ -33,6 +33,8 @@ All test cameras are synthetic (`DataSource.TEST_ONLY_SYNTHETIC`, built from off
 | `domain/reporting/ReportModerationPolicyTest` | 8 | Rate limiting, duplicate detection, validation, temporary-report expiry, crowdsourced data never auto-trusted, disputes/abuse, confidence decay |
 | `data/testdata/SyntheticCameraDatasetTest` | 3 | The debug dataset is labelled TEST-ONLY, positioned relative to the anchor, and each scenario TEST-001…010 produces its documented outcome |
 | `database/CameraDatabaseTest` (Robolectric) | 7 | Spatial `IN (cells)` query, field round trip, incremental delta + full replace, inactive/expired handling, search, history without coordinates, report audit trail + expiry |
+| `data/osm/OsmCameraParserTest` | 15 | OSM tag mapping: `direction` = way the camera faces (reversed to travel), negative degrees, both-ways values, mph, ALPR, enforcement relations (reliable geometry only; 20 m minimum; contradicting from/to → unknown; relation overrides a contradicting tag), region ownership; the bundled India snapshot (≥ 500 cameras, all inside India) and real-data cross-checks against nodes 11959592200, 12961358380, 12961358381 and junction relations 17863216, 17931498, 13405202 |
+| `reporting/ReportRepositoryTest` (Robolectric) | 10 | No publishing without consent; reports placed at the camera (not the reporter) unless they are position reports; wrong-position reports far from the camera, imprecise or mock positions and TEST-ONLY cameras are kept on the phone; legacy unconsented reports are never published; a lost response is not re-posted; unreadable 2xx ids count as published; 4xx is not retried |
 | `notifications/NotificationsTest` (Robolectric) | 8 | High-importance silent alert channel, exact notification text ("Speed camera ahead", "500 m • Speed limit 60 km/h", "Current speed 48 km/h — Drive safely"), **no full-screen intent and no silent group** (which would block the heads-up), slow-down wording, unverified labelling, posting/cancelling, voice phrases, ongoing session notification with Stop |
 | `location/service/CameraAlertServiceTest` (Robolectric + Hilt) | 4 | **Foreground service**: starts in the foreground with "Camera alerts active", `START_NOT_STICKY`, Stop action ends the session and removes location callbacks, null-intent recreation never resumes tracking, refuses without precise location, destroy stops the session |
 

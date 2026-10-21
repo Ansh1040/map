@@ -45,6 +45,11 @@ object SystemSettingsIntents {
         }
     }
 
+    /** Developer options (debug testing: "Select mock location app"). */
+    fun openDeveloperOptions(context: Context) {
+        launchOrFallback(context, Intent(Settings.ACTION_APPLICATION_DEVELOPMENT_SETTINGS))
+    }
+
     fun openUrl(context: Context, url: String) {
         launchOrFallback(context, Intent(Intent.ACTION_VIEW, Uri.parse(url)))
     }

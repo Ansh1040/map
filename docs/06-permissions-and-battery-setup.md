@@ -32,7 +32,7 @@ sequenceDiagram
 
 Rules:
 
-1. **Disclosure first.** The disclosure (purpose; used only while camera alerts are on, including when another app such as Google Maps is in front or the screen is locked; processed on the device; not shared or sold) is shown and accepted before the system dialog.
+1. **Disclosure first.** The disclosure (purpose; the user's position is shown on the map while the app is open; after Start Drive location is also used when the app is closed or not in use — e.g. Google Maps in front or the screen locked — until the drive ends; processed on the device; never sold or shared with advertisers) is shown and accepted before the system dialog.
 2. **Notifications** are requested on Android 13+ only. Without them the service still runs and voice/chime/vibration still work, but no heads-up appears — the setup assistant flags this.
 3. **Never background location.** The session is a user-started location foreground service; Android grants location to it under the "while in use" permission because it is started from a visible activity.
 4. **Approximate only** → `CameraAlertService` refuses to start (`hasPreciseLocation()`), and Home / Calibration show "Precise location needed".

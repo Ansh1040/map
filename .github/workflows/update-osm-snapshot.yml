@@ -1,0 +1,46 @@
+# Regenerates the OpenStreetMap camera snapshot every week and commits it when
+# it changed. Apps download this one file instead of querying Overpass, which
+# keeps load off the volunteer-run Overpass servers.
+# Data © OpenStreetMap contributors, ODbL 1.0.
+name: Update OSM camera snapshot
+
+on:
+  schedule:
+    - cron: "17 3 * * 1" # Mondays 03:17 UTC
+  workflow_dispatch:
+    inputs:
+      force:
+        description: "Publish even if a state lost most of its cameras (check the change is real first)"
+        type: boolean
+        default: false
+
+permissions:
+  contents: write
+
+concurrency:
+  group: osm-snapshot
+  cancel-in-progress: false
+
+jobs:
+  update:
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - name: Fetch cameras from Overpass
+        # inputs.force is empty on scheduled runs, so the sanity check always applies there.
+        run: python tools/fetch_osm_cameras.py ${{ inputs.force && '--force' || '' }}
+      - name: Commit if changed
+        run: |
+          if git diff --quiet -- app/src/main/assets/osm/india_cameras.json; then
+            echo "Snapshot unchanged."
+            exit 0
+          fi
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add app/src/main/assets/osm/india_cameras.json
+          git commit -m "Update OpenStreetMap camera snapshot"
+          git push

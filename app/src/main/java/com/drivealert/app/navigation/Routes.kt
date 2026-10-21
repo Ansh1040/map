@@ -10,5 +10,6 @@ import kotlinx.serialization.Serializable
 @Serializable data object SetupAssistantRoute
 @Serializable data object PrivacyPolicyRoute
 @Serializable data object DataPackagesRoute
+@Serializable data object LicensesRoute
 @Serializable data class CameraDetailsRoute(val cameraId: String)
 @Serializable data class ReportRoute(val cameraId: String? = null)

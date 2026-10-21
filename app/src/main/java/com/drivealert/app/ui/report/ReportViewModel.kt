@@ -14,6 +14,11 @@ import com.drivealert.app.domain.reporting.ReportType
 import com.drivealert.app.domain.session.DrivingSessionManager
 import com.drivealert.app.location.ForegroundLocationProbe
 import com.drivealert.app.navigation.ReportRoute
+import com.drivealert.app.network.ApiConfig
+import com.drivealert.app.cameras.CameraRepository
+import com.drivealert.app.reporting.KeptOnDeviceReason
+import com.drivealert.app.reporting.ReportDestination
+import com.drivealert.app.reporting.ReportPosition
 import com.drivealert.app.reporting.ReportRepository
 import com.drivealert.app.reporting.SubmitResult
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -25,7 +30,7 @@ import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 
 sealed interface ReportOutcome {
-    data class Queued(val serverConfigured: Boolean) : ReportOutcome
+    data class Queued(val destination: ReportDestination, val keptReason: KeptOnDeviceReason?) : ReportOutcome
     data class RateLimited(val minutes: Int) : ReportOutcome
     data class Duplicate(val reason: DuplicateReason) : ReportOutcome
     data class Invalid(val reason: InvalidReason) : ReportOutcome
@@ -39,9 +44,18 @@ data class ReportUiState(
     val cameraType: CameraType = CameraType.FIXED_SPEED,
     val note: String = "",
     val location: GeoPoint? = null,
+    val locationAccuracyM: Float? = null,
+    val locationIsMock: Boolean = false,
+    /** TEST-ONLY synthetic camera: reports about it are never published. */
+    val cameraIsTestData: Boolean = false,
     val locating: Boolean = false,
+    /** The last attempt got no position at all (no precise fix and no recent fix of any accuracy). */
+    val locationUnavailable: Boolean = false,
     val vehicleMoving: Boolean = false,
     val passengerConfirmed: Boolean = false,
+    /** Consent to publish as a public OpenStreetMap note; off by default. */
+    val publishToOsm: Boolean = false,
+    val usesOpenStreetMap: Boolean = true,
     val submitting: Boolean = false,
     val outcome: ReportOutcome? = null,
 ) {
@@ -64,6 +78,7 @@ class ReportViewModel @Inject constructor(
     private val repository: ReportRepository,
     private val probe: ForegroundLocationProbe,
     sessionManager: DrivingSessionManager,
+    cameraRepository: CameraRepository,
 ) : ViewModel() {
 
     private val cameraId = savedStateHandle.toRoute<ReportRoute>().cameraId
@@ -71,6 +86,7 @@ class ReportViewModel @Inject constructor(
     private val _ui = MutableStateFlow(
         ReportUiState(
             cameraId = cameraId,
+            usesOpenStreetMap = !ApiConfig.isConfigured,
             availableTypes = if (cameraId == null) {
                 listOf(ReportType.NEW_CAMERA, ReportType.TEMPORARY_MOBILE_CAMERA)
             } else {
@@ -88,6 +104,12 @@ class ReportViewModel @Inject constructor(
     val ui: StateFlow<ReportUiState> = _ui.asStateFlow()
 
     init {
+        if (cameraId != null) {
+            viewModelScope.launch {
+                val isTest = cameraRepository.getCamera(cameraId)?.isTestData == true
+                _ui.update { it.copy(cameraIsTestData = isTest) }
+            }
+        }
         viewModelScope.launch {
             sessionManager.state.collect { state ->
                 val moving = (state as? SessionState.Active)?.let { (it.speedKmh ?: 0) >= MOVING_KMH } ?: false
@@ -105,12 +127,28 @@ class ReportViewModel @Inject constructor(
     fun setCameraType(type: CameraType) = _ui.update { it.copy(cameraType = type) }
     fun setNote(note: String) = _ui.update { it.copy(note = note.take(500)) }
     fun setPassengerConfirmed(confirmed: Boolean) = _ui.update { it.copy(passengerConfirmed = confirmed) }
+    fun setPublishToOsm(publish: Boolean) = _ui.update { it.copy(publishToOsm = publish) }
 
     fun useCurrentLocation() {
         viewModelScope.launch {
-            _ui.update { it.copy(locating = true) }
-            val fix = probe.currentLocation(maxCachedAgeMs = 30_000L)
-            _ui.update { it.copy(locating = false, location = fix?.let { f -> GeoPoint(f.latitude, f.longitude) } ?: it.location) }
+            _ui.update { it.copy(locating = true, locationUnavailable = false) }
+            // A fresh, high-accuracy fix: a report position must be precise to be useful (and safe to publish).
+            // Without one (approximate-only permission, no fix indoors), use a recent fix of any accuracy:
+            // its real accuracy and mock flag go with the report, so an imprecise one stays on the phone.
+            val fix = probe.freshPreciseLocation() ?: probe.currentLocation(maxCachedAgeMs = 30_000L)
+            _ui.update {
+                if (fix == null) {
+                    it.copy(locating = false, locationUnavailable = true)
+                } else {
+                    it.copy(
+                        locating = false,
+                        locationUnavailable = false,
+                        location = GeoPoint(fix.latitude, fix.longitude),
+                        locationAccuracyM = fix.accuracyM,
+                        locationIsMock = fix.isMock,
+                    )
+                }
+            }
         }
     }
 
@@ -129,8 +167,10 @@ class ReportViewModel @Inject constructor(
                 cameraType = state.cameraType.takeIf { type == ReportType.NEW_CAMERA || type == ReportType.TEMPORARY_MOBILE_CAMERA },
                 note = state.note.ifBlank { null },
             )
-            val outcome = when (val result = repository.submit(draft)) {
-                is SubmitResult.Queued -> ReportOutcome.Queued(result.serverConfigured)
+            val position = if (type.needsLocation) ReportPosition(state.locationAccuracyM, state.locationIsMock) else null
+            val publish = state.publishToOsm && !state.cameraIsTestData
+            val outcome = when (val result = repository.submit(draft, publishToOpenStreetMap = publish, position = position)) {
+                is SubmitResult.Queued -> ReportOutcome.Queued(result.destination, result.keptReason)
                 is SubmitResult.RateLimited -> ReportOutcome.RateLimited(((result.retryAfterMs + 59_999) / 60_000).toInt())
                 is SubmitResult.Duplicate -> ReportOutcome.Duplicate(result.reason)
                 is SubmitResult.Invalid -> ReportOutcome.Invalid(result.reason)

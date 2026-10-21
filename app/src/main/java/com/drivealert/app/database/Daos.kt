@@ -136,8 +136,8 @@ interface ReportDao {
     @Query("SELECT * FROM camera_reports WHERE created_at >= :sinceMillis")
     suspend fun createdSince(sinceMillis: Long): List<CameraReportEntity>
 
-    @Query("SELECT * FROM camera_reports WHERE status = 'PENDING_UPLOAD' ORDER BY created_at")
-    suspend fun pendingUploads(): List<CameraReportEntity>
+    @Query("SELECT * FROM camera_reports WHERE status = :status ORDER BY created_at")
+    suspend fun withStatus(status: String): List<CameraReportEntity>
 
     @Query("SELECT * FROM report_audit WHERE report_local_id = :localId ORDER BY timestamp")
     suspend fun auditFor(localId: Long): List<ReportAuditEntity>
@@ -146,7 +146,7 @@ interface ReportDao {
         """
         UPDATE camera_reports SET status = 'EXPIRED'
         WHERE expires_at IS NOT NULL AND expires_at < :nowMillis
-          AND status IN ('PENDING_UPLOAD', 'SUBMITTED', 'UNDER_REVIEW')
+          AND status IN ('PENDING_UPLOAD', 'PENDING_OSM_NOTE', 'SAVED_ON_DEVICE')
         """,
     )
     suspend fun expireOld(nowMillis: Long): Int

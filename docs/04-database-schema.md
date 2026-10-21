@@ -162,3 +162,11 @@ The `(latitude, longitude)` index serves the map's bounding-box query instead.
 - Every schema change: bump `version`, add a `Migration` (or `@AutoMigration` with a spec) and a `MigrationTestHelper` test against the exported JSON. Do not use `fallbackToDestructiveMigration()` for user data (`alert_history`, `camera_reports`).
 - Camera and package tables are re-downloadable; if a destructive change is ever unavoidable there, reset `data_packages.data_version` to 0 so the next sync requests a full `replace_all` snapshot.
 - Keep enum names stable; renaming an enum constant silently maps stored rows to the default value.
+
+## Open-data values (v0.2)
+
+- `cameras.data_source` adds **`OPENSTREETMAP`** (ODbL open data). OSM rows use `id = osm-node-<id>`, `package_id = osm-IN-XX`, `verification_status = COMMUNITY_CONFIRMED`, and `source_reference` with the attribution and element.
+- `data_packages`: one row per Indian state / UT (`osm-IN-XX`). `data_version` and `last_updated_at` hold the OSM snapshot timestamp (epoch ms); `coverage_note` holds the attribution.
+- `camera_reports.status` adds **`SAVED_ON_DEVICE`** (not published: no consent, or blocked because of test data, a mock position, accuracy worse than 30 m, or a wrong-position report more than 300 m from the camera; the reason is in `last_error`) and **`PENDING_OSM_NOTE`** (consent recorded, waiting for upload; the only status ever published to OpenStreetMap). `PENDING_UPLOAD` is used only for the optional custom server; on start-up in OpenStreetMap mode, legacy `PENDING_UPLOAD` rows (which never had consent) are moved to `SAVED_ON_DEVICE`. Published reports get `remote_id = osm-note-<id>` and status `UNDER_REVIEW`; the audit trail records `OSM_NOTE_ATTEMPT` before each POST and `PUBLISHED_OSM_NOTE` after it, so a retry first searches for the note by its `Ref:` token instead of posting twice.
+
+No schema change: enums are stored as text, so database version 1 is unchanged.

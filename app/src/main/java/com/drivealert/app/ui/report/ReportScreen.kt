@@ -46,6 +46,8 @@ import com.drivealert.app.alerts.AlertTextFormatter
 import com.drivealert.app.domain.model.CameraType
 import com.drivealert.app.domain.reporting.DuplicateReason
 import com.drivealert.app.domain.reporting.ReportType
+import com.drivealert.app.reporting.KeptOnDeviceReason
+import com.drivealert.app.reporting.ReportDestination
 import com.drivealert.app.ui.components.BackTopBar
 import com.drivealert.app.ui.components.InfoBanner
 import com.drivealert.app.ui.components.PrimaryActionButton
@@ -132,6 +134,28 @@ fun ReportScreen(onBack: () -> Unit, viewModel: ReportViewModel = hiltViewModel(
                             ?: stringResource(if (ui.locating) R.string.gps_searching else R.string.report_location_missing),
                         style = MaterialTheme.typography.bodyLarge,
                     )
+                    ui.locationAccuracyM?.let { accuracy ->
+                        Text(
+                            stringResource(R.string.report_location_accuracy, accuracy.toInt()),
+                            style = MaterialTheme.typography.bodySmall,
+                            color = if (accuracy > 30f) MaterialTheme.colorScheme.error else MaterialTheme.colorScheme.onSurfaceVariant,
+                        )
+                    }
+                    if (ui.locationUnavailable) {
+                        Text(
+                            stringResource(R.string.report_location_unavailable),
+                            style = MaterialTheme.typography.bodySmall,
+                            color = MaterialTheme.colorScheme.error,
+                        )
+                    }
+                    if (type == ReportType.INCORRECT_POSITION) {
+                        Text(
+                            stringResource(R.string.report_position_hint),
+                            style = MaterialTheme.typography.bodySmall,
+                            color = MaterialTheme.colorScheme.onSurfaceVariant,
+                            modifier = Modifier.padding(top = 4.dp),
+                        )
+                    }
                     Spacer(Modifier.padding(top = 8.dp))
                     OutlinedButton(onClick = viewModel::useCurrentLocation, enabled = !ui.locating) {
                         androidx.compose.material3.Icon(Icons.Filled.MyLocation, contentDescription = null)
@@ -156,13 +180,46 @@ fun ReportScreen(onBack: () -> Unit, viewModel: ReportViewModel = hiltViewModel(
                 )
             }
 
-            InfoBanner(icon = Icons.Outlined.Info, text = stringResource(R.string.report_moderation_note), tone = Tone.NEUTRAL)
+            if (ui.usesOpenStreetMap && type != null && !ui.cameraIsTestData) {
+                Row(
+                    Modifier
+                        .fillMaxWidth()
+                        .heightIn(min = 48.dp)
+                        .toggleable(value = ui.publishToOsm, role = Role.Checkbox, onValueChange = viewModel::setPublishToOsm),
+                    verticalAlignment = Alignment.CenterVertically,
+                ) {
+                    Checkbox(checked = ui.publishToOsm, onCheckedChange = null)
+                    Spacer(Modifier.width(8.dp))
+                    Text(stringResource(R.string.report_publish_osm), style = MaterialTheme.typography.bodyMedium)
+                }
+                Text(
+                    stringResource(R.string.report_publish_osm_detail),
+                    style = MaterialTheme.typography.bodySmall,
+                    color = MaterialTheme.colorScheme.onSurfaceVariant,
+                )
+            }
+
+            InfoBanner(
+                icon = Icons.Outlined.Info,
+                text = stringResource(if (ui.usesOpenStreetMap) R.string.report_moderation_note_osm else R.string.report_moderation_note),
+                tone = Tone.NEUTRAL,
+            )
 
             when (val outcome = ui.outcome) {
                 is ReportOutcome.Queued -> InfoBanner(
                     icon = Icons.Filled.CheckCircle,
-                    text = stringResource(if (outcome.serverConfigured) R.string.report_queued else R.string.report_saved_offline),
-                    tone = Tone.GOOD,
+                    text = stringResource(
+                        when {
+                            outcome.keptReason == KeptOnDeviceReason.TEST_DATA -> R.string.report_kept_test
+                            outcome.keptReason == KeptOnDeviceReason.MOCK_LOCATION -> R.string.report_kept_mock
+                            outcome.keptReason == KeptOnDeviceReason.LOW_ACCURACY -> R.string.report_kept_accuracy
+                            outcome.keptReason == KeptOnDeviceReason.FAR_FROM_CAMERA -> R.string.report_kept_far
+                            outcome.destination == ReportDestination.CUSTOM_SERVER -> R.string.report_queued
+                            outcome.destination == ReportDestination.OPENSTREETMAP_NOTE -> R.string.report_queued_osm
+                            else -> R.string.report_saved_device
+                        },
+                    ),
+                    tone = if (outcome.keptReason == null) Tone.GOOD else Tone.WARN,
                 )
                 is ReportOutcome.RateLimited -> InfoBanner(
                     icon = Icons.Filled.ErrorOutline,

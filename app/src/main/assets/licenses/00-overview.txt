@@ -1,0 +1,31 @@
+Drive Alert - open-source licences and data attribution
+
+Drive Alert is free software licensed under the Apache License, Version 2.0.
+Source code: https://github.com/Ansh1040/map
+
+DATA
+- Camera data: (c) OpenStreetMap contributors. Open Database Licence (ODbL) 1.0.
+  https://www.openstreetmap.org/copyright
+  The bundled camera snapshot is a Derivative Database available under the ODbL
+  in the source repository (app/src/main/assets/osm/india_cameras.json).
+- Map tiles and style: OpenFreeMap (https://openfreemap.org), OpenMapTiles
+  (https://openmaptiles.org), data (c) OpenStreetMap contributors.
+
+LIBRARIES (Apache License 2.0 - full text below)
+- Android Jetpack / AndroidX (Core, Activity, Compose, Material 3, Material Icons,
+  Lifecycle, Navigation, Room, DataStore, WorkManager, Hilt extensions)
+  Copyright The Android Open Source Project
+- Kotlin standard library, kotlinx.coroutines, kotlinx.serialization
+  Copyright JetBrains s.r.o. and Kotlin Programming Language contributors
+- Dagger / Hilt - Copyright The Dagger Authors
+- OkHttp, Okio, Retrofit - Copyright Square, Inc.
+- javax.inject / jakarta.inject - Copyright The JSR-330 Expert Group
+
+LIBRARIES (other licences - full texts below)
+- MapLibre Native for Android - BSD 2-Clause (includes its third-party notices)
+- MapLibre Java (GeoJSON) - MIT
+- MapLibre Android Gestures - BSD 2-Clause
+
+PROPRIETARY COMPONENTS
+- Google Play services (location) - Android Software Development Kit License /
+  Google APIs Terms of Service.

@@ -64,3 +64,15 @@ Tips: a passenger should operate the phone. A mock-location app (Developer optio
 - Never add real-world coordinates or real camera ids to this file; ids must start with `TEST-`.
 - Never move the asset into `src/main`.
 - New scenarios must document their expected outcome here and in `SyntheticCameraDatasetTest`.
+
+## Simulated test drive (debug build, no driving needed)
+
+`MockDriveSimulator` (debug source set only) puts the Fused Location Provider into mock mode and drives a virtual car **north from the phone's real position at 72 km/h for 7.2 km** (from 200 m before the anchor to 7 km after it), one fix per second. It loads the TEST-ONLY scenario around the start point first and starts camera alerts.
+
+1. Developer options → **Select mock location app → Drive Alert (debug)** (the debug manifest alone declares `ACCESS_MOCK_LOCATION`).
+2. Drive Alert → Settings → Developer → **Simulate a test drive (mock GPS)**.
+3. Expected: warnings for **TEST-001** (fixed speed, 60 km/h, at 1.5 km) and **TEST-006** (ANPR, both directions, at 6.5 km), each at 500 m and 200 m with default settings. No warnings for TEST-002…TEST-005: opposite carriageway, crossing road, service lane and behind. TEST-007…010 are beyond the 7 km route.
+4. While it runs, open Google Maps (it follows the virtual car, because Maps also uses fused location) or lock the screen: warnings must still arrive.
+5. Tap **Stop simulated drive** at any time (also while it shows *Starting…*). Mock mode is always switched off when the drive ends, is cancelled or fails, and the alert session started for the drive is ended with it — so each run starts with a fresh session and the same TEST-001 / TEST-006 warnings, and no stale simulated motion can produce alerts afterwards. Leaving the Settings screen does not cancel a drive.
+
+If the phone has no location fix, the drive starts in central India (23.0° N, 77.5° E), more than 300 km from any mapped OSM camera. If you start where real OpenStreetMap cameras exist, those can alert too.

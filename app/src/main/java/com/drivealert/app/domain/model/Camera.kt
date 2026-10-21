@@ -73,6 +73,12 @@ enum class DataSource {
     ADMINISTRATOR,
     COMMUNITY_MODERATED,
 
+    /**
+     * OpenStreetMap open data (ODbL 1.0, "© OpenStreetMap contributors").
+     * Community-maintained and publicly reviewed; not official.
+     */
+    OPENSTREETMAP,
+
     /** Synthetic records used only by tests and debug builds. Never real locations. */
     TEST_ONLY_SYNTHETIC,
 }

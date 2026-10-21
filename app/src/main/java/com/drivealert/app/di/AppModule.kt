@@ -10,6 +10,7 @@ import com.drivealert.app.alerts.AlertCoordinator
 import com.drivealert.app.cameras.CameraRepository
 import com.drivealert.app.cameras.RoomCameraRepository
 import com.drivealert.app.data.history.AlertHistoryRepository
+import com.drivealert.app.data.osm.OsmConfig
 import com.drivealert.app.database.AlertHistoryDao
 import com.drivealert.app.database.CameraDao
 import com.drivealert.app.database.DataPackageDao
@@ -101,6 +102,10 @@ object AppModule {
     fun provideOkHttp(): OkHttpClient = OkHttpClient.Builder()
         .connectTimeout(ApiConfig.CONNECT_TIMEOUT_SECONDS, TimeUnit.SECONDS)
         .readTimeout(ApiConfig.READ_TIMEOUT_SECONDS, TimeUnit.SECONDS)
+        // OpenStreetMap services require an identifying User-Agent (no device or user data in it).
+        .addInterceptor { chain ->
+            chain.proceed(chain.request().newBuilder().header("User-Agent", OsmConfig.userAgent).build())
+        }
         // TODO(deployment): add CertificatePinner for the production API host.
         .build()
 

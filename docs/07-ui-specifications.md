@@ -57,8 +57,8 @@ Full-bleed navy (`header`) background; step dots (active 24 × 8 dp pill); 72 dp
 ┌──────────────────────────────┐
 │ ● ━━ ● ● ● ●                  │  Steps: Welcome · How it works with Maps ·
 │  (◯ icon 72dp)                │  Safety · Location disclosure ·
-│  Location is used only while  │  Notifications (13+) · Done
-│  camera alerts are on         │
+│  Your position on the map;    │  Notifications (13+) · Done
+│  alerts after Start Drive     │
 │ ┌──────────────────────────┐ │  Disclosure bullets: purpose; works with Maps
 │ │ ⓘ Works with Maps in front│ │  in front / screen locked; processed on device;
 │ │ ⓘ Processed on this phone │ │  not shared or sold; stop any time
@@ -91,7 +91,7 @@ Full-bleed navy (`header`) background; step dots (active 24 × 8 dp pill); 72 dp
  ⓘ Camera data may be incomplete or outdated. Always obey road signs.
 ```
 
-**Active session card** replaces the Start button: green dot + "Camera alerts active"; mode line (passive / approaching / close); next-camera row (badge, title, "500 m • Speed limit 60 km/h", taps to Camera Details); "Current speed 48 km/h" + "Drive safely"; outlined **Open Maps** (52 dp); **Stop alerts** (60 dp, navy). Map placeholder ("Map unavailable") when `MAPS_API_KEY` is missing — alerts still work.
+**Active session card** replaces the Start button: green dot + "Camera alerts active"; mode line (passive / approaching / close); next-camera row (badge, title, "500 m • Speed limit 60 km/h", taps to Camera Details); "Current speed 48 km/h" + "Drive safely"; outlined **Open Maps** (52 dp); **Stop alerts** (60 dp, navy). The map is MapLibre with OpenFreeMap vector tiles (no API key); camera markers are a circle layer (blue = trusted, violet = pending, red = disputed); attribution is shown by MapLibre. Offline it shows "Map needs an internet connection" — alerts still work.
 
 ### 2.3 Location Calibration — `ui/calibration/CalibrationScreen.kt`
 
@@ -163,7 +163,7 @@ Channel `camera_alerts` (IMPORTANCE_HIGH, silent — audio is played by the app)
 └──────────────────────────────┘
 ```
 
-Outcome banners: queued (good) / saved offline (server not configured) / rate-limited "try again in N min" / duplicate / invalid (bad).
+In OpenStreetMap mode a consent checkbox **"Publish publicly on OpenStreetMap so volunteers can review it"** (off by default) decides between a public OpenStreetMap note without an account name (OSM stores the sender's IP) and keeping the report on the phone; the checkbox is hidden for TEST-ONLY cameras. Outcome banners: published as OSM note / saved on this phone only / sent to server (custom server mode) (good); four WARN-tone "Saved on this phone only: …" banners when publishing was requested but blocked — TEST-ONLY camera, simulated (mock) position, accuracy worse than ±30 m, wrong-position report more than 300 m from the mapped camera; rate-limited "try again in N min", duplicate (warn); invalid (bad).
 
 ### 2.7 History — `ui/history/HistoryScreen.kt`
 
@@ -171,7 +171,7 @@ Navy header "History" / "Warnings from your recent drives, stored only on this p
 
 ### 2.8 Settings — `ui/settings/SettingsScreen.kt`
 
-Sections: **Alerts** — Voice alerts, Alert sound, Vibration (all disabled while visual-only is on), Silent visual-only mode, "Alert distance 500 m" segmented 200 m / 500 m / 1 km with the speed/GPS note, Closer reminders, Include unverified reports. **Camera data** — Camera data packages →, Update camera database (shows "Database last updated …" or "Camera-data server not configured"), Update on mobile data (re-schedules the periodic sync), Report a new camera →. **Device** — Setup assistant →, Notification settings →, App language → (system per-app language screen). **Privacy** — Privacy policy →, Delete local history (alert history **and** saved reports, confirmation dialog). **Developer (debug build only)** — TEST-ONLY warning banner, "Load TEST-ONLY cameras ahead of me", "Remove TEST-ONLY cameras". **About** — full data disclaimer and version. Transient result banners (sync requested, history deleted, test data loaded…) auto-dismiss after 4 s.
+Sections: **Alerts** — Voice alerts, Alert sound, Vibration (all disabled while visual-only is on), Silent visual-only mode, "Alert distance 500 m" segmented 200 m / 500 m / 1 km with the speed/GPS note, Closer reminders, Include unverified reports. **Camera data** — Camera data packages →, Update camera database (downloads the weekly OpenStreetMap snapshot; shows "Database last updated …"), Update on mobile data (re-schedules the periodic sync), Report a new camera →. **Device** — Setup assistant →, Notification settings →, App language → (system per-app language screen). **Privacy** — Privacy policy →, Delete local history (alert history **and** saved reports, confirmation dialog). **Developer (debug build only)** — TEST-ONLY warning banner, "Load TEST-ONLY cameras ahead of me", "Remove TEST-ONLY cameras". **About** — full data disclaimer, **Open data and licences** (opens openstreetmap.org/copyright), **Source code** (GitHub), version. Debug builds also show **Simulate a test drive (mock GPS)** with live progress and **Open Developer options**. Transient result banners (sync requested, history deleted, test data loaded…) auto-dismiss after 4 s.
 
 ### 2.9 Setup Assistant — `ui/setup/SetupAssistantScreen.kt`
 
@@ -179,8 +179,16 @@ Re-checks `DeviceReadiness` on every resume. **Required**: Location permission (
 
 ### 2.10 Privacy Policy — `ui/privacy/PrivacyPolicyScreen.kt`
 
-Nine cards (summary, location, on your phone, server communication, camera reports, what Drive Alert never does, retention, your choices, contact), always available offline. A "Read the full policy online" row appears only when `BuildConfig.PRIVACY_POLICY_URL` is set (**TODO (required before release)**: host the policy, set the URL, and fill in the grievance contact).
+Nine cards (summary, location, on your phone, server communication, camera reports, what Drive Alert never does, retention, your choices, contact), always available offline. A "Read the full policy online" row appears only when `BuildConfig.PRIVACY_POLICY_URL` is set (defaults to [PRIVACY.md](../PRIVACY.md) on GitHub; contact via GitHub Issues).
 
 ### 2.11 Data Packages — `ui/packages/DataPackagesScreen.kt`
 
-Coverage banner ("Coverage is limited to the cities and states listed… does not claim nationwide accuracy"). If `ApiConfig.isConfigured` is false: warning banner "Camera-data server not configured…"; otherwise a "Refresh package list" row. One card per package from `CameraSyncRepository.observePackages()`: city/state title, install switch (`setPackageInstalled`, then `SyncScheduler.syncNow()`), coverage note, camera count, "Database last updated …". The TEST-ONLY synthetic package is shown with its switch disabled. "Update now" lives in Settings.
+Coverage banner ("Coverage is limited to the cities and states listed… does not claim nationwide accuracy"). Source banner "Camera data: © OpenStreetMap contributors, open data under the ODbL…" and an **Update camera data now** row. One card per package from `CameraSyncRepository.observePackages()`: city/state title, install switch (`setPackageInstalled`, then `SyncScheduler.syncNow()`), coverage note, camera count, "Database last updated …". The TEST-ONLY synthetic package is shown with its switch disabled. One package per state / union territory (36), all installed by default from the bundled snapshot; switching one on works offline.
+
+## 3. Review-round changes (v0.2)
+
+- **Map card**: a permanently visible credit "© OpenMapTiles © OpenStreetMap contributors" at the bottom-right (tap → openstreetmap.org/copyright), plus MapLibre's attribution dialog. The "you are here" dot uses the Home screen's single location fix (no continuous GPS). The map keeps its position when the user navigates back, rotates or scrolls away; marker taps use a 48 dp target and pick the nearest marker; LazyColumn items have stable keys so search results no longer rebuild the map.
+- **Report Update**: "Use my current location" takes a fresh high-accuracy fix and shows "±N m accuracy" (red above 30 m). For *Incorrect position* a hint says to stand where the camera really is. The publish checkbox is hidden for TEST-ONLY cameras. Outcome banners also explain when a report was **kept on this phone** instead of published: TEST-ONLY camera, simulated (mock) position, accuracy worse than ±30 m, or a wrong-position report more than 300 m from the mapped camera.
+- **Settings → About → Open-source licences** (new screen `ui/licenses/LicensesScreen.kt`): monospace text of every file in `assets/licenses` (overview with data attribution, Apache-2.0, MapLibre Native Android with its third-party notices, MapLibre Java/GeoJSON MIT, MapLibre Gestures BSD-2).
+- **Simulated test drive** row shows *Starting…* and then live progress; while starting or running it becomes **Stop simulated drive** (tap to cancel or stop), so a drive cannot be started twice. When the drive ends or is stopped, mock GPS is switched off and the alert session started for it ends (the "Camera alerts active" notification disappears by itself).
+- Debug builds are labelled **Drive Alert (debug)** in the launcher and in Developer options → Select mock location app.

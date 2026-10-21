@@ -26,3 +26,7 @@ Thumbs.db
 # JVM crash dumps
 hs_err_pid*.log
 replay_pid*.log
+keystore/
+
+# Built APKs copied for easy installation
+apk/

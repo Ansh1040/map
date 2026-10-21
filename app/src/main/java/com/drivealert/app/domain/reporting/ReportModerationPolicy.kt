@@ -28,8 +28,14 @@ enum class ReportType {
 }
 
 enum class ReportStatus {
-    /** Saved on the device, waiting for upload. */
+    /** Kept on this phone only (the user chose not to publish it). */
+    SAVED_ON_DEVICE,
+
+    /** Saved on the device, waiting for upload to the optional custom server. */
     PENDING_UPLOAD,
+
+    /** The user consented to publish it as a public OpenStreetMap note; waiting for upload. */
+    PENDING_OSM_NOTE,
     SUBMITTED,
     UNDER_REVIEW,
     ACCEPTED,
@@ -204,6 +210,7 @@ class ReportModerationPolicy(private val config: ModerationConfig = ModerationCo
                 0.30 + 0.08 * confirmations + 0.15 * signals.reporterReputation.coerceIn(0.0, 1.0) +
                     if (signals.moderatorApproved) 0.10 else 0.0
             }
+            DataSource.OPENSTREETMAP -> 0.70
             DataSource.TEST_ONLY_SYNTHETIC -> 0.50
         }
         val disputePenalty = 0.12 * signals.disputes
@@ -225,6 +232,8 @@ class ReportModerationPolicy(private val config: ModerationConfig = ModerationCo
                 } else {
                     VerificationStatus.PENDING_VERIFICATION
                 }
+            // Published, publicly reviewed open data: confirmed by its own community process.
+            DataSource.OPENSTREETMAP -> VerificationStatus.COMMUNITY_CONFIRMED
             DataSource.TEST_ONLY_SYNTHETIC -> VerificationStatus.PENDING_VERIFICATION
         }
     }

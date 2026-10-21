@@ -1,6 +1,7 @@
 package com.drivealert.app.location
 
 import android.location.Location
+import android.os.Build
 import com.drivealert.app.domain.model.LocationFix
 import com.drivealert.app.domain.model.LocationPriority
 import com.drivealert.app.domain.model.LocationRequestSpec
@@ -22,6 +23,7 @@ fun Location.toFix(): LocationFix = LocationFix(
     verticalAccuracyM = if (hasVerticalAccuracy()) verticalAccuracyMeters else null,
     timeMillis = time,
     elapsedRealtimeMillis = elapsedRealtimeNanos / 1_000_000L,
+    isMock = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S) isMock else @Suppress("DEPRECATION") isFromMockProvider,
 )
 
 fun Location.ageMillis(nowElapsedMillis: Long): Long = nowElapsedMillis - elapsedRealtimeNanos / 1_000_000L

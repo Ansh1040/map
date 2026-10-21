@@ -10,6 +10,7 @@ import androidx.work.OneTimeWorkRequestBuilder
 import androidx.work.PeriodicWorkRequestBuilder
 import androidx.work.WorkInfo
 import androidx.work.WorkManager
+import com.drivealert.app.reporting.ReportUploadScheduler
 import com.drivealert.app.reporting.ReportUploadWorker
 import dagger.hilt.android.qualifiers.ApplicationContext
 import java.util.concurrent.TimeUnit
@@ -21,7 +22,7 @@ import kotlinx.coroutines.flow.map
 @Singleton
 class SyncScheduler @Inject constructor(
     @ApplicationContext private val context: Context,
-) {
+) : ReportUploadScheduler {
     private val workManager: WorkManager get() = WorkManager.getInstance(context)
 
     /**
@@ -52,12 +53,13 @@ class SyncScheduler @Inject constructor(
     fun observeManualSync(): Flow<WorkInfo.State?> =
         workManager.getWorkInfosForUniqueWorkFlow(MANUAL_SYNC).map { infos -> infos.firstOrNull()?.state }
 
-    fun enqueueReportUpload() {
+    override fun enqueueReportUpload() {
         val request = OneTimeWorkRequestBuilder<ReportUploadWorker>()
             .setConstraints(Constraints.Builder().setRequiredNetworkType(NetworkType.CONNECTED).build())
             .setBackoffCriteria(BackoffPolicy.EXPONENTIAL, 5, TimeUnit.MINUTES)
             .build()
-        workManager.enqueueUniqueWork(REPORT_UPLOAD, ExistingWorkPolicy.KEEP, request)
+        // APPEND_OR_REPLACE: a report queued while an upload runs still gets its own run.
+        workManager.enqueueUniqueWork(REPORT_UPLOAD, ExistingWorkPolicy.APPEND_OR_REPLACE, request)
     }
 
     private companion object {

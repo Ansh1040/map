@@ -99,7 +99,7 @@ project_4/
 |---|---|---|
 | `main` | All production code and resources | Domain code must stay free of `android.*` imports. |
 | `debug` | `assets/test_only_mock_cameras.json`, `DebugTestDataTools` + `DebugToolsModule` | Package `com.drivealert.app.debug` (`applicationIdSuffix ".debug"`), version suffix `-debug`. |
-| `release` | `NoOpTestDataTools` + `ReleaseToolsModule` | R8 minify + resource shrinking; signing **TODO (required before release)**. Synthetic assets are not packaged. |
+| `release` | `NoOpTestDataTools` + `ReleaseToolsModule` | R8 minify + resource shrinking; signed from git-ignored `keystore.properties` (falls back to the debug key). Synthetic assets and the drive simulator are not packaged. |
 | `test` | JVM tests (JUnit 4, coroutines-test, Turbine, Robolectric, Room/Work testing) | `isIncludeAndroidResources = true`, `isReturnDefaultValues = true`. |
 | `androidTest` | Instrumented tests (AndroidX Test runner/rules, Compose UI test, Room testing) | Runner `androidx.test.runner.AndroidJUnitRunner`. |
 

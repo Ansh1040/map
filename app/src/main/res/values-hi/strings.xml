@@ -1,24 +1,37 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!--
-  Hindi (हिन्दी) translation of the core driving flow.
-  TODO (required before release): native-speaker review. Strings not listed here
-  fall back to English. Keep every %1$s / %1$d placeholder identical to values/strings.xml.
+  हिन्दी (Hindi) translation of every user-visible string.
+  Machine-assisted translation: corrections from native speakers are welcome
+  via https://github.com/Ansh1040/map/issues .
+  Keep every %1$s / %1$d placeholder identical to values/strings.xml.
 -->
 <resources>
     <string name="app_tagline">बेहतर भारत के लिए सुरक्षित सड़कें</string>
+    <string name="version_label">संस्करण %1$s</string>
+    <string name="open_data_licences">ओपन डेटा और लाइसेंस</string>
+    <string name="open_data_licences_subtitle">कैमरा डेटा © OpenStreetMap योगदानकर्ता (ODbL)। मानचित्र: OpenFreeMap, OpenMapTiles, MapLibre।</string>
+    <string name="source_code">सोर्स कोड</string>
+    <string name="source_code_subtitle">GitHub पर ओपन सोर्स (Apache-2.0)</string>
 
     <string name="nav_home">होम</string>
     <string name="nav_history">इतिहास</string>
     <string name="nav_settings">सेटिंग्स</string>
     <string name="cd_back">वापस</string>
+    <string name="cd_clear_search">खोज साफ़ करें</string>
 
     <string name="action_allow">अनुमति दें</string>
+    <string name="action_allow_notifications">सूचनाओं की अनुमति दें</string>
     <string name="action_cancel">रद्द करें</string>
     <string name="action_continue">आगे बढ़ें</string>
+    <string name="action_continue_allow_location">आगे बढ़ें और लोकेशन की अनुमति दें</string>
     <string name="action_delete">हटाएं</string>
     <string name="action_finish">पूरा करें</string>
+    <string name="action_fix">ठीक करें</string>
     <string name="action_not_now">अभी नहीं</string>
+    <string name="action_open_app_settings">Drive Alert की ऐप सेटिंग्स खोलें</string>
     <string name="action_open_settings">सेटिंग्स खोलें</string>
+    <string name="action_open_setup_assistant">सेटअप सहायक खोलें</string>
+    <string name="action_review">देखें</string>
     <string name="action_turn_on">चालू करें</string>
     <string name="action_stop_alerts">अलर्ट बंद करें</string>
     <string name="action_end_drive">ड्राइव समाप्त करें</string>
@@ -32,18 +45,44 @@
     <string name="voice_alerts">आवाज़ अलर्ट</string>
     <string name="voice_alerts_subtitle">बोली गई चेतावनियां, ताकि फ़ोन देखने की ज़रूरत न पड़े</string>
     <string name="alert_distance_value">अलर्ट दूरी %1$s</string>
+    <string name="alert_distance_note">तेज़ गति या कमज़ोर GPS पर चेतावनी पहले शुरू होती है, ताकि वह हमेशा समय पर सुनाई दे।</string>
     <string name="current_speed_value">%1$d किमी/घंटा</string>
+    <string name="current_speed_unknown">गति उपलब्ध नहीं</string>
+    <string name="chip_no_camera_data">कोई कैमरा डेटा इंस्टॉल नहीं है</string>
+    <string name="banner_session_killed">सिस्टम ने कैमरा अलर्ट बंद कर दिए। बैटरी सेटिंग्स जांचें ताकि ड्राइव के दौरान ऐसा न हो।</string>
+    <string name="banner_location_needed">कैमरा अलर्ट के लिए लोकेशन की अनुमति ज़रूरी है।</string>
+    <string name="banner_precise_needed">सटीक लोकेशन ज़रूरी है। अनुमानित लोकेशन से यह पता नहीं चलता कि आप सड़क के किस ओर हैं।</string>
+    <string name="banner_location_off">इस फ़ोन पर लोकेशन बंद है।</string>
+    <string name="banner_notifications_off">सूचनाएं बंद हैं। आपको आवाज़ अलर्ट सुनाई देंगे, लेकिन स्क्रीन पर चेतावनी नहीं दिखेगी।</string>
+    <plurals name="banner_setup_warnings">
+        <item quantity="one">%d सेटिंग अलर्ट में देरी कर सकती है</item>
+        <item quantity="other">%d सेटिंग्स अलर्ट में देरी कर सकती हैं</item>
+    </plurals>
     <plurals name="cameras_nearby">
         <item quantity="one">%d कैमरा पास में</item>
         <item quantity="other">%d कैमरे पास में</item>
     </plurals>
     <string name="disclaimer_short">कैमरा डेटा अधूरा या पुराना हो सकता है। हमेशा निर्धारित गति सीमा का पालन करें।</string>
+    <string name="disclaimer_full">Drive Alert गति सीमा के पालन और सुरक्षित ड्राइविंग में मदद करता है। कैमरा डेटा मुख्य रूप से OpenStreetMap स्वयंसेवकों (ओपन डेटा) से आता है और यह अधूरा, पुराना या गलत हो सकता है। हर कैमरा शामिल नहीं है, और चेतावनी न मिलने का अर्थ कभी यह नहीं है कि तेज़ गति सुरक्षित या अनुमत है। हमेशा निर्धारित गति सीमा, सिग्नल और सड़क संकेतों का पालन करें।</string>
 
     <string name="gps_ready">GPS तैयार</string>
     <string name="gps_weak">कमज़ोर GPS ±%1$d मी</string>
     <string name="gps_lost">GPS सिग्नल नहीं मिल रहा</string>
     <string name="gps_searching">GPS खोजा जा रहा है…</string>
+    <string name="gps_permission_needed">लोकेशन अनुमति ज़रूरी</string>
+    <string name="gps_location_off">लोकेशन बंद है</string>
     <string name="gps_accuracy">GPS सटीकता</string>
+
+    <string name="map_unavailable_title">मानचित्र के लिए इंटरनेट ज़रूरी है</string>
+    <string name="map_unavailable_body">कैमरा अलर्ट बिना मानचित्र के ऑफ़लाइन भी काम करते हैं।</string>
+    <string name="speed_limit_value">%1$d किमी/घंटा</string>
+
+    <string name="mode_passive">बैटरी-बचत ट्रैकिंग</string>
+    <string name="mode_approach">आस-पास के कैमरे जांचे जा रहे हैं</string>
+    <string name="mode_close">कैमरे के पास सटीक GPS</string>
+    <string name="mode_passive_long">पास में कोई कैमरा नहीं • बैटरी-बचत लोकेशन</string>
+    <string name="mode_approach_long">5 किमी के भीतर कैमरा • आपकी दिशा जांची जा रही है</string>
+    <string name="mode_close_long">आगे कैमरा • पार करने तक सटीक GPS</string>
 
     <string name="distance_m">%1$d मी</string>
     <string name="distance_km">%1$s किमी</string>
@@ -60,6 +99,7 @@
     <string name="alert_title_user_reported">आगे रिपोर्ट किया गया कैमरा है</string>
     <string name="alert_body_with_limit">%1$s • गति सीमा %2$d किमी/घंटा</string>
     <string name="alert_detail_speed">वर्तमान गति %1$d किमी/घंटा — %2$s</string>
+    <string name="alert_detail_unverified">%1$s (असत्यापित रिपोर्ट)</string>
     <string name="advice_drive_safely">सुरक्षित चलाएं</string>
     <string name="advice_slow_down">कृपया गति कम करें</string>
 
@@ -70,24 +110,282 @@
     <string name="voice_distance_m">%1$d मीटर</string>
     <string name="voice_distance_km">%1$s किलोमीटर</string>
 
+    <string name="camera_type_fixed_speed">स्थायी स्पीड कैमरा</string>
+    <string name="camera_type_mobile_speed">मोबाइल स्पीड कैमरा</string>
+    <string name="camera_type_red_light">रेड-लाइट कैमरा</string>
+    <string name="camera_type_speed_red_light">स्पीड और रेड-लाइट कैमरा</string>
+    <string name="camera_type_anpr">ANPR / ई-चालान कैमरा</string>
+    <string name="camera_type_bus_lane">बस-लेन कैमरा</string>
+    <string name="camera_type_restricted_zone">प्रतिबंधित-क्षेत्र कैमरा</string>
+    <string name="camera_type_user_reported">रिपोर्ट किया गया कैमरा (सत्यापन बाकी)</string>
+
+    <string name="channel_session_name">अलर्ट सत्र</string>
+    <string name="channel_session_description">कैमरा अलर्ट चलते समय दिखती है, उन्हें बंद करने के बटन के साथ।</string>
+    <string name="channel_alerts_name">कैमरा चेतावनियां</string>
+    <string name="channel_alerts_description">सत्यापित कैमरे से पहले हेड्स-अप चेतावनी। दूसरे ऐप्स के ऊपर अलर्ट के लिए इसे चालू रखें।</string>
+    <string name="channel_status_name">ड्राइव स्थिति</string>
+    <string name="channel_status_description">“क्या आपकी ड्राइव समाप्त हो गई?” जैसे संदेश।</string>
+
     <string name="session_notification_title">कैमरा अलर्ट सक्रिय</string>
+    <string name="session_status_starting">शुरू हो रहा है…</string>
+    <string name="session_status_acquiring">आपकी लोकेशन खोजी जा रही है…</string>
+    <string name="session_status_gps_lost">GPS सिग्नल नहीं • सिग्नल लौटने पर अलर्ट फिर शुरू होंगे</string>
+    <string name="session_status_camera_ahead">%1$s • %2$s</string>
+    <plurals name="session_status_nearby">
+        <item quantity="one">5 किमी के भीतर %1$d कैमरा • %2$s</item>
+        <item quantity="other">5 किमी के भीतर %1$d कैमरे • %2$s</item>
+    </plurals>
     <string name="drive_end_title">क्या आपकी ड्राइव समाप्त हो गई?</string>
     <string name="drive_end_text">10 मिनट से कोई हलचल नहीं। 30 मिनट तक हलचल न होने पर अलर्ट अपने आप बंद हो जाएंगे।</string>
     <string name="auto_stopped_title">कैमरा अलर्ट बंद हुए</string>
+    <string name="auto_stopped_text">30 मिनट तक कोई हलचल नहीं हुई, इसलिए बैटरी बचाने के लिए अलर्ट बंद कर दिए गए। अगली ड्राइव से पहले Drive Alert से फिर शुरू करें।</string>
 
     <string name="calibration_title">लोकेशन कैलिब्रेशन</string>
-    <string name="calibration_explanation">सटीक लोकेशन से Drive Alert पहचान पाता है कि आप किस सड़क और दिशा में हैं, ताकि चेतावनी समय पर मिले।</string>
+    <string name="calibration_explanation">सटीक लोकेशन से Drive Alert पहचान पाता है कि आप किस सड़क और दिशा में हैं, ताकि चेतावनी समय पर मिले और दूसरी सड़कों के कैमरे अनदेखे रहें।</string>
+    <string name="calibration_weak_tip">GPS कमज़ोर है। ऊंची इमारतों से दूर खुले आसमान के नीचे जाएं, या कुछ सेकंड रुकें।</string>
+    <string name="calibration_safety_note">गाड़ी चलाने से पहले सेटअप पूरा करें। ड्राइव के दौरान फ़ोन छूने की ज़रूरत नहीं होगी।</string>
     <string name="start_drive">ड्राइव शुरू करें</string>
+    <string name="start_drive_anyway">कमज़ोर GPS के साथ ड्राइव शुरू करें</string>
     <string name="accuracy_value">±%1$d मी</string>
+    <string name="quality_excellent">उत्कृष्ट सटीकता</string>
+    <string name="quality_good">अच्छी सटीकता</string>
+    <string name="quality_fair">ठीक-ठाक सटीकता</string>
+    <string name="quality_weak">कमज़ोर GPS</string>
+    <string name="cd_accuracy_gauge">GPS सटीकता %1$s, %2$s</string>
 
+    <string name="onboarding_welcome_title">Drive Alert में आपका स्वागत है</string>
+    <string name="onboarding_welcome_body">सत्यापित स्पीड, रेड-लाइट और ट्रैफ़िक प्रवर्तन कैमरों से पहले समय पर आवाज़ और स्क्रीन चेतावनी, ताकि आप गति सीमा में रहें।</string>
     <string name="onboarding_maps_title">Google Maps के साथ काम करता है</string>
     <string name="onboarding_maps_body">Drive Alert, Google Maps के साथ चलता है लेकिन स्वतंत्र रूप से काम करता है। यह आपका Google Maps रूट या गंतव्य नहीं देख सकता और किसी अन्य ऐप की स्क्रीन नहीं पढ़ता।</string>
+    <string name="onboarding_maps_point_1">चेतावनी आपकी लोकेशन, चलने की दिशा और गति पर आधारित होती है।</string>
+    <string name="onboarding_maps_point_2">डेटा अनुमति दे तो आपके पीछे या सामने वाली सड़क (विपरीत दिशा) के कैमरे हटा दिए जाते हैं।</string>
+    <string name="onboarding_maps_point_3">चेतावनी किसी भी ऐप के ऊपर सामान्य Android सूचना और आवाज़ के रूप में आती है।</string>
     <string name="onboarding_safety_title">गति सीमा में चलाएं</string>
     <string name="onboarding_safety_body">Drive Alert गति सीमा के पालन में मदद करता है। यह जुर्माने से बचने का तरीका नहीं है।</string>
+    <string name="onboarding_safety_point_1">कैमरा डेटा अधूरा या पुराना हो सकता है। हर कैमरा शामिल नहीं है।</string>
+    <string name="onboarding_safety_point_2">चेतावनी मिले या न मिले, हमेशा निर्धारित गति सीमा और सड़क संकेतों का पालन करें।</string>
+    <string name="onboarding_safety_point_3">ड्राइव से पहले सब सेट करें। गाड़ी चलाते समय कभी फ़ोन का उपयोग न करें।</string>
+    <string name="onboarding_notifications_title">स्क्रीन पर चेतावनी की अनुमति दें</string>
+    <string name="onboarding_notifications_body">सूचनाओं से Drive Alert, Google Maps के ऊपर कैमरा चेतावनी दिखा पाता है और “कैमरा अलर्ट सक्रिय” सूचना बंद करने के बटन के साथ दिखती रहती है।</string>
+    <string name="onboarding_done_title">आप तैयार हैं</string>
+    <string name="onboarding_done_body">सेटअप सहायक उन बैटरी सेटिंग्स की जांच करता है जो OnePlus समेत कुछ फ़ोन पर अलर्ट में देरी कर सकती हैं। इसमें लगभग एक मिनट लगता है।</string>
+
+    <string name="disclosure_title">Drive Alert आपकी लोकेशन का उपयोग कैसे करता है</string>
+    <string name="disclosure_body">Drive Alert आगे आने वाले ट्रैफ़िक कैमरों की चेतावनी देने के लिए सटीक लोकेशन डेटा एकत्र करता है। ऐप खुला होने पर यह मानचित्र पर आपकी जगह दिखाता है। “ड्राइव शुरू करें” दबाने के बाद, ड्राइव समाप्त होने तक, Drive Alert बंद होने या उपयोग में न होने पर भी लोकेशन का उपयोग होता है, जैसे स्क्रीन पर Google Maps खुला हो या फ़ोन लॉक हो। कैमरा जांच आपके फ़ोन पर ही होती है।</string>
+    <string name="disclosure_point_1">कैमरा जांच आपके फ़ोन पर ही होती है। आपकी लोकेशन और यात्राएं अपलोड नहीं होतीं।</string>
+    <string name="disclosure_point_2">लोकेशन कभी बेची नहीं जाती, विज्ञापनदाताओं से साझा नहीं होती और विज्ञापनों के लिए उपयोग नहीं होती।</string>
+    <string name="disclosure_point_3">अलर्ट चालू रहने पर हमेशा बंद करने के बटन के साथ एक सूचना दिखती है।</string>
+    <string name="disclosure_point_4">केवल वही कैमरा रिपोर्ट लोकेशन के साथ भेजी जाती हैं जिन्हें आप खुद भेजना चुनें।</string>
+
+    <string name="camera_details_title">कैमरा विवरण</string>
+    <string name="camera_not_found">यह कैमरा अब डेटाबेस में नहीं है।</string>
+    <string name="road_unknown">सड़क ज्ञात नहीं</string>
+    <string name="label_location">लोकेशन</string>
+    <string name="label_coordinates">निर्देशांक</string>
+    <string name="label_direction">निगरानी की दिशा</string>
+    <string name="label_speed_limit">ज्ञात गति सीमा</string>
+    <string name="label_last_verified">अंतिम सत्यापन</string>
+    <string name="label_confirmations">समुदाय पुष्टि</string>
+    <string name="label_data_source">डेटा स्रोत</string>
+    <string name="label_expires">अस्थायी लोकेशन, तब तक</string>
+    <string name="value_not_known">ज्ञात नहीं</string>
+    <string name="report_update">अपडेट रिपोर्ट करें</string>
+    <string name="test_data_banner">केवल-परीक्षण (TEST-ONLY) नकली कैमरा। यह असली कैमरा लोकेशन नहीं है।</string>
+    <string name="status_verified">सत्यापित</string>
+    <string name="status_community_confirmed">समुदाय द्वारा पुष्ट</string>
+    <string name="status_pending">सत्यापन बाकी</string>
+    <string name="status_disputed">विवादित</string>
+    <string name="status_rejected">अस्वीकृत</string>
+    <string name="source_official">आधिकारिक सरकारी स्रोत</string>
+    <string name="source_licensed">लाइसेंसधारी डेटा प्रदाता</string>
+    <string name="source_admin">Drive Alert व्यवस्थापक</string>
+    <string name="source_community">समीक्षित समुदाय रिपोर्ट</string>
+    <string name="source_osm">OpenStreetMap योगदानकर्ता (ODbL ओपन डेटा)</string>
+    <string name="source_test">केवल-परीक्षण नकली डेटा</string>
+    <string name="direction_unknown">ज्ञात नहीं</string>
+    <string name="direction_one">%1$s (%2$d°)</string>
+    <string name="direction_both">दोनों दिशाएं (%1$s और उल्टी, %2$d°)</string>
+    <string name="dir_north">उत्तर की ओर</string>
+    <string name="dir_north_east">उत्तर-पूर्व की ओर</string>
+    <string name="dir_east">पूर्व की ओर</string>
+    <string name="dir_south_east">दक्षिण-पूर्व की ओर</string>
+    <string name="dir_south">दक्षिण की ओर</string>
+    <string name="dir_south_west">दक्षिण-पश्चिम की ओर</string>
+    <string name="dir_west">पश्चिम की ओर</string>
+    <string name="dir_north_west">उत्तर-पश्चिम की ओर</string>
+
+    <string name="report_title">अपडेट रिपोर्ट करें</string>
+    <string name="report_what_changed">क्या अपडेट होना चाहिए?</string>
+    <string name="report_type_new">नया कैमरा</string>
+    <string name="report_type_removed">कैमरा हटा दिया गया</string>
+    <string name="report_type_position">गलत स्थान</string>
+    <string name="report_type_direction">गलत दिशा</string>
+    <string name="report_type_speed_limit">गलत गति सीमा</string>
+    <string name="report_type_temporary">अस्थायी / मोबाइल कैमरा</string>
+    <string name="report_type_duplicate">दोहरा कैमरा</string>
+    <string name="report_type_abuse">स्पैम या दुरुपयोग रिपोर्ट करें</string>
+    <string name="report_camera_type">कैमरे का प्रकार</string>
+    <string name="report_correct_speed_limit">सही गति सीमा</string>
+    <string name="report_location_label">रिपोर्ट की गई लोकेशन</string>
+    <string name="report_location_missing">अभी कोई लोकेशन नहीं</string>
+    <string name="report_use_current_location">मेरी वर्तमान लोकेशन उपयोग करें</string>
+    <string name="report_location_privacy">रिपोर्ट के साथ केवल यही एक लोकेशन भेजी जाती है, और वह भी तभी जब आप रिपोर्ट भेजें।</string>
+    <string name="report_note">टिप्पणी (वैकल्पिक)</string>
+    <string name="report_moderation_note">किसी भी अलर्ट को बदलने से पहले रिपोर्ट की समीक्षा होती है। डेटा सही रखने में मदद के लिए धन्यवाद।</string>
+    <string name="report_moving_warning">आपकी सुरक्षा के लिए, रिपोर्ट केवल गाड़ी खड़ी होने पर भेजें।</string>
+    <string name="report_passenger_confirm">मैं यात्री हूं, चालक नहीं</string>
+    <string name="report_submit">रिपोर्ट भेजें</string>
+    <string name="report_queued">रिपोर्ट समीक्षा के लिए भेजी गई।</string>
+    <string name="report_queued_osm">धन्यवाद। आपकी रिपोर्ट स्वयंसेवकों की समीक्षा के लिए सार्वजनिक OpenStreetMap नोट के रूप में प्रकाशित होगी।</string>
+    <string name="report_saved_device">रिपोर्ट केवल इस फ़ोन पर सहेजी गई।</string>
+    <string name="report_location_accuracy">±%1$d मी सटीकता</string>
+    <string name="report_location_unavailable">अभी कोई सटीक लोकेशन नहीं। लोकेशन रिपोर्ट करने के लिए सटीक लोकेशन अनुमति और खुला आसमान चाहिए; खुले में फिर कोशिश करें।</string>
+    <string name="report_position_hint">अपनी लोकेशन उपयोग करने से पहले वहां खड़े हों जहां कैमरा वास्तव में है: वही स्थान रिपोर्ट होता है।</string>
+    <string name="report_kept_test">केवल इस फ़ोन पर सहेजी गई: केवल-परीक्षण कैमरे कभी प्रकाशित नहीं होते।</string>
+    <string name="report_kept_mock">केवल इस फ़ोन पर सहेजी गई: अनुकृत (मॉक) लोकेशन कभी प्रकाशित नहीं होती।</string>
+    <string name="report_kept_accuracy">केवल इस फ़ोन पर सहेजी गई: आपकी लोकेशन प्रकाशित करने लायक सटीक नहीं थी (±30 मी या बेहतर चाहिए)। खुले में फिर कोशिश करें।</string>
+    <string name="report_kept_far">केवल इस फ़ोन पर सहेजी गई: गलत-स्थान रिपोर्ट के लिए सही स्थान पर, मैप किए गए कैमरे से 300 मी के भीतर खड़े हों।</string>
+    <string name="debug_simulation_starting">आपकी लोकेशन ली जा रही है और शुरू हो रहा है… रद्द करने के लिए टैप करें</string>
+    <string name="open_source_licences">ओपन-सोर्स लाइसेंस</string>
+    <string name="open_source_licences_subtitle">ऐप में उपयोग की गई लाइब्रेरी और डेटा के लाइसेंस</string>
+    <string name="report_publish_osm">स्वयंसेवकों की समीक्षा के लिए OpenStreetMap पर सार्वजनिक रूप से प्रकाशित करें</string>
+    <string name="report_publish_osm_detail">खाते के नाम के बिना एक सार्वजनिक OpenStreetMap नोट बनाता है। नए, अस्थायी और गलत-स्थान रिपोर्ट आपके फ़ोन की वर्तमान लोकेशन पर रखी जाती हैं; अन्य रिपोर्ट मैप किए गए कैमरे पर। OpenStreetMap आपका IP पता प्राप्त करता है और नोट के साथ सहेजता है (उसके व्यवस्थापक देख सकते हैं, सार्वजनिक रूप से नहीं दिखता)। रिपोर्ट केवल इस फ़ोन पर रखनी हो तो इसे न चुनें।</string>
+    <string name="report_moderation_note_osm">कैमरा डेटा OpenStreetMap से आता है। रिपोर्ट सीधे अलर्ट नहीं बदलतीं: स्वयंसेवक उन्हें जांचकर मानचित्र अपडेट करते हैं, और अगले डेटा अपडेट में बदलाव आता है।</string>
+    <string name="report_rate_limited">बहुत अधिक रिपोर्ट। कृपया %1$d मिनट बाद फिर कोशिश करें।</string>
+    <string name="report_duplicate_recent">आप हाल ही में यह रिपोर्ट कर चुके हैं।</string>
+    <string name="report_duplicate_known">इस लोकेशन पर पहले से एक कैमरा दर्ज है।</string>
+    <string name="report_duplicate_own">आप हाल ही में यहां एक कैमरा रिपोर्ट कर चुके हैं।</string>
+    <string name="report_invalid">कृपया विवरण जांचें और फिर कोशिश करें।</string>
+    <string name="report_new_camera">नया कैमरा रिपोर्ट करें</string>
+    <string name="report_new_camera_subtitle">उपयोग से पहले रिपोर्ट की समीक्षा होती है</string>
 
     <string name="history_title">इतिहास</string>
+    <string name="history_subtitle">हाल की ड्राइव की चेतावनियां, केवल इस फ़ोन पर सहेजी गईं</string>
+    <string name="history_empty">अभी कोई चेतावनी नहीं। ड्राइव के दौरान मिले अलर्ट यहां दिखेंगे।</string>
+    <string name="history_row_meta">%1$s पर अलर्ट • %2$s</string>
+    <string name="history_clear">साफ़ करें</string>
+    <string name="history_clear_title">इतिहास साफ़ करें?</string>
+    <string name="history_clear_body">इससे इस फ़ोन पर सहेजा गया पूरा अलर्ट इतिहास हट जाएगा।</string>
+
     <string name="settings_title">सेटिंग्स</string>
-    <string name="privacy_policy">गोपनीयता नीति</string>
+    <string name="settings_subtitle">अलर्ट, डेटा और गोपनीयता</string>
+    <string name="settings_section_alerts">अलर्ट</string>
+    <string name="settings_section_data">कैमरा डेटा</string>
+    <string name="settings_section_device">डिवाइस</string>
+    <string name="settings_section_privacy">गोपनीयता</string>
+    <string name="settings_section_debug">डेवलपर (केवल डीबग बिल्ड)</string>
+    <string name="settings_section_about">परिचय</string>
+    <string name="alert_sound">अलर्ट ध्वनि</string>
+    <string name="vibration">कंपन</string>
+    <string name="visual_only">मौन, केवल-दृश्य मोड</string>
+    <string name="visual_only_subtitle">आवाज़, ध्वनि या कंपन के बिना चेतावनी दिखाएं</string>
+    <string name="closer_reminders">पास आने पर रिमाइंडर</string>
+    <string name="closer_reminders_subtitle">500 मी और 200 मी पर फिर से चेतावनी दें</string>
+    <string name="include_unverified">असत्यापित रिपोर्ट शामिल करें</string>
+    <string name="include_unverified_subtitle">उन समुदाय रिपोर्ट के लिए भी चेतावनी दें जिनका सत्यापन अभी बाकी है</string>
+    <string name="data_packages">कैमरा डेटा पैकेज</string>
+    <string name="data_packages_subtitle">ऑफ़लाइन रखने के लिए शहर और राज्य चुनें</string>
+    <string name="update_now">कैमरा डेटाबेस अपडेट करें</string>
+    <string name="database_last_updated">डेटाबेस अंतिम बार अपडेट: %1$s</string>
+    <string name="database_never_updated">अभी डाउनलोड नहीं हुआ</string>
+    <string name="mobile_data_sync">मोबाइल डेटा पर अपडेट करें</string>
+    <string name="mobile_data_sync_subtitle">बंद: अपडेट Wi-Fi का इंतज़ार करते हैं</string>
     <string name="setup_assistant">सेटअप सहायक</string>
-    <string name="report_update">अपडेट रिपोर्ट करें</string>
+    <string name="setup_assistant_subtitle">भरोसेमंद अलर्ट के लिए अनुमतियां और बैटरी सेटिंग्स</string>
+    <string name="notification_settings">सूचना सेटिंग्स</string>
+    <string name="app_language">ऐप की भाषा</string>
+    <string name="app_language_subtitle">English या हिन्दी</string>
+    <string name="privacy_policy">गोपनीयता नीति</string>
+    <string name="delete_local_history">स्थानीय इतिहास हटाएं</string>
+    <string name="delete_local_history_subtitle">इस फ़ोन पर अलर्ट इतिहास और सहेजी गई रिपोर्ट</string>
+    <string name="delete_local_history_confirm">इससे इस फ़ोन से अलर्ट इतिहास और सहेजी गई कैमरा रिपोर्ट स्थायी रूप से हट जाएंगी।</string>
+    <string name="msg_sync_requested">अपडेट का अनुरोध किया गया। नेटवर्क मिलने पर यह चलेगा।</string>
+    <string name="msg_history_deleted">स्थानीय इतिहास हटा दिया गया।</string>
+    <string name="msg_no_location">आपकी लोकेशन नहीं मिल सकी।</string>
+    <string name="msg_test_loaded">केवल-परीक्षण नकली कैमरे आपके आगे रखे गए।</string>
+    <string name="msg_test_cleared">नकली परीक्षण कैमरे हटा दिए गए।</string>
+    <string name="debug_test_data_warning">केवल-परीक्षण नकली कैमरे असली लोकेशन नहीं हैं। इन्हें केवल परीक्षण के लिए उपयोग करें।</string>
+    <string name="debug_load_test_cameras">मेरे आगे केवल-परीक्षण कैमरे लोड करें</string>
+    <string name="debug_load_test_cameras_subtitle">आपकी लोकेशन और दिशा के अनुसार 10 कैमरों वाला परीक्षण परिदृश्य रखता है</string>
+    <string name="debug_clear_test_cameras">केवल-परीक्षण कैमरे हटाएं</string>
+    <string name="debug_simulate_drive">टेस्ट ड्राइव का अनुकरण करें (मॉक GPS)</string>
+    <string name="debug_simulate_drive_subtitle">केवल-परीक्षण कैमरे लोड करता है, अलर्ट शुरू करता है और एक आभासी कार को 72 किमी/घंटा पर 7 किमी उत्तर की ओर चलाता है। परीक्षण के लिए Google Maps खोलें या स्क्रीन लॉक करें।</string>
+    <string name="debug_stop_simulation">अनुकृत ड्राइव रोकें</string>
+    <string name="debug_simulation_progress">%2$.1f में से %1$.1f किमी • %3$d किमी/घंटा — रोकने के लिए टैप करें</string>
+    <string name="debug_open_developer_options">डेवलपर विकल्प खोलें</string>
+    <string name="debug_open_developer_options_subtitle">मॉक लोकेशन ऐप चुनें → Drive Alert (debug)</string>
+    <string name="msg_simulation_started">अनुकृत ड्राइव शुरू हुई। अपेक्षित: केवल TEST-001 और TEST-006 के लिए चेतावनी।</string>
+    <string name="msg_mock_location_needed">डेवलपर विकल्प में Drive Alert (debug) को मॉक लोकेशन ऐप चुनें, फिर दोबारा कोशिश करें।</string>
+
+    <string name="packages_coverage_note">कवरेज केवल सूचीबद्ध शहरों और राज्यों तक सीमित है। Drive Alert पूरे देश में सटीकता का दावा नहीं करता।</string>
+    <string name="packages_empty">अभी कोई पैकेज उपलब्ध नहीं।</string>
+    <string name="packages_refresh">कैमरा डेटा अभी अपडेट करें</string>
+    <string name="packages_refresh_subtitle">नवीनतम साप्ताहिक OpenStreetMap स्नैपशॉट डाउनलोड करता है</string>
+    <string name="packages_osm_source">कैमरा डेटा: © OpenStreetMap योगदानकर्ता, ODbL के तहत ओपन डेटा। कवरेज इस पर निर्भर है कि हर राज्य में स्वयंसेवकों ने क्या मैप किया है।</string>
+    <plurals name="package_camera_count">
+        <item quantity="one">%d कैमरा</item>
+        <item quantity="other">%d कैमरे</item>
+    </plurals>
+
+    <string name="setup_intro">ये जांच सुनिश्चित करती हैं कि Google Maps खुला हो या फ़ोन लॉक हो, तब भी चेतावनी समय पर मिले।</string>
+    <string name="setup_section_required">ज़रूरी</string>
+    <string name="setup_section_reliability">भरोसेमंदी</string>
+    <string name="setup_section_device">आपका फ़ोन</string>
+    <string name="setup_cannot_change_note">Android ऐप्स को खुद बैटरी सेटिंग्स बदलने की अनुमति नहीं देता। Drive Alert केवल सही स्क्रीन खोलता है; फ़ैसला आपका है।</string>
+    <string name="check_location_permission">लोकेशन अनुमति</string>
+    <string name="check_location_permission_ok">ऐप उपयोग के दौरान अनुमत</string>
+    <string name="check_location_permission_fail">अनुमत नहीं। कैमरा अलर्ट शुरू नहीं हो सकते।</string>
+    <string name="check_precise_location">सटीक लोकेशन</string>
+    <string name="check_precise_ok">चालू</string>
+    <string name="check_precise_fail">बंद। इस ऐप के लिए “सटीक लोकेशन का उपयोग करें” चालू करें।</string>
+    <string name="check_location_services">लोकेशन सेवाएं</string>
+    <string name="check_location_services_ok">चालू</string>
+    <string name="check_location_services_fail">बंद। क्विक सेटिंग्स में लोकेशन चालू करें।</string>
+    <string name="check_notifications">सूचनाएं</string>
+    <string name="check_notifications_ok">चेतावनी दूसरे ऐप्स के ऊपर दिख सकती है</string>
+    <string name="check_notifications_fail">बंद। आपको आवाज़ अलर्ट सुनाई देंगे, लेकिन चेतावनी दिखेगी नहीं।</string>
+    <string name="check_background_activity">बैकग्राउंड गतिविधि</string>
+    <string name="check_background_ok">प्रतिबंधित नहीं</string>
+    <string name="check_background_restricted">प्रतिबंधित। स्क्रीन लॉक होने पर अलर्ट रुक सकते हैं।</string>
+    <string name="check_power_saving">पावर सेविंग मोड</string>
+    <string name="check_power_saving_on">चालू। लोकेशन अपडेट में देरी हो सकती है; लंबी ड्राइव के लिए इसे बंद करने पर विचार करें।</string>
+    <string name="check_power_saving_off">बंद</string>
+    <string name="check_battery_optimization">बैटरी अनुकूलन</string>
+    <string name="check_battery_optimized">अनुकूलित (डिफ़ॉल्ट)। अप्रतिबंधित पहुंच ज़रूरी नहीं है।</string>
+    <string name="check_battery_unrestricted">अप्रतिबंधित</string>
+    <string name="cd_check_ok">ठीक</string>
+    <string name="cd_check_warn">चेतावनी</string>
+    <string name="cd_check_fail">ध्यान दें</string>
+    <string name="oem_oneplus_title">OnePlus (OxygenOS)</string>
+    <string name="oem_oneplus_path">सेटिंग्स → बैटरी → अधिक सेटिंग्स → ऐप बैटरी प्रबंधन → Drive Alert → बैकग्राउंड गतिविधि की अनुमति दें (ऐप जानकारी → बैटरी उपयोग से भी)</string>
+    <string name="oem_oneplus_note">OnePlus 13 (OxygenOS 15/16) के लिए सुझाव: 1) Recents में Drive Alert को लॉक करें (Recents खोलें, इसके कार्ड को देर तक दबाएं, लॉक चुनें), ताकि स्वाइप करने से अलर्ट बंद न हों। 2) स्क्रीन लॉक होने पर अलर्ट रुकें तो ऊपर दी गई बैकग्राउंड गतिविधि की अनुमति चालू करें। अपडेट के बाद OxygenOS इसे फिर से “अनुकूलित” कर सकता है, इसलिए कभी-कभी जांचें। “ऑटो-लॉन्च” ज़रूरी नहीं है: Drive Alert खुद कभी शुरू नहीं होता। हाई परफ़ॉर्मेंस मोड चालू न करें। OxygenOS संस्करणों में मेनू के नाम अलग हो सकते हैं; ज़रूरत हो तो सेटिंग्स में “ऐप बैटरी प्रबंधन” खोजें।</string>
+    <string name="oem_xiaomi_title">Xiaomi, Redmi, POCO</string>
+    <string name="oem_xiaomi_path">सेटिंग्स → ऐप्स → ऐप्स प्रबंधित करें → Drive Alert → बैटरी सेवर → कोई प्रतिबंध नहीं</string>
+    <string name="oem_vivo_title">vivo / iQOO</string>
+    <string name="oem_vivo_path">सेटिंग्स → बैटरी → बैकग्राउंड बिजली खपत प्रबंधन → Drive Alert → अनुमति दें</string>
+    <string name="oem_samsung_title">Samsung (One UI)</string>
+    <string name="oem_samsung_path">सेटिंग्स → ऐप्स → Drive Alert → बैटरी → सुनिश्चित करें कि यह “स्लीपिंग ऐप्स” में न हो</string>
+    <string name="oem_generic_title">बैटरी सेटिंग्स</string>
+    <string name="oem_generic_path">सेटिंग्स → ऐप्स → Drive Alert → बैटरी → बैकग्राउंड उपयोग की अनुमति दें</string>
+    <string name="oem_generic_note">मेनू के नाम Android संस्करण और निर्माता के अनुसार अलग होते हैं।</string>
+
+    <string name="privacy_full_online">पूरी नीति ऑनलाइन पढ़ें</string>
+    <string name="privacy_h_summary">सारांश</string>
+    <string name="privacy_p_summary">Drive Alert आपकी लोकेशन को संवेदनशील व्यक्तिगत डेटा मानता है। यह आपकी लोकेशन केवल तब पढ़ता है जब आप ऐप उपयोग कर रहे हों या आपके द्वारा शुरू किए गए कैमरा अलर्ट चल रहे हों, उसे फ़ोन पर ही प्रोसेस करता है, और उसे कभी बेचता या विज्ञापन के लिए उपयोग नहीं करता। आपकी लोकेशन स्वयं फ़ोन से केवल उसी कैमरा रिपोर्ट में बाहर जाती है जिसे आप स्पष्ट रूप से प्रकाशित करना चुनें; हालांकि मानचित्र आपके आसपास के क्षेत्र की छवियां OpenFreeMap से लोड करता है (सर्वर से संचार देखें)।</string>
+    <string name="privacy_h_location">लोकेशन</string>
+    <string name="privacy_p_location">Drive Alert खुला होने पर यह फ़ोन पर आपकी वर्तमान लोकेशन पढ़ता है ताकि मानचित्र पर आपकी जगह दिखे, आस-पास के कैमरे गिने जाएं, GPS सटीकता जांची जाए, और आपकी लिखी जा रही कैमरा रिपोर्ट में स्थान जोड़ा जाए। “ड्राइव शुरू करें” दबाने पर यह तब तक सटीक लोकेशन का उपयोग करता है जब तक आप अलर्ट बंद न करें, ड्राइव समाप्त न हो, या 30 मिनट तक कोई हलचल न हो, जिसमें Google Maps जैसे ऐप स्क्रीन पर होने और फ़ोन लॉक होने का समय भी शामिल है; पूरे समय एक सूचना दिखती है। ऐप बंद और अलर्ट बंद होने पर Drive Alert आपकी लोकेशन का उपयोग नहीं करता।</string>
+    <string name="privacy_h_on_device">आपके फ़ोन पर</string>
+    <string name="privacy_p_on_device">कैमरा मिलान डाउनलोड किए गए कैमरा डेटाबेस से फ़ोन पर ही होता है। अलर्ट इतिहास (कौन सा कैमरा कब बताया गया, आपके निर्देशांक के बिना) और आपकी सेटिंग्स केवल फ़ोन पर रहती हैं और क्लाउड बैकअप में शामिल नहीं होतीं।</string>
+    <string name="privacy_h_server">सर्वर से संचार</string>
+    <string name="privacy_p_server">केवल एन्क्रिप्टेड HTTPS पर। कैमरा डेटा: लगभग दिन में एक बार (और “अभी अपडेट करें” दबाने पर) Drive Alert, GitHub से सार्वजनिक OpenStreetMap कैमरा फ़ाइल डाउनलोड करता है; फ़ाइल साप्ताहिक रूप से अपडेट होती है और अनुरोध में कोई लोकेशन या यात्रा डेटा नहीं होता। मानचित्र: मानचित्र आपकी जगह के आसपास खुलता है और दिखाए गए क्षेत्र की छवियां OpenFreeMap से लोड करता है, जो (किसी भी वेबसाइट की तरह) आपका IP पता और वह क्षेत्र देख सकता है। अलर्ट बिना मानचित्र और पूरी तरह ऑफ़लाइन भी काम करते हैं।</string>
+    <string name="privacy_h_reports">कैमरा रिपोर्ट</string>
+    <string name="privacy_p_reports">रिपोर्ट आपके फ़ोन पर ही रहती हैं, जब तक आप “OpenStreetMap पर सार्वजनिक रूप से प्रकाशित करें” न चुनें। तब रिपोर्ट का पाठ और एक स्थान खाते के नाम के बिना सार्वजनिक OpenStreetMap नोट के रूप में प्रकाशित होते हैं: नए, अस्थायी और गलत-स्थान रिपोर्ट के लिए आपके फ़ोन की वर्तमान लोकेशन, अन्य रिपोर्ट के लिए मैप किए गए कैमरे का स्थान। नोट कोई भी पढ़ सकता है। OpenStreetMap आपका IP पता प्राप्त करता है और नोट के साथ सहेजता है (उसके व्यवस्थापक देख सकते हैं)। प्रकाशित नोट ऐप से हटाए नहीं जा सकते।</string>
+    <string name="privacy_h_never">Drive Alert क्या कभी नहीं करता</string>
+    <string name="privacy_p_never">Drive Alert यात्रा इतिहास अपलोड नहीं करता, लोकेशन डेटा बेचता या विज्ञापनदाताओं से साझा नहीं करता, विज्ञापन नहीं दिखाता, आपका Google Maps रूट या अन्य ऐप्स की स्क्रीन नहीं पढ़ता, और प्रोडक्शन बिल्ड में सटीक निर्देशांक लॉग नहीं करता।</string>
+    <string name="privacy_h_retention">संग्रहण अवधि</string>
+    <string name="privacy_p_retention">30 दिन से पुराना अलर्ट इतिहास अपने आप हट जाता है। आप सेटिंग्स में कभी भी पूरा स्थानीय इतिहास हटा सकते हैं।</string>
+    <string name="privacy_h_choices">आपके विकल्प</string>
+    <string name="privacy_p_choices">आप कभी भी अलर्ट बंद कर सकते हैं, Android सेटिंग्स में लोकेशन या सूचना की अनुमति वापस ले सकते हैं, स्थानीय इतिहास हटा सकते हैं, या ऐप अनइंस्टॉल करके फ़ोन पर सहेजा सारा डेटा हटा सकते हैं।</string>
+    <string name="privacy_h_contact">संपर्क</string>
+    <string name="privacy_p_contact">Drive Alert एक ओपन-सोर्स प्रोजेक्ट है। गोपनीयता से जुड़े प्रश्न, डेटा अनुरोध या शिकायत के लिए github.com/Ansh1040/map/issues पर इश्यू खोलें (वहां व्यक्तिगत डेटा पोस्ट न करें; निजी संपर्क मांगें)।</string>
 </resources>

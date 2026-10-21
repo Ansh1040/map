@@ -18,6 +18,7 @@ object CameraRecordValidator {
         DataSource.LICENSED_PROVIDER,
         DataSource.ADMINISTRATOR,
         DataSource.COMMUNITY_MODERATED,
+        DataSource.OPENSTREETMAP,
     )
 
     fun toCameraOrNull(dto: CameraDto, packageId: String): Camera? {
