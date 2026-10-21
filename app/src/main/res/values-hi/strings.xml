@@ -1,0 +1,93 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+  Hindi (हिन्दी) translation of the core driving flow.
+  TODO (required before release): native-speaker review. Strings not listed here
+  fall back to English. Keep every %1$s / %1$d placeholder identical to values/strings.xml.
+-->
+<resources>
+    <string name="app_tagline">बेहतर भारत के लिए सुरक्षित सड़कें</string>
+
+    <string name="nav_home">होम</string>
+    <string name="nav_history">इतिहास</string>
+    <string name="nav_settings">सेटिंग्स</string>
+    <string name="cd_back">वापस</string>
+
+    <string name="action_allow">अनुमति दें</string>
+    <string name="action_cancel">रद्द करें</string>
+    <string name="action_continue">आगे बढ़ें</string>
+    <string name="action_delete">हटाएं</string>
+    <string name="action_finish">पूरा करें</string>
+    <string name="action_not_now">अभी नहीं</string>
+    <string name="action_open_settings">सेटिंग्स खोलें</string>
+    <string name="action_turn_on">चालू करें</string>
+    <string name="action_stop_alerts">अलर्ट बंद करें</string>
+    <string name="action_end_drive">ड्राइव समाप्त करें</string>
+    <string name="action_keep_alerts">अलर्ट चालू रखें</string>
+
+    <string name="search_hint">सड़क, शहर या राज्य खोजें</string>
+    <string name="start_camera_alerts">कैमरा अलर्ट शुरू करें</string>
+    <string name="camera_alerts_active">कैमरा अलर्ट सक्रिय</string>
+    <string name="drive_safely">सुरक्षित चलाएं</string>
+    <string name="open_maps">मैप्स खोलें</string>
+    <string name="voice_alerts">आवाज़ अलर्ट</string>
+    <string name="voice_alerts_subtitle">बोली गई चेतावनियां, ताकि फ़ोन देखने की ज़रूरत न पड़े</string>
+    <string name="alert_distance_value">अलर्ट दूरी %1$s</string>
+    <string name="current_speed_value">%1$d किमी/घंटा</string>
+    <plurals name="cameras_nearby">
+        <item quantity="one">%d कैमरा पास में</item>
+        <item quantity="other">%d कैमरे पास में</item>
+    </plurals>
+    <string name="disclaimer_short">कैमरा डेटा अधूरा या पुराना हो सकता है। हमेशा निर्धारित गति सीमा का पालन करें।</string>
+
+    <string name="gps_ready">GPS तैयार</string>
+    <string name="gps_weak">कमज़ोर GPS ±%1$d मी</string>
+    <string name="gps_lost">GPS सिग्नल नहीं मिल रहा</string>
+    <string name="gps_searching">GPS खोजा जा रहा है…</string>
+    <string name="gps_accuracy">GPS सटीकता</string>
+
+    <string name="distance_m">%1$d मी</string>
+    <string name="distance_km">%1$s किमी</string>
+    <string name="distance_km_short">%1$d किमी</string>
+    <string name="unit_kmh">किमी/घंटा</string>
+
+    <string name="alert_title_fixed_speed">आगे स्पीड कैमरा है</string>
+    <string name="alert_title_mobile_speed">आगे मोबाइल स्पीड कैमरा है</string>
+    <string name="alert_title_red_light">आगे रेड-लाइट कैमरा है</string>
+    <string name="alert_title_speed_red_light">आगे स्पीड और रेड-लाइट कैमरा है</string>
+    <string name="alert_title_anpr">आगे ट्रैफ़िक प्रवर्तन कैमरा है</string>
+    <string name="alert_title_bus_lane">आगे बस-लेन कैमरा है</string>
+    <string name="alert_title_restricted_zone">आगे प्रतिबंधित-क्षेत्र कैमरा है</string>
+    <string name="alert_title_user_reported">आगे रिपोर्ट किया गया कैमरा है</string>
+    <string name="alert_body_with_limit">%1$s • गति सीमा %2$d किमी/घंटा</string>
+    <string name="alert_detail_speed">वर्तमान गति %1$d किमी/घंटा — %2$s</string>
+    <string name="advice_drive_safely">सुरक्षित चलाएं</string>
+    <string name="advice_slow_down">कृपया गति कम करें</string>
+
+    <string name="voice_first">%2$s बाद %1$s।</string>
+    <string name="voice_first_with_limit">%2$s बाद %1$s। गति सीमा %3$d।</string>
+    <string name="voice_reminder">%1$s बाद कैमरा।</string>
+    <string name="voice_unverified">यह कैमरा एक असत्यापित रिपोर्ट है।</string>
+    <string name="voice_distance_m">%1$d मीटर</string>
+    <string name="voice_distance_km">%1$s किलोमीटर</string>
+
+    <string name="session_notification_title">कैमरा अलर्ट सक्रिय</string>
+    <string name="drive_end_title">क्या आपकी ड्राइव समाप्त हो गई?</string>
+    <string name="drive_end_text">10 मिनट से कोई हलचल नहीं। 30 मिनट तक हलचल न होने पर अलर्ट अपने आप बंद हो जाएंगे।</string>
+    <string name="auto_stopped_title">कैमरा अलर्ट बंद हुए</string>
+
+    <string name="calibration_title">लोकेशन कैलिब्रेशन</string>
+    <string name="calibration_explanation">सटीक लोकेशन से Drive Alert पहचान पाता है कि आप किस सड़क और दिशा में हैं, ताकि चेतावनी समय पर मिले।</string>
+    <string name="start_drive">ड्राइव शुरू करें</string>
+    <string name="accuracy_value">±%1$d मी</string>
+
+    <string name="onboarding_maps_title">Google Maps के साथ काम करता है</string>
+    <string name="onboarding_maps_body">Drive Alert, Google Maps के साथ चलता है लेकिन स्वतंत्र रूप से काम करता है। यह आपका Google Maps रूट या गंतव्य नहीं देख सकता और किसी अन्य ऐप की स्क्रीन नहीं पढ़ता।</string>
+    <string name="onboarding_safety_title">गति सीमा में चलाएं</string>
+    <string name="onboarding_safety_body">Drive Alert गति सीमा के पालन में मदद करता है। यह जुर्माने से बचने का तरीका नहीं है।</string>
+
+    <string name="history_title">इतिहास</string>
+    <string name="settings_title">सेटिंग्स</string>
+    <string name="privacy_policy">गोपनीयता नीति</string>
+    <string name="setup_assistant">सेटअप सहायक</string>
+    <string name="report_update">अपडेट रिपोर्ट करें</string>
+</resources>

@@ -1,0 +1,383 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- App -->
+    <string name="app_name">Drive Alert</string>
+    <string name="app_tagline">Safer roads for a better India</string>
+    <string name="version_label">Version %1$s</string>
+
+    <!-- Navigation -->
+    <string name="nav_home">Home</string>
+    <string name="nav_history">History</string>
+    <string name="nav_settings">Settings</string>
+    <string name="cd_back">Back</string>
+    <string name="cd_clear_search">Clear search</string>
+
+    <!-- Common actions -->
+    <string name="action_allow">Allow</string>
+    <string name="action_allow_notifications">Allow notifications</string>
+    <string name="action_cancel">Cancel</string>
+    <string name="action_continue">Continue</string>
+    <string name="action_continue_allow_location">Continue and allow location</string>
+    <string name="action_delete">Delete</string>
+    <string name="action_finish">Finish</string>
+    <string name="action_fix">Fix</string>
+    <string name="action_not_now">Not now</string>
+    <string name="action_open_app_settings">Open Drive Alert app settings</string>
+    <string name="action_open_settings">Open settings</string>
+    <string name="action_open_setup_assistant">Open setup assistant</string>
+    <string name="action_review">Review</string>
+    <string name="action_turn_on">Turn on</string>
+    <string name="action_stop_alerts">Stop alerts</string>
+    <string name="action_end_drive">End drive</string>
+    <string name="action_keep_alerts">Keep alerts on</string>
+
+    <!-- Home -->
+    <string name="search_hint">Search road, city or state</string>
+    <string name="start_camera_alerts">Start Camera Alerts</string>
+    <string name="camera_alerts_active">Camera alerts active</string>
+    <string name="drive_safely">Drive safely</string>
+    <string name="open_maps">Open Maps</string>
+    <string name="voice_alerts">Voice alerts</string>
+    <string name="voice_alerts_subtitle">Spoken warnings, so you never need to look at the phone</string>
+    <string name="alert_distance_value">Alert distance %1$s</string>
+    <string name="alert_distance_note">Warnings start earlier at higher speeds or with weak GPS so they are always heard in time.</string>
+    <string name="current_speed_value">%1$d km/h</string>
+    <string name="current_speed_unknown">Speed not available</string>
+    <string name="chip_no_camera_data">No camera data installed</string>
+    <string name="banner_session_killed">Camera alerts were stopped by the system. Check battery settings so this does not happen during a drive.</string>
+    <string name="banner_location_needed">Location permission is needed for camera alerts.</string>
+    <string name="banner_precise_needed">Precise location is needed. Approximate location cannot tell which side of the road you are on.</string>
+    <string name="banner_location_off">Location is turned off on this phone.</string>
+    <string name="banner_notifications_off">Notifications are off. You will hear voice alerts but will not see warnings on screen.</string>
+    <plurals name="banner_setup_warnings">
+        <item quantity="one">%d setting may delay alerts</item>
+        <item quantity="other">%d settings may delay alerts</item>
+    </plurals>
+    <plurals name="cameras_nearby">
+        <item quantity="one">%d camera nearby</item>
+        <item quantity="other">%d cameras nearby</item>
+    </plurals>
+    <string name="disclaimer_short">Camera data may be incomplete or outdated. Always follow posted speed limits.</string>
+    <string name="disclaimer_full">Drive Alert supports speed-limit compliance and safer driving. Camera data comes from official, licensed or moderated community sources and may be incomplete, outdated or wrong. Not every camera is included, and a missing warning never means that speeding is safe or permitted. Always obey posted speed limits, signals and road signs.</string>
+
+    <!-- GPS status -->
+    <string name="gps_ready">GPS Ready</string>
+    <string name="gps_weak">Weak GPS ±%1$d m</string>
+    <string name="gps_lost">GPS signal lost</string>
+    <string name="gps_searching">Finding GPS…</string>
+    <string name="gps_permission_needed">Location permission needed</string>
+    <string name="gps_location_off">Location is off</string>
+    <string name="gps_accuracy">GPS accuracy</string>
+
+    <!-- Map -->
+    <string name="map_unavailable_title">Map preview unavailable</string>
+    <string name="map_unavailable_body">Camera alerts work without the map.</string>
+    <string name="map_unavailable_debug">Add MAPS_API_KEY to local.properties to show the map. Camera alerts work without it.</string>
+    <string name="speed_limit_value">%1$d km/h</string>
+
+    <!-- Tracking modes -->
+    <string name="mode_passive">power-saving tracking</string>
+    <string name="mode_approach">checking nearby cameras</string>
+    <string name="mode_close">precise GPS near a camera</string>
+    <string name="mode_passive_long">No camera nearby • power-saving location</string>
+    <string name="mode_approach_long">Camera within 5 km • checking your direction</string>
+    <string name="mode_close_long">Camera ahead • precise GPS until you pass it</string>
+
+    <!-- Distances -->
+    <string name="distance_m">%1$d m</string>
+    <string name="distance_km">%1$s km</string>
+    <string name="distance_km_short">%1$d km</string>
+    <string name="unit_kmh">km/h</string>
+
+    <!-- Alerts -->
+    <string name="alert_title_fixed_speed">Speed camera ahead</string>
+    <string name="alert_title_mobile_speed">Mobile speed camera ahead</string>
+    <string name="alert_title_red_light">Red-light camera ahead</string>
+    <string name="alert_title_speed_red_light">Speed and red-light camera ahead</string>
+    <string name="alert_title_anpr">Traffic enforcement camera ahead</string>
+    <string name="alert_title_bus_lane">Bus-lane camera ahead</string>
+    <string name="alert_title_restricted_zone">Restricted-zone camera ahead</string>
+    <string name="alert_title_user_reported">Reported camera ahead</string>
+    <string name="alert_body_with_limit">%1$s • Speed limit %2$d km/h</string>
+    <string name="alert_detail_speed">Current speed %1$d km/h — %2$s</string>
+    <string name="alert_detail_unverified">%1$s (unverified report)</string>
+    <string name="advice_drive_safely">Drive safely</string>
+    <string name="advice_slow_down">Please slow down</string>
+
+    <!-- Voice (spoken by text-to-speech) -->
+    <string name="voice_first">%1$s in %2$s.</string>
+    <string name="voice_first_with_limit">%1$s in %2$s. Speed limit %3$d.</string>
+    <string name="voice_reminder">Camera in %1$s.</string>
+    <string name="voice_unverified">This camera is an unverified report.</string>
+    <string name="voice_distance_m">%1$d metres</string>
+    <string name="voice_distance_km">%1$s kilometres</string>
+
+    <!-- Camera types -->
+    <string name="camera_type_fixed_speed">Fixed speed camera</string>
+    <string name="camera_type_mobile_speed">Mobile speed camera</string>
+    <string name="camera_type_red_light">Red-light camera</string>
+    <string name="camera_type_speed_red_light">Speed and red-light camera</string>
+    <string name="camera_type_anpr">ANPR / e-challan camera</string>
+    <string name="camera_type_bus_lane">Bus-lane camera</string>
+    <string name="camera_type_restricted_zone">Restricted-zone camera</string>
+    <string name="camera_type_user_reported">Reported camera (awaiting verification)</string>
+
+    <!-- Notification channels -->
+    <string name="channel_session_name">Alert session</string>
+    <string name="channel_session_description">Shown while camera alerts are running, with a button to stop them.</string>
+    <string name="channel_alerts_name">Camera warnings</string>
+    <string name="channel_alerts_description">Heads-up warnings before a verified camera. Keep this on for alerts over other apps.</string>
+    <string name="channel_status_name">Drive status</string>
+    <string name="channel_status_description">Messages such as “Has your drive ended?”.</string>
+
+    <!-- Session notification -->
+    <string name="session_notification_title">Camera alerts active</string>
+    <string name="session_status_starting">Starting…</string>
+    <string name="session_status_acquiring">Finding your location…</string>
+    <string name="session_status_gps_lost">GPS signal lost • alerts resume when it returns</string>
+    <string name="session_status_camera_ahead">%1$s • %2$s</string>
+    <plurals name="session_status_nearby">
+        <item quantity="one">%1$d camera within 5 km • %2$s</item>
+        <item quantity="other">%1$d cameras within 5 km • %2$s</item>
+    </plurals>
+    <string name="drive_end_title">Has your drive ended?</string>
+    <string name="drive_end_text">No movement for 10 minutes. Alerts stop automatically after 30 minutes without movement.</string>
+    <string name="auto_stopped_title">Camera alerts stopped</string>
+    <string name="auto_stopped_text">No movement for 30 minutes, so alerts were switched off to save battery. Start again from Drive Alert before your next drive.</string>
+
+    <!-- Calibration -->
+    <string name="calibration_title">Location Calibration</string>
+    <string name="calibration_explanation">Accurate positioning helps Drive Alert tell which road and direction you are on, so warnings are timely and cameras on other roads are ignored.</string>
+    <string name="calibration_weak_tip">Weak GPS. Move to open sky, away from tall buildings, or wait a few seconds.</string>
+    <string name="calibration_safety_note">Finish setup before you start driving. You will not need to touch the phone during the drive.</string>
+    <string name="start_drive">Start Drive</string>
+    <string name="start_drive_anyway">Start Drive with weak GPS</string>
+    <string name="accuracy_value">±%1$d m</string>
+    <string name="quality_excellent">Excellent accuracy</string>
+    <string name="quality_good">Good accuracy</string>
+    <string name="quality_fair">Fair accuracy</string>
+    <string name="quality_weak">Weak GPS</string>
+    <string name="cd_accuracy_gauge">GPS accuracy %1$s, %2$s</string>
+
+    <!-- Onboarding -->
+    <string name="onboarding_welcome_title">Welcome to Drive Alert</string>
+    <string name="onboarding_welcome_body">Timely voice and on-screen warnings before verified speed, red-light and traffic enforcement cameras, to help you keep to the speed limit.</string>
+    <string name="onboarding_maps_title">Works alongside Google Maps</string>
+    <string name="onboarding_maps_body">Drive Alert runs next to Google Maps but works independently. It cannot see your Google Maps route or destination, and it never reads other apps’ screens.</string>
+    <string name="onboarding_maps_point_1">Warnings are based on your position, direction of travel and speed.</string>
+    <string name="onboarding_maps_point_2">Cameras behind you or on the opposite carriageway are filtered out when the data allows it.</string>
+    <string name="onboarding_maps_point_3">Warnings appear as a normal Android notification and a voice prompt over any app.</string>
+    <string name="onboarding_safety_title">Drive within the limit</string>
+    <string name="onboarding_safety_body">Drive Alert supports speed-limit compliance. It is not a way to avoid penalties.</string>
+    <string name="onboarding_safety_point_1">Camera data may be incomplete or outdated. Not every camera is included.</string>
+    <string name="onboarding_safety_point_2">Always follow posted speed limits and road signs, with or without a warning.</string>
+    <string name="onboarding_safety_point_3">Set everything up before you drive. Never use the phone while driving.</string>
+    <string name="onboarding_notifications_title">Allow warnings on screen</string>
+    <string name="onboarding_notifications_body">Notifications let Drive Alert show camera warnings over Google Maps and keep a visible “Camera alerts active” notification with a Stop button.</string>
+    <string name="onboarding_done_title">You are ready</string>
+    <string name="onboarding_done_body">The setup assistant checks battery settings that can delay alerts on some phones, including OnePlus. It takes about a minute.</string>
+
+    <!-- Prominent location disclosure (shown before the system permission dialog) -->
+    <string name="disclosure_title">How Drive Alert uses your location</string>
+    <string name="disclosure_body">Drive Alert collects precise location data to warn you about verified traffic cameras ahead. While camera alerts are on, location is used even when Drive Alert is closed or not in use, for example while Google Maps is on screen or the phone is locked. Location is only used after you press Start Drive, and stops when the drive ends.</string>
+    <string name="disclosure_point_1">Camera checks happen on your phone. Your location and trips are not uploaded.</string>
+    <string name="disclosure_point_2">Location is never sold, shared with advertisers or used for ads.</string>
+    <string name="disclosure_point_3">A notification is always shown while alerts are on, with a Stop button.</string>
+    <string name="disclosure_point_4">Only camera reports you choose to send include a location.</string>
+
+    <!-- Camera details -->
+    <string name="camera_details_title">Camera details</string>
+    <string name="camera_not_found">This camera is no longer in the database.</string>
+    <string name="road_unknown">Road not known</string>
+    <string name="label_location">Location</string>
+    <string name="label_coordinates">Coordinates</string>
+    <string name="label_direction">Monitored direction</string>
+    <string name="label_speed_limit">Known speed limit</string>
+    <string name="label_last_verified">Last verified</string>
+    <string name="label_confirmations">Community confirmations</string>
+    <string name="label_data_source">Data source</string>
+    <string name="label_expires">Temporary location until</string>
+    <string name="value_not_known">Not known</string>
+    <string name="report_update">Report Update</string>
+    <string name="test_data_banner">TEST-ONLY synthetic camera. Not a real camera location.</string>
+    <string name="status_verified">Verified</string>
+    <string name="status_community_confirmed">Community confirmed</string>
+    <string name="status_pending">Awaiting verification</string>
+    <string name="status_disputed">Disputed</string>
+    <string name="status_rejected">Rejected</string>
+    <string name="source_official">Official government source</string>
+    <string name="source_licensed">Licensed data provider</string>
+    <string name="source_admin">Drive Alert administrator</string>
+    <string name="source_community">Moderated community report</string>
+    <string name="source_test">TEST-ONLY synthetic data</string>
+    <string name="direction_unknown">Not known</string>
+    <string name="direction_one">%1$s (%2$d°)</string>
+    <string name="direction_both">Both directions (%1$s and reverse, %2$d°)</string>
+    <string name="dir_north">Northbound</string>
+    <string name="dir_north_east">North-eastbound</string>
+    <string name="dir_east">Eastbound</string>
+    <string name="dir_south_east">South-eastbound</string>
+    <string name="dir_south">Southbound</string>
+    <string name="dir_south_west">South-westbound</string>
+    <string name="dir_west">Westbound</string>
+    <string name="dir_north_west">North-westbound</string>
+
+    <!-- Reports -->
+    <string name="report_title">Report Update</string>
+    <string name="report_what_changed">What should be updated?</string>
+    <string name="report_type_new">New camera</string>
+    <string name="report_type_removed">Camera removed</string>
+    <string name="report_type_position">Incorrect position</string>
+    <string name="report_type_direction">Incorrect direction</string>
+    <string name="report_type_speed_limit">Incorrect speed limit</string>
+    <string name="report_type_temporary">Temporary / mobile camera</string>
+    <string name="report_type_duplicate">Duplicate camera</string>
+    <string name="report_type_abuse">Report spam or abuse</string>
+    <string name="report_camera_type">Camera type</string>
+    <string name="report_correct_speed_limit">Correct speed limit</string>
+    <string name="report_location_label">Reported location</string>
+    <string name="report_location_missing">No location yet</string>
+    <string name="report_use_current_location">Use my current location</string>
+    <string name="report_location_privacy">Only this one location is sent with the report, and only if you submit it.</string>
+    <string name="report_note">Note (optional)</string>
+    <string name="report_moderation_note">Reports are reviewed before they change any alerts. Thank you for keeping the data accurate.</string>
+    <string name="report_moving_warning">For your safety, send reports only when parked.</string>
+    <string name="report_passenger_confirm">I am a passenger, not the driver</string>
+    <string name="report_submit">Submit report</string>
+    <string name="report_queued">Report sent for review.</string>
+    <string name="report_saved_offline">Report saved on this device. It will be sent when the camera-data server is available.</string>
+    <string name="report_rate_limited">Too many reports. Please try again in %1$d min.</string>
+    <string name="report_duplicate_recent">You already reported this recently.</string>
+    <string name="report_duplicate_known">A camera is already listed at this location.</string>
+    <string name="report_duplicate_own">You already reported a camera here recently.</string>
+    <string name="report_invalid">Please check the details and try again.</string>
+    <string name="report_new_camera">Report a new camera</string>
+    <string name="report_new_camera_subtitle">Reports are moderated before use</string>
+
+    <!-- History -->
+    <string name="history_title">History</string>
+    <string name="history_subtitle">Warnings from your recent drives, stored only on this phone</string>
+    <string name="history_empty">No warnings yet. Alerts you receive while driving appear here.</string>
+    <string name="history_row_meta">Alert at %1$s • %2$s</string>
+    <string name="history_clear">Clear</string>
+    <string name="history_clear_title">Clear history?</string>
+    <string name="history_clear_body">This deletes all alert history stored on this phone.</string>
+
+    <!-- Settings -->
+    <string name="settings_title">Settings</string>
+    <string name="settings_subtitle">Alerts, data and privacy</string>
+    <string name="settings_section_alerts">Alerts</string>
+    <string name="settings_section_data">Camera data</string>
+    <string name="settings_section_device">Device</string>
+    <string name="settings_section_privacy">Privacy</string>
+    <string name="settings_section_debug">Developer (debug build only)</string>
+    <string name="settings_section_about">About</string>
+    <string name="alert_sound">Alert sound</string>
+    <string name="vibration">Vibration</string>
+    <string name="visual_only">Silent visual-only mode</string>
+    <string name="visual_only_subtitle">Show warnings without voice, sound or vibration</string>
+    <string name="closer_reminders">Closer reminders</string>
+    <string name="closer_reminders_subtitle">Also warn again at 500 m and 200 m</string>
+    <string name="include_unverified">Include unverified reports</string>
+    <string name="include_unverified_subtitle">Warn for community reports that are still awaiting verification</string>
+    <string name="data_packages">Camera data packages</string>
+    <string name="data_packages_subtitle">Choose cities and states to keep offline</string>
+    <string name="update_now">Update camera database</string>
+    <string name="database_last_updated">Database last updated %1$s</string>
+    <string name="database_never_updated">Not downloaded yet</string>
+    <string name="server_not_configured">Camera-data server not configured</string>
+    <string name="server_not_configured_long">Camera-data server not configured in this build, so packages cannot be downloaded yet.</string>
+    <string name="mobile_data_sync">Update on mobile data</string>
+    <string name="mobile_data_sync_subtitle">Off: updates wait for Wi-Fi</string>
+    <string name="setup_assistant">Setup assistant</string>
+    <string name="setup_assistant_subtitle">Permissions and battery settings for reliable alerts</string>
+    <string name="notification_settings">Notification settings</string>
+    <string name="app_language">App language</string>
+    <string name="app_language_subtitle">English or हिन्दी</string>
+    <string name="privacy_policy">Privacy policy</string>
+    <string name="delete_local_history">Delete local history</string>
+    <string name="delete_local_history_subtitle">Alert history and saved reports on this phone</string>
+    <string name="delete_local_history_confirm">This permanently deletes alert history and saved camera reports from this phone.</string>
+    <string name="msg_sync_requested">Update requested. It runs when a network is available.</string>
+    <string name="msg_history_deleted">Local history deleted.</string>
+    <string name="msg_no_location">Could not get your location.</string>
+    <string name="msg_test_loaded">TEST-ONLY synthetic cameras placed ahead of you.</string>
+    <string name="msg_test_cleared">Synthetic test cameras removed.</string>
+    <string name="debug_test_data_warning">Synthetic TEST-ONLY cameras are not real locations. Use them only for testing.</string>
+    <string name="debug_load_test_cameras">Load TEST-ONLY cameras ahead of me</string>
+    <string name="debug_load_test_cameras_subtitle">Places the 10-camera test scenario relative to your position and heading</string>
+    <string name="debug_clear_test_cameras">Remove TEST-ONLY cameras</string>
+
+    <!-- Data packages -->
+    <string name="packages_coverage_note">Coverage is limited to the cities and states listed. Drive Alert does not claim nationwide accuracy.</string>
+    <string name="packages_empty">No packages available yet.</string>
+    <string name="packages_refresh">Refresh package list</string>
+    <plurals name="package_camera_count">
+        <item quantity="one">%d camera</item>
+        <item quantity="other">%d cameras</item>
+    </plurals>
+
+    <!-- Setup assistant -->
+    <string name="setup_intro">These checks help warnings arrive on time while Google Maps is on screen or the phone is locked.</string>
+    <string name="setup_section_required">Required</string>
+    <string name="setup_section_reliability">Reliability</string>
+    <string name="setup_section_device">Your phone</string>
+    <string name="setup_cannot_change_note">Android does not allow apps to change battery settings by themselves. Drive Alert only opens the right screen; you decide.</string>
+    <string name="check_location_permission">Location permission</string>
+    <string name="check_location_permission_ok">Allowed while using the app</string>
+    <string name="check_location_permission_fail">Not allowed. Camera alerts cannot start.</string>
+    <string name="check_precise_location">Precise location</string>
+    <string name="check_precise_ok">On</string>
+    <string name="check_precise_fail">Off. Turn on “Use precise location” for this app.</string>
+    <string name="check_location_services">Location services</string>
+    <string name="check_location_services_ok">On</string>
+    <string name="check_location_services_fail">Off. Turn on location in quick settings.</string>
+    <string name="check_notifications">Notifications</string>
+    <string name="check_notifications_ok">Warnings can appear over other apps</string>
+    <string name="check_notifications_fail">Off. You will hear voice alerts but see no warnings.</string>
+    <string name="check_background_activity">Background activity</string>
+    <string name="check_background_ok">Not restricted</string>
+    <string name="check_background_restricted">Restricted. Alerts may stop when the screen is locked.</string>
+    <string name="check_power_saving">Power Saving Mode</string>
+    <string name="check_power_saving_on">On. Location updates may be delayed; consider turning it off for long drives.</string>
+    <string name="check_power_saving_off">Off</string>
+    <string name="check_battery_optimization">Battery optimisation</string>
+    <string name="check_battery_optimized">Optimised (default). Unrestricted access is not required.</string>
+    <string name="check_battery_unrestricted">Unrestricted</string>
+    <string name="cd_check_ok">OK</string>
+    <string name="cd_check_warn">Warning</string>
+    <string name="cd_check_fail">Needs attention</string>
+    <string name="oem_oneplus_title">OnePlus (OxygenOS)</string>
+    <string name="oem_oneplus_path">Settings → Battery → More settings → App battery management → Drive Alert → Allow background activity</string>
+    <string name="oem_oneplus_note">Menu wording can differ between OxygenOS releases. Usually the default setting works; change it only if alerts stop when the screen is locked. Do not enable High Performance mode for Drive Alert.</string>
+    <string name="oem_xiaomi_title">Xiaomi, Redmi, POCO</string>
+    <string name="oem_xiaomi_path">Settings → Apps → Manage apps → Drive Alert → Battery saver → No restrictions</string>
+    <string name="oem_vivo_title">vivo / iQOO</string>
+    <string name="oem_vivo_path">Settings → Battery → Background power consumption management → Drive Alert → Allow</string>
+    <string name="oem_samsung_title">Samsung (One UI)</string>
+    <string name="oem_samsung_path">Settings → Apps → Drive Alert → Battery → make sure it is not in “Sleeping apps”</string>
+    <string name="oem_generic_title">Battery settings</string>
+    <string name="oem_generic_path">Settings → Apps → Drive Alert → Battery → Allow background usage</string>
+    <string name="oem_generic_note">Menu names differ between Android versions and manufacturers.</string>
+
+    <!-- Privacy policy (in-app summary; TODO: host the full policy and set PRIVACY_POLICY_URL) -->
+    <string name="privacy_full_online">Read the full policy online</string>
+    <string name="privacy_h_summary">Summary</string>
+    <string name="privacy_p_summary">Drive Alert treats your location as sensitive personal data. It uses location only to warn you about traffic cameras during a drive you start, processes it on your phone, and never sells it or uses it for advertising.</string>
+    <string name="privacy_h_location">Location</string>
+    <string name="privacy_p_location">When you press Start Drive, Drive Alert uses precise location until you stop alerts, the drive ends, or 30 minutes pass without movement. This includes while other apps such as Google Maps are on screen and while the phone is locked. A notification is shown the whole time. When alerts are off, Drive Alert does not track your location.</string>
+    <string name="privacy_h_on_device">On your phone</string>
+    <string name="privacy_p_on_device">Camera matching happens on the phone using the downloaded camera database. Alert history (which camera was announced and when, without your coordinates) and your settings are stored only on the phone and are excluded from cloud backup.</string>
+    <string name="privacy_h_server">Server communication</string>
+    <string name="privacy_p_server">Over encrypted HTTPS, Drive Alert downloads camera data packages for the cities and states you choose. These requests contain only the package name and data version, never your location or trips.</string>
+    <string name="privacy_h_reports">Camera reports</string>
+    <string name="privacy_p_reports">If you submit a camera report, the report details and the single location you attached are sent to the moderation service. Reports are reviewed before they affect alerts.</string>
+    <string name="privacy_h_never">What Drive Alert never does</string>
+    <string name="privacy_p_never">Drive Alert does not upload trip history, does not sell or share location data, does not show ads, does not read your Google Maps route or other apps’ screens, and does not log precise coordinates in production builds.</string>
+    <string name="privacy_h_retention">Retention</string>
+    <string name="privacy_p_retention">Alert history older than 30 days is deleted automatically. You can delete all local history at any time in Settings.</string>
+    <string name="privacy_h_choices">Your choices</string>
+    <string name="privacy_p_choices">You can stop alerts at any time, revoke location or notification permission in Android settings, delete local history, or uninstall the app to remove all data stored on the phone.</string>
+    <string name="privacy_h_contact">Contact</string>
+    <string name="privacy_p_contact">TODO before release: add the data controller’s name and grievance contact, as required under India’s Digital Personal Data Protection Act, 2023.</string>
+</resources>

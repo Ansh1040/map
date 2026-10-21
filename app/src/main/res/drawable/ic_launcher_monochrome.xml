@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Themed-icon (Android 13+) monochrome layer. -->
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+    android:width="108dp"
+    android:height="108dp"
+    android:viewportWidth="108"
+    android:viewportHeight="108">
+    <path
+        android:fillColor="#FFFFFFFF"
+        android:fillType="evenOdd"
+        android:pathData="M54,26L76,34V52C76,66 66,77 54,82C42,77 32,66 32,52V34Z M45,46a3,3 0,0 0,-3 3v12a3,3 0,0 0,3 3h18a3,3 0,0 0,3 -3v-12a3,3 0,0 0,-3 -3h-4l-2,-3h-6l-2,3z M54,49.5a5.5,5.5 0,1 1,0 11a5.5,5.5 0,1 1,0 -11z" />
+</vector>

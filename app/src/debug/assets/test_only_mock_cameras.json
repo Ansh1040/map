@@ -1,0 +1,114 @@
+{
+  "_warning": "TEST-ONLY SYNTHETIC DATA. These are NOT real camera locations and must never be shipped, published or used for navigation. Positions are offsets from an anchor chosen by the tester at load time (debug builds only).",
+  "package_id": "test-only-synthetic",
+  "cameras": [
+    {
+      "id": "TEST-001",
+      "label": "Fixed speed camera ahead, same direction",
+      "ahead_m": 1500,
+      "type": "FIXED_SPEED",
+      "bearing_offset_deg": 0,
+      "directionality": "ONE_DIRECTION",
+      "speed_limit_kmh": 60,
+      "verification_status": "VERIFIED",
+      "road_context": "MAIN_CARRIAGEWAY"
+    },
+    {
+      "id": "TEST-002",
+      "label": "Opposite carriageway - must be ignored",
+      "ahead_m": 3000,
+      "right_m": 25,
+      "type": "FIXED_SPEED",
+      "bearing_offset_deg": 180,
+      "directionality": "ONE_DIRECTION",
+      "speed_limit_kmh": 60,
+      "verification_status": "VERIFIED",
+      "road_context": "MAIN_CARRIAGEWAY"
+    },
+    {
+      "id": "TEST-003",
+      "label": "Red-light camera on crossing road - must be ignored",
+      "ahead_m": 4200,
+      "right_m": 30,
+      "type": "RED_LIGHT",
+      "bearing_offset_deg": 90,
+      "directionality": "ONE_DIRECTION",
+      "verification_status": "VERIFIED",
+      "road_context": "JUNCTION"
+    },
+    {
+      "id": "TEST-004",
+      "label": "Parallel service lane - ignored unless precisely aligned",
+      "ahead_m": 5200,
+      "right_m": -35,
+      "type": "FIXED_SPEED",
+      "bearing_offset_deg": 0,
+      "directionality": "ONE_DIRECTION",
+      "speed_limit_kmh": 40,
+      "verification_status": "VERIFIED",
+      "road_context": "SERVICE_LANE"
+    },
+    {
+      "id": "TEST-005",
+      "label": "Camera behind the start point - must be ignored",
+      "ahead_m": -800,
+      "type": "FIXED_SPEED",
+      "bearing_offset_deg": 0,
+      "directionality": "ONE_DIRECTION",
+      "speed_limit_kmh": 60,
+      "verification_status": "VERIFIED",
+      "road_context": "MAIN_CARRIAGEWAY"
+    },
+    {
+      "id": "TEST-006",
+      "label": "ANPR camera monitoring both directions",
+      "ahead_m": 6500,
+      "type": "ANPR",
+      "bearing_offset_deg": 180,
+      "directionality": "BOTH_DIRECTIONS",
+      "verification_status": "VERIFIED",
+      "road_context": "MAIN_CARRIAGEWAY"
+    },
+    {
+      "id": "TEST-007",
+      "label": "Unverified community report - alerts only when opted in",
+      "ahead_m": 7600,
+      "type": "USER_REPORTED",
+      "bearing_offset_deg": 0,
+      "directionality": "ONE_DIRECTION",
+      "verification_status": "PENDING_VERIFICATION",
+      "road_context": "MAIN_CARRIAGEWAY"
+    },
+    {
+      "id": "TEST-008",
+      "label": "Combined speed and red-light camera",
+      "ahead_m": 9000,
+      "type": "SPEED_AND_RED_LIGHT",
+      "bearing_offset_deg": 0,
+      "directionality": "ONE_DIRECTION",
+      "speed_limit_kmh": 50,
+      "verification_status": "VERIFIED",
+      "road_context": "JUNCTION"
+    },
+    {
+      "id": "TEST-009",
+      "label": "Flyover camera - alerts only close and precise",
+      "ahead_m": 10500,
+      "type": "FIXED_SPEED",
+      "bearing_offset_deg": 0,
+      "directionality": "ONE_DIRECTION",
+      "speed_limit_kmh": 70,
+      "verification_status": "VERIFIED",
+      "road_context": "FLYOVER"
+    },
+    {
+      "id": "TEST-010",
+      "label": "Bus-lane camera, direction unknown",
+      "ahead_m": 12000,
+      "type": "BUS_LANE",
+      "directionality": "UNKNOWN",
+      "verification_status": "COMMUNITY_CONFIRMED",
+      "road_context": "MAIN_CARRIAGEWAY"
+    }
+  ]
+}

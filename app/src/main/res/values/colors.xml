@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="brand_navy">#FF0A1F44</color>
+    <color name="brand_blue">#FF1F6BFF</color>
+    <color name="alert_amber">#FFF2A100</color>
+    <color name="launcher_background">#FF0A1F44</color>
+</resources>

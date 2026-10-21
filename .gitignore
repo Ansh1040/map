@@ -1,0 +1,28 @@
+# Gradle / Android Studio
+.gradle/
+.gradle-local/
+build/
+/app/build/
+/captures/
+.externalNativeBuild/
+.cxx/
+*.iml
+.idea/
+.kotlin/
+
+# Local configuration: SDK path and secrets (MAPS_API_KEY, CAMERA_API_BASE_URL)
+local.properties
+secrets.properties
+
+# Signing material
+*.jks
+*.keystore
+keystore.properties
+
+# OS
+.DS_Store
+Thumbs.db
+
+# JVM crash dumps
+hs_err_pid*.log
+replay_pid*.log
