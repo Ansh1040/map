@@ -80,7 +80,7 @@ erDiagram
 
 **Indices:** `index_cameras_cell_id (cell_id)`, `index_cameras_package_id (package_id)`, `index_cameras_latitude_longitude (latitude, longitude)`.
 
-Main queries: `activeInCells(cellIds)` (session cache, chunked to 500 ids), `activeInBounds(...) LIMIT 300` (map markers), `search(query) LIMIT 20` (road/city/state `LIKE`), `applyDelta(...)` (`@Transaction`), `deleteExpired(now)`, `deleteTestData()`.
+Main queries: `activeInCells(cellIds)` (session cache, chunked to 500 ids), `allActive(limit) LIMIT 5000` (clustered Home map; reloaded when the data or the include-unverified setting changes), `search(query) LIMIT 20` (road/city/state `LIKE`), `applyDelta(...)` (`@Transaction`), `deleteExpired(now)`, `deleteTestData()`. The bounding-box query `activeInBounds(...)` still exists but the app no longer uses it.
 
 ## `data_packages` — city/state packages (`DataPackageEntity`)
 
@@ -147,7 +147,7 @@ Main queries: `activeInCells(cellIds)` (session cache, chunked to 500 ids), `act
 3. `NearbyCameraIndex` loads a **12 km** radius (≈ 12 × 14 = 168 cells near Delhi) with one indexed `cell_id IN (…)` query, groups rows by cell in memory, and answers each fix by scanning only the ≈ 36 cells within 5 km, followed by an exact haversine filter.
 4. The database is queried again only after the driver moves > 4 km from the load point, or when `dataVersion` changes (sync / test-data load).
 
-The `(latitude, longitude)` index serves the map's bounding-box query instead.
+The `(latitude, longitude)` index backs the bounding-box query `activeInBounds`, which the app no longer uses (the Home map loads `allActive` instead).
 
 ## Privacy notes
 

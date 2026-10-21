@@ -35,11 +35,11 @@ Red and amber are reserved for genuine warnings; never decorative.
 | Type scale | Material 3 defaults; `headlineMedium` 28 sp, `headlineSmall` 24 sp, `titleLarge` 22 sp, `titleMedium` 16 sp — all **SemiBold**; `labelLarge` (buttons) **16 sp SemiBold**; `DisplayNumberStyle` 44 sp Bold / 48 sp line height (accuracy gauge) |
 | Shapes | extraSmall 8 · small 12 · **medium 16** (buttons, banners, fields) · **large 24** (cards) · extraLarge 28 · header bottom corners 28 dp |
 | Spacing | 16 dp screen gutter and card gap · 16 dp card padding · header 20 dp × 16 dp · 8 dp between banners · button padding 20 × 14 dp |
-| Touch targets | ≥ **48 dp** everywhere; **primary action 60 dp** (`PrimaryActionButton`); toggle and nav rows 64 dp; report radio rows 52 dp; "Open Maps" 52 dp; segmented buttons 48 dp |
+| Touch targets | ≥ **48 dp** everywhere; **primary action 60 dp** (`PrimaryActionButton`); toggle and nav rows 64 dp; search-result and nearby-camera rows 56 dp; report radio rows 52 dp; "Open Maps" 52 dp; segmented buttons 48 dp |
 
 ### Accessibility, dark mode, content rules
 
-- Every status uses **icon + text + colour** (never colour alone). Decorative icons have `contentDescription = null`; actionable icons are labelled (`cd_back`, `cd_clear_search`).
+- Every status uses **icon + text + colour** (never colour alone). Decorative icons have `contentDescription = null`; actionable icons are labelled (`cd_back`, `cd_clear_search`, `cd_show_on_map`). The "Cameras near you" card title is marked as a heading.
 - Gauge exposes a combined description (`cd_accuracy_gauge`); segmented distance buttons expose `stateDescription`; toggles use `Role.Switch`, report rows `Role.RadioButton`, passenger confirmation `Role.Checkbox`.
 - Supports font scaling (scrollable columns, no fixed-height text), RTL (`supportsRtl`), TalkBack, and system dark theme (`isSystemInDarkTheme()`).
 - **No racing, radar, "stealth", police or chequered-flag imagery or copy.** Camera icons are neutral Material symbols: Speed, CameraAlt, Traffic, FlashOn, DocumentScanner, DirectionsBus, Block, Campaign.
@@ -78,11 +78,23 @@ Full-bleed navy (`header`) background; step dots (active 24 × 8 dp pill); 72 dp
 └──────────────────────────────┘
  [!] Precise location needed [Allow]   banners: red (blocking) / amber (Review)
 ┌──────────────────────────────┐
-│        Google Map 240dp       │ markers: azure verified · violet pending
-│                               │ · rose disputed; hidden below zoom 9
+│        Map 240dp             │ first fix frames you + the 3 nearest cameras
+│   (12)      ▲       ●        │ (12) cluster up to zoom 11, tap = zoom in 2 levels · ● you
+│                              │ ▲ watched direction, only where OSM records one
+│                              │ markers: blue trusted · violet pending · red disputed;
+│                              │ cameras of the list below: never clustered, drawn on top
 │ (GPS ready) (12 cameras nearby)│ chips; "No camera data" if DB empty
 └──────────────────────────────┘
  [ (>)  Start Camera Alerts     ] 60dp  → Calibration
+┌──────────────────────────────┐
+│ (near) Cameras near you      │ hidden during a drive and when location is off or not permitted;
+│                              │ shown once a fix ≤ 5 min old is read and the list computed
+│ (◯) Fixed speed camera  (pin)│ row ≥ 56dp → Camera Details
+│     2.3 km north-east of you │ + " • 60 km/h" when the limit is known
+│     MG Road                  │ road name, if any; (pin) 48dp = show on map
+│ ──────────────────────────── │ up to 10 rows, nearest first, within 25 km
+│ [Show all 10]                │ first 5 rows; then "Show all N" / "Show fewer"
+└──────────────────────────────┘
 ┌──────────────────────────────┐
 │ (vol) Voice alerts       [on] │ 64dp row
 │ (dist) First warning: 500 m   │
@@ -91,7 +103,11 @@ Full-bleed navy (`header`) background; step dots (active 24 × 8 dp pill); 72 dp
  ⓘ Camera data may be incomplete or outdated. Always obey road signs.
 ```
 
-**Active session card** replaces the Start button: green dot + "Camera alerts active"; mode line (passive / approaching / close); next-camera row (badge, title, "500 m • Speed limit 60 km/h", taps to Camera Details); "Current speed 48 km/h" + "Drive safely"; outlined **Open Maps** (52 dp); **Stop alerts** (60 dp, navy). The map is MapLibre with OpenFreeMap vector tiles (no API key); camera markers are a circle layer (blue = trusted, violet = pending, red = disputed); attribution is shown by MapLibre. Offline it shows "Map needs an internet connection" — alerts still work.
+**Active session card** replaces the Start button: green dot + "Camera alerts active"; mode line (passive / approaching / close); next-camera row (badge, title, "500 m • Speed limit 60 km/h", taps to Camera Details); "Current speed 48 km/h" + "Drive safely"; outlined **Open Maps** (52 dp); **Stop alerts** (60 dp, navy). The map is MapLibre with OpenFreeMap vector tiles (no API key); attribution is an always-visible credit that links to the OpenStreetMap copyright page, plus MapLibre's attribution dialog. Offline it shows "Map needs an internet connection" — alerts still work.
+
+**Map markers and framing.** The map (`ui/home/CameraMap.kt`) receives every usable camera of the installed packages (trusted, plus unverified reports when the user opts in), up to 5,000 (`CameraRepository.allActive()`, `MAX_MAP_CAMERAS = 5_000`). They are reloaded when the camera data or the include-unverified setting changes. Nothing is hidden when zoomed out: there is no zoom cut-off and no query for the visible area. Two GeoJSON sources draw the cameras. A clustered source holds every camera except those in the "Cameras near you" list: clusters form up to zoom 11 with a 45 px radius and show a count bubble, and tapping one zooms in two levels. An unclustered source holds the cameras in the "Cameras near you" list (up to 10), always drawn as single markers on top, never inside a cluster. Single markers keep the trust colours (blue = trusted, violet = pending, red = disputed). Where OpenStreetMap records a camera's direction (`Camera.bearingDeg`), a white 14 dp arrow shows the direction of travel the camera watches, double-headed when it watches both directions. Cameras without direction data have no arrow; today that is most of them (142 of 579 cameras in the bundled snapshot have an arrow, about 1 in 4). On the first location fix the map frames the user's position together with the 3 nearest cameras, with 48 dp padding, never closer than zoom 15. If the nearest cameras are not known yet it waits up to 1 s for them; with no camera within 25 km it centres on the user at zoom 13. After that it keeps the position the user left it at.
+
+**Cameras near you** card, below the Start Camera Alerts button, so the list never pushes Start or Stop off screen. It is hidden while a drive is active: Home reads the position only when it opens, and during a drive the active-session card shows the live next camera. It is also hidden when location is off or not permitted. It is shown once a position no more than 5 minutes old has been read and the list computed for it; while a new reading is taken for an older position the card stays hidden, so stale lines never show. When a drive ends, Home reads the position again before showing the list: immediately if Home is on screen, otherwise on the next return to Home. Home never reads location in the background. Title row: near-me icon (primary) + "Cameras near you" (`titleMedium`). Up to 10 cameras within 25 km, nearest first (`NearbyCameras.rank`; unverified reports only when the user opts in), separated by dividers. The first 5 are shown; a text button "Show all N" / "Show fewer" expands or collapses the rest. Each row (≥ 56 dp) shows the type badge, the camera type name (`bodyLarge`), "2.3 km north-east of you" (`bodyMedium`, plus " • 60 km/h" when the speed limit is known) and the road name if any (`bodySmall`, muted). Distances are rounded as in voice alerts (50 m steps below 1 km, 100 m above) and the direction is an 8-point compass word, the same wording as "From your position" on Camera Details. Tapping a row opens Camera Details; the trailing pin button (48 dp, "Show on map") moves the map to that camera and scrolls the map card fully into view, below the status bar. A note replaces the rows in these cases: without precise location permission, "Turn on precise location to see how far cameras are from you."; with a fix worse than ±200 m, "Your position is accurate only to ±N m, not enough to show distances."; with no camera data installed at all, a line that says so and points to Settings → Camera data packages; with data but no camera within 25 km, "No mapped cameras within 25 km. OpenStreetMap coverage is still limited in some states."
 
 ### 2.3 Location Calibration — `ui/calibration/CalibrationScreen.kt`
 
@@ -137,12 +153,15 @@ Channel `camera_alerts` (IMPORTANCE_HIGH, silent — audio is played by the app)
 │ │     MG Road               │ │
 │ │ (✓ Verified)              │ │ chip: Verified / Community confirmed (good),
 │ └──────────────────────────┘ │ Pending / Disputed (warn)
-│ Location · Coordinates · Direction ("Northbound (12°)")
-│ Speed limit · Last verified · Confirmations · Data source · Expires
+│ Location · Coordinates · From your position ("2.3 km north-east of you")
+│ Direction ("Northbound (12°)") · Speed limit · Last verified
+│ Confirmations · Data source · Expires
 │ ⓘ disclaimer                  │
 │ [ (flag) Report an update     ] │ 60dp → Report Update
 └──────────────────────────────┘
 ```
+
+**From your position** (after Coordinates): distance and 8-point compass direction from the user to the camera, e.g. "2.3 km north-east of you" (`formatBearingFromYou`; great-circle distance and initial bearing from `GeoMath`, distance rounded with `AlertThresholdPolicy.roundForAnnouncement`: 50 m steps below 1 km, 100 m above). The position comes from a single read when the screen opens (`ForegroundLocationProbe.currentLocation`, accepting a cached fix up to 2 minutes old, otherwise one balanced-power fix). The row is shown only with precise location permission and a fix of ±200 m or better, and is hidden otherwise.
 
 ### 2.6 Report Update — `ui/report/ReportScreen.kt`
 

@@ -25,6 +25,10 @@ interface CameraDao {
     )
     suspend fun activeInBounds(minLat: Double, maxLat: Double, minLon: Double, maxLon: Double, limit: Int): List<CameraEntity>
 
+    /** Every active camera, at most [limit] rows (the map clusters them itself). */
+    @Query("SELECT * FROM cameras WHERE is_active = 1 LIMIT :limit")
+    suspend fun allActive(limit: Int): List<CameraEntity>
+
     @Query("SELECT * FROM cameras WHERE id = :id")
     fun observeById(id: String): Flow<CameraEntity?>
 

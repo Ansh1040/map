@@ -5,6 +5,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import com.drivealert.app.R
+import com.drivealert.app.domain.cameras.NearbyCameras
 import com.drivealert.app.domain.model.Directionality
 import java.util.Locale
 
@@ -15,6 +16,28 @@ fun formatDistance(distanceM: Int): String =
     } else {
         stringResource(R.string.distance_m, distanceM)
     }
+
+/**
+ * Distance and 8-point compass direction of a place seen from the user:
+ * "2.3 km north-east of you" / "450 m south of you". [bearingDeg] is the
+ * bearing from the user to the place, degrees clockwise from north.
+ */
+@Composable
+fun formatBearingFromYou(distanceM: Int, bearingDeg: Double): String {
+    val direction = stringResource(
+        when (NearbyCameras.compassSector(bearingDeg)) {
+            0 -> R.string.compass_n
+            1 -> R.string.compass_ne
+            2 -> R.string.compass_e
+            3 -> R.string.compass_se
+            4 -> R.string.compass_s
+            5 -> R.string.compass_sw
+            6 -> R.string.compass_w
+            else -> R.string.compass_nw
+        },
+    )
+    return stringResource(R.string.distance_direction_from_you, formatDistance(distanceM), direction)
+}
 
 @Composable
 fun formatDateTime(millis: Long): String {

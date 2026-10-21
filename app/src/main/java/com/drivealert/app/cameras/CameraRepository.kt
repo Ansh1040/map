@@ -23,6 +23,8 @@ interface CameraRepository : CameraLookup {
     fun observeCamera(id: String): Flow<Camera?>
     suspend fun getCamera(id: String): Camera?
     suspend fun camerasInBounds(bounds: BoundingBox, limit: Int = MAX_MAP_MARKERS): List<Camera>
+    /** Every active camera, at most [limit]; the map clusters them itself instead of querying per viewport. */
+    suspend fun allActive(limit: Int = MAX_MAP_CAMERAS): List<Camera>
     suspend fun camerasNear(latitude: Double, longitude: Double, radiusM: Double): List<Camera>
     suspend fun search(query: String, limit: Int = 20): List<Camera>
     fun observeActiveCount(): Flow<Int>
@@ -33,6 +35,9 @@ interface CameraRepository : CameraLookup {
 
     companion object {
         const val MAX_MAP_MARKERS = 300
+
+        /** Upper bound on the cameras [allActive] loads for the clustered map (bounds memory use). */
+        const val MAX_MAP_CAMERAS = 5_000
     }
 }
 
@@ -56,6 +61,8 @@ class RoomCameraRepository @Inject constructor(
     override suspend fun camerasInBounds(bounds: BoundingBox, limit: Int): List<Camera> =
         dao.activeInBounds(bounds.minLatitude, bounds.maxLatitude, bounds.minLongitude, bounds.maxLongitude, limit)
             .map { it.toDomain() }
+
+    override suspend fun allActive(limit: Int): List<Camera> = dao.allActive(limit).map { it.toDomain() }
 
     override suspend fun camerasNear(latitude: Double, longitude: Double, radiusM: Double): List<Camera> =
         camerasInCells(GridCell.cellsCovering(latitude, longitude, radiusM)).filter {

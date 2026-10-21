@@ -62,6 +62,15 @@
         <item quantity="one">%d कैमरा पास में</item>
         <item quantity="other">%d कैमरे पास में</item>
     </plurals>
+    <string name="nearby_cameras_title">आपके आस-पास के कैमरे</string>
+    <string name="nearby_cameras_empty">%1$d किमी के भीतर कोई मैप किया गया कैमरा नहीं है। कुछ राज्यों में OpenStreetMap कवरेज अभी सीमित है।</string>
+    <string name="nearby_cameras_no_data">कोई कैमरा डेटा इंस्टॉल नहीं है। सेटिंग्स → कैमरा डेटा पैकेज में अपना राज्य चालू करें।</string>
+    <string name="nearby_needs_precise">कैमरे आपसे कितनी दूर हैं, यह देखने के लिए सटीक लोकेशन चालू करें।</string>
+    <string name="nearby_low_accuracy">आपकी लोकेशन की सटीकता केवल ±%1$d मी है, दूरी दिखाने के लिए यह काफ़ी नहीं है।</string>
+    <string name="nearby_camera_with_limit">%1$s • %2$d किमी/घंटा</string>
+    <string name="cd_show_on_map">मानचित्र पर दिखाएं</string>
+    <string name="nearby_show_all">सभी %1$d दिखाएं</string>
+    <string name="nearby_show_fewer">कम दिखाएं</string>
     <string name="disclaimer_short">कैमरा डेटा अधूरा या पुराना हो सकता है। हमेशा निर्धारित गति सीमा का पालन करें।</string>
     <string name="disclaimer_full">Drive Alert गति सीमा के पालन और सुरक्षित ड्राइविंग में मदद करता है। कैमरा डेटा मुख्य रूप से OpenStreetMap स्वयंसेवकों (ओपन डेटा) से आता है और यह अधूरा, पुराना या गलत हो सकता है। हर कैमरा शामिल नहीं है, और चेतावनी न मिलने का अर्थ कभी यह नहीं है कि तेज़ गति सुरक्षित या अनुमत है। हमेशा निर्धारित गति सीमा, सिग्नल और सड़क संकेतों का पालन करें।</string>
 
@@ -88,6 +97,15 @@
     <string name="distance_km">%1$s किमी</string>
     <string name="distance_km_short">%1$d किमी</string>
     <string name="unit_kmh">किमी/घंटा</string>
+    <string name="distance_direction_from_you">आपसे %1$s %2$s में</string>
+    <string name="compass_n">उत्तर</string>
+    <string name="compass_ne">उत्तर-पूर्व</string>
+    <string name="compass_e">पूर्व</string>
+    <string name="compass_se">दक्षिण-पूर्व</string>
+    <string name="compass_s">दक्षिण</string>
+    <string name="compass_sw">दक्षिण-पश्चिम</string>
+    <string name="compass_w">पश्चिम</string>
+    <string name="compass_nw">उत्तर-पश्चिम</string>
 
     <string name="alert_title_fixed_speed">आगे स्पीड कैमरा है</string>
     <string name="alert_title_mobile_speed">आगे मोबाइल स्पीड कैमरा है</string>
@@ -182,6 +200,7 @@
     <string name="road_unknown">सड़क ज्ञात नहीं</string>
     <string name="label_location">लोकेशन</string>
     <string name="label_coordinates">निर्देशांक</string>
+    <string name="label_from_you">आपकी जगह से</string>
     <string name="label_direction">निगरानी की दिशा</string>
     <string name="label_speed_limit">ज्ञात गति सीमा</string>
     <string name="label_last_verified">अंतिम सत्यापन</string>
@@ -373,7 +392,7 @@
     <string name="privacy_h_summary">सारांश</string>
     <string name="privacy_p_summary">Drive Alert आपकी लोकेशन को संवेदनशील व्यक्तिगत डेटा मानता है। यह आपकी लोकेशन केवल तब पढ़ता है जब आप ऐप उपयोग कर रहे हों या आपके द्वारा शुरू किए गए कैमरा अलर्ट चल रहे हों, उसे फ़ोन पर ही प्रोसेस करता है, और उसे कभी बेचता या विज्ञापन के लिए उपयोग नहीं करता। आपकी लोकेशन स्वयं फ़ोन से केवल उसी कैमरा रिपोर्ट में बाहर जाती है जिसे आप स्पष्ट रूप से प्रकाशित करना चुनें; हालांकि मानचित्र आपके आसपास के क्षेत्र की छवियां OpenFreeMap से लोड करता है (सर्वर से संचार देखें)।</string>
     <string name="privacy_h_location">लोकेशन</string>
-    <string name="privacy_p_location">Drive Alert खुला होने पर यह फ़ोन पर आपकी वर्तमान लोकेशन पढ़ता है ताकि मानचित्र पर आपकी जगह दिखे, आस-पास के कैमरे गिने जाएं, GPS सटीकता जांची जाए, और आपकी लिखी जा रही कैमरा रिपोर्ट में स्थान जोड़ा जाए। “ड्राइव शुरू करें” दबाने पर यह तब तक सटीक लोकेशन का उपयोग करता है जब तक आप अलर्ट बंद न करें, ड्राइव समाप्त न हो, या 30 मिनट तक कोई हलचल न हो, जिसमें Google Maps जैसे ऐप स्क्रीन पर होने और फ़ोन लॉक होने का समय भी शामिल है; पूरे समय एक सूचना दिखती है। ऐप बंद और अलर्ट बंद होने पर Drive Alert आपकी लोकेशन का उपयोग नहीं करता।</string>
+    <string name="privacy_p_location">Drive Alert खुला होने पर यह फ़ोन पर आपकी वर्तमान लोकेशन पढ़ता है ताकि मानचित्र पर आपकी जगह दिखे, आस-पास के कैमरे आपसे उनकी दूरी और दिशा के साथ दिखाए जाएं, GPS सटीकता जांची जाए, और आपकी लिखी जा रही कैमरा रिपोर्ट में स्थान जोड़ा जाए। “ड्राइव शुरू करें” दबाने पर यह तब तक सटीक लोकेशन का उपयोग करता है जब तक आप अलर्ट बंद न करें, ड्राइव समाप्त न हो, या 30 मिनट तक कोई हलचल न हो, जिसमें Google Maps जैसे ऐप स्क्रीन पर होने और फ़ोन लॉक होने का समय भी शामिल है; पूरे समय एक सूचना दिखती है। ऐप बंद और अलर्ट बंद होने पर Drive Alert आपकी लोकेशन का उपयोग नहीं करता।</string>
     <string name="privacy_h_on_device">आपके फ़ोन पर</string>
     <string name="privacy_p_on_device">कैमरा मिलान डाउनलोड किए गए कैमरा डेटाबेस से फ़ोन पर ही होता है। अलर्ट इतिहास (कौन सा कैमरा कब बताया गया, आपके निर्देशांक के बिना) और आपकी सेटिंग्स केवल फ़ोन पर रहती हैं और क्लाउड बैकअप में शामिल नहीं होतीं।</string>
     <string name="privacy_h_server">सर्वर से संचार</string>

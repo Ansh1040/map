@@ -23,6 +23,7 @@ class FakeCameraRepository(initial: List<Camera> = emptyList()) : CameraReposito
     override suspend fun getCamera(id: String): Camera? = cameras[id]
     override suspend fun camerasInBounds(bounds: BoundingBox, limit: Int): List<Camera> =
         cameras.values.filter { bounds.contains(it.latitude, it.longitude) }.take(limit)
+    override suspend fun allActive(limit: Int): List<Camera> = cameras.values.filter { it.isActive }.take(limit)
 
     override suspend fun camerasNear(latitude: Double, longitude: Double, radiusM: Double): List<Camera> =
         cameras.values.filter { GeoMath.distanceMeters(latitude, longitude, it.latitude, it.longitude) <= radiusM }

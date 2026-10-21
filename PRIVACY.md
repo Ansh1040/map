@@ -13,7 +13,7 @@ Drive Alert is a free, open-source Android app ([source code](https://github.com
 
 ## Location
 
-**While the app is open**, Drive Alert reads your current location on the phone to show where you are on the map, count nearby cameras, check GPS accuracy (calibration screen) and attach a position to a camera report you are writing. The map opens around your position, so map images for that area are requested from OpenFreeMap (see below).
+**While the app is open**, Drive Alert reads your current location on the phone to show where you are on the map, list nearby cameras with their distance and direction from you (Home and camera details), check GPS accuracy (calibration screen) and attach a position to a camera report you are writing. The map opens around your position, so map images for that area are requested from OpenFreeMap (see below).
 
 **When you press Start Drive**, Drive Alert uses precise location until you stop alerts, the drive ends, or 30 minutes pass without movement. This includes times when other apps such as Google Maps are on screen and when the phone is locked; a notification with a **Stop** button is shown the whole time.
 

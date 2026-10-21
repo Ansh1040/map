@@ -10,7 +10,7 @@ Drive Alert keeps all safety-relevant logic in the Android-free `domain` package
             ├──────────────────────────────┤
             │ Robolectric (test)        29 │  Room, reports, notifications, service lifecycle     
             ├──────────────────────────────┤
-            │ Pure JVM unit (test)     111 │  geometry, relevance, alerts, power modes, OSM, drive sim
+            │ Pure JVM unit (test)     118 │  geometry, relevance, alerts, power modes, OSM, drive sim
             └──────────────────────────────┘
 ```
 
@@ -29,6 +29,7 @@ All test cameras are synthetic (`DataSource.TEST_ONLY_SYNTHETIC`, built from off
 | `domain/location/AdaptiveLocationControllerTest` | 5 | No requests while off, mode progression, requests re-issued only on change, passive fallback, **stop removes everything and nothing re-registers** |
 | `domain/location/StationaryAndDeadReckoningTest` | 6 | Parked detection, **traffic jams never time out**, movement restarts the timer, no unbounded extrapolation, prompt/auto-stop thresholds, dead-reckoning geometry |
 | `domain/cameras/NearbyCameraIndexTest` | 4 | Radius filtering, **database queried only after moving kilometres**, cache coverage guarantee, invalidation |
+| `domain/cameras/NearbyCamerasTest` | 7 | "Cameras near you" ranking: nearest first, 25 km cut-off (default) and explicit `maxDistanceM`, result limit (10 by default), unverified only on opt-in and rejected never, expired and inactive skipped, bearing from the user to the camera, 8-point compass sectors |
 | `domain/session/DrivingSessionManagerTest` | 9 | Full simulated drive at 72 km/h past synthetic cameras: only the relevant camera warns, once per band; **high-accuracy GPS only near the camera** and released at it; stop cleans up; fresh state per session; long-stationary prompt and auto-stop; traffic jam; **tunnel GPS loss** bridged by dead reckoning; cached location at start |
 | `domain/reporting/ReportModerationPolicyTest` | 8 | Rate limiting, duplicate detection, validation, temporary-report expiry, crowdsourced data never auto-trusted, disputes/abuse, confidence decay |
 | `data/testdata/SyntheticCameraDatasetTest` | 3 | The debug dataset is labelled TEST-ONLY, positioned relative to the anchor, and each scenario TEST-001…010 produces its documented outcome |

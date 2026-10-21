@@ -61,6 +61,15 @@
         <item quantity="one">%d camera nearby</item>
         <item quantity="other">%d cameras nearby</item>
     </plurals>
+    <string name="nearby_cameras_title">Cameras near you</string>
+    <string name="nearby_cameras_empty">No mapped cameras within %1$d km. OpenStreetMap coverage is still limited in some states.</string>
+    <string name="nearby_cameras_no_data">No camera data installed. Turn on your state in Settings → Camera data packages.</string>
+    <string name="nearby_needs_precise">Turn on precise location to see how far cameras are from you.</string>
+    <string name="nearby_low_accuracy">Your position is accurate only to ±%1$d m, not enough to show distances.</string>
+    <string name="nearby_camera_with_limit">%1$s • %2$d km/h</string>
+    <string name="cd_show_on_map">Show on map</string>
+    <string name="nearby_show_all">Show all %1$d</string>
+    <string name="nearby_show_fewer">Show fewer</string>
     <string name="disclaimer_short">Camera data may be incomplete or outdated. Always follow posted speed limits.</string>
     <string name="disclaimer_full">Drive Alert supports speed-limit compliance and safer driving. Camera data comes mainly from OpenStreetMap volunteers (open data) and may be incomplete, outdated or wrong. Not every camera is included, and a missing warning never means that speeding is safe or permitted. Always obey posted speed limits, signals and road signs.</string>
 
@@ -91,6 +100,16 @@
     <string name="distance_km">%1$s km</string>
     <string name="distance_km_short">%1$d km</string>
     <string name="unit_kmh">km/h</string>
+    <!-- "2.3 km north-east of you": %1$s = distance, %2$s = one of the compass_* words -->
+    <string name="distance_direction_from_you">%1$s %2$s of you</string>
+    <string name="compass_n">north</string>
+    <string name="compass_ne">north-east</string>
+    <string name="compass_e">east</string>
+    <string name="compass_se">south-east</string>
+    <string name="compass_s">south</string>
+    <string name="compass_sw">south-west</string>
+    <string name="compass_w">west</string>
+    <string name="compass_nw">north-west</string>
 
     <!-- Alerts -->
     <string name="alert_title_fixed_speed">Speed camera ahead</string>
@@ -194,6 +213,7 @@
     <string name="road_unknown">Road not known</string>
     <string name="label_location">Location</string>
     <string name="label_coordinates">Coordinates</string>
+    <string name="label_from_you">From your position</string>
     <string name="label_direction">Monitored direction</string>
     <string name="label_speed_limit">Known speed limit</string>
     <string name="label_last_verified">Last verified</string>
@@ -392,7 +412,7 @@
     <string name="privacy_h_summary">Summary</string>
     <string name="privacy_p_summary">Drive Alert treats your location as sensitive personal data. It reads your location only while you use the app or while camera alerts you started are running, processes it on your phone, and never sells it or uses it for advertising. Your position itself leaves the phone only in a camera report you explicitly choose to publish; the map does load map images for the area around you from OpenFreeMap (see Server communication).</string>
     <string name="privacy_h_location">Location</string>
-    <string name="privacy_p_location">While Drive Alert is open, it reads your current location on the phone to show where you are on the map, count nearby cameras, check GPS accuracy, and attach a position to a camera report you are writing. When you press Start Drive, it uses precise location until you stop alerts, the drive ends, or 30 minutes pass without movement, including while other apps such as Google Maps are on screen and while the phone is locked; a notification is shown the whole time. When the app is closed and alerts are off, Drive Alert does not use your location.</string>
+    <string name="privacy_p_location">While Drive Alert is open, it reads your current location on the phone to show where you are on the map, list nearby cameras with their distance and direction from you, check GPS accuracy, and attach a position to a camera report you are writing. When you press Start Drive, it uses precise location until you stop alerts, the drive ends, or 30 minutes pass without movement, including while other apps such as Google Maps are on screen and while the phone is locked; a notification is shown the whole time. When the app is closed and alerts are off, Drive Alert does not use your location.</string>
     <string name="privacy_h_on_device">On your phone</string>
     <string name="privacy_p_on_device">Camera matching happens on the phone using the downloaded camera database. Alert history (which camera was announced and when, without your coordinates) and your settings are stored only on the phone and are excluded from cloud backup.</string>
     <string name="privacy_h_server">Server communication</string>

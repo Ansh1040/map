@@ -119,6 +119,7 @@ Device facts (public specs): 6.82″ 1440×3168 (510 ppi) curved AMOLED; launche
 |---|---|---|---|
 | Q1 | Install `app-debug.apk` (allow "Install unknown apps" for your file manager/browser) | Installs; launcher icon "Drive Alert (debug)" | ☐ |
 | Q2 | Onboarding: allow precise location + notifications | Home shows "GPS Ready" and the map (needs internet) | ☐ |
+| Q2b | Home map and **Cameras near you** | The map opens framed on your blue dot plus the nearest cameras. Numbered clusters split as you zoom in. Arrows show the watched direction only on cameras whose data has a direction; most have none. The list shows up to 10 cameras within 25 km, each with a line like "2.3 km north-east of you", or "No mapped cameras within 25 km" in states with little OpenStreetMap coverage. The pin button moves the map to that camera; tapping a row opens its details with "From your position". The list is hidden during a drive (e.g. the Q6 simulation) and comes back after the drive ends. Without precise location it shows only the note "Turn on precise location to see how far cameras are from you." | ☐ |
 | Q3 | Settings → Camera data packages | 36 states/UTs, e.g. Kerala 284, Karnataka 96, Maharashtra 87, Delhi 50 | ☐ |
 | Q4 | Setup assistant | All "Required" rows ✓; OnePlus card shows the battery path | ☐ |
 | Q5 | Recents → long-press Drive Alert → **Lock** | Lock icon on the card | ☐ |

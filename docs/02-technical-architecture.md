@@ -14,7 +14,7 @@ All code lives under `app/src/main/java/com/drivealert/app/`.
 | `domain/relevance` | Core | `MotionEstimator`, `BearingMatcher`, `CameraRelevanceEngine`. |
 | `domain/alerts` | Core | `AlertThresholdPolicy`, `SessionCameraTracker`. |
 | `domain/location` | Core | `TrackingModePolicy`, `PassiveFallbackPolicy`, `AdaptiveLocationController`, `StationaryDetector`, `DeadReckoning`. |
-| `domain/cameras` | Core | `NearbyCameraIndex` (in-memory spatial cache). |
+| `domain/cameras` | Core | `NearbyCameraIndex` (in-memory spatial cache), `NearbyCameras` (nearest cameras with distance and bearing from the user, for "Cameras near you"). |
 | `domain/session` | Core | `DrivingSessionManager` (orchestrator). |
 | `domain/reporting` | Core | `ReportModerationPolicy` (client checks + reference server scoring). |
 | `domain/ports` | Core | Interfaces to the platform: `LocationSource`, `CameraLookup`, `AlertPresenter`, `AlertHistoryRecorder`, `RoadContextProvider`, `Clock`. |
@@ -165,7 +165,7 @@ A parallel tick loop (every 3 s in `CLOSE`, 15 s otherwise) runs `ALC.onTick()` 
 |---|---|---|
 | DrivingSessionManager | `domain/session/DrivingSessionManager.kt` | Session lifecycle, fix pipeline, tick loop, `StateFlow<SessionState>`, `SharedFlow<SessionEvent>` |
 | AdaptiveLocationController | `domain/location/AdaptiveLocationController.kt` | Applies `TrackingModePolicy` plans; `planChanges` counter |
-| CameraRepository | `cameras/CameraRepository.kt` (`RoomCameraRepository`) | Cell queries (chunked 500), bounds/search for UI, `dataVersion` |
+| CameraRepository | `cameras/CameraRepository.kt` (`RoomCameraRepository`) | Cell queries (chunked 500), all-active list for the clustered map (`allActive`, up to 5,000), search for UI, `dataVersion` |
 | NearbyCameraIndex | `domain/cameras/NearbyCameraIndex.kt` | 12 km cache, reload after 4 km; `loadCount` counter |
 | CameraRelevanceEngine | `domain/relevance/CameraRelevanceEngine.kt` | Per-camera relevance + confidence |
 | BearingMatcher | `domain/relevance/BearingMatcher.kt` | Direction match, ahead/beside/behind |

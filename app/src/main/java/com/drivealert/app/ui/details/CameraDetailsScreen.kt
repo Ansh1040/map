@@ -1,5 +1,6 @@
 package com.drivealert.app.ui.details
 
+import android.content.Context
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -37,10 +38,15 @@ import androidx.navigation.toRoute
 import com.drivealert.app.R
 import com.drivealert.app.alerts.AlertTextFormatter
 import com.drivealert.app.cameras.CameraRepository
+import com.drivealert.app.domain.alerts.AlertThresholdPolicy
+import com.drivealert.app.domain.geo.GeoMath
+import com.drivealert.app.domain.geo.GeoPoint
 import com.drivealert.app.domain.model.Camera
 import com.drivealert.app.domain.model.DataSource
 import com.drivealert.app.domain.model.VerificationStatus
+import com.drivealert.app.location.ForegroundLocationProbe
 import com.drivealert.app.navigation.CameraDetailsRoute
+import com.drivealert.app.permissions.LocationPermissions
 import com.drivealert.app.ui.components.BackTopBar
 import com.drivealert.app.ui.components.CameraTypeBadge
 import com.drivealert.app.ui.components.InfoBanner
@@ -49,15 +55,26 @@ import com.drivealert.app.ui.components.PrimaryActionButton
 import com.drivealert.app.ui.components.SectionCard
 import com.drivealert.app.ui.components.StatusChip
 import com.drivealert.app.ui.components.Tone
+import com.drivealert.app.ui.util.formatBearingFromYou
 import com.drivealert.app.ui.util.formatDateTime
 import com.drivealert.app.ui.util.formatDirection
 import dagger.hilt.android.lifecycle.HiltViewModel
+import dagger.hilt.android.qualifiers.ApplicationContext
 import java.util.Locale
 import javax.inject.Inject
+import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.stateIn
+import kotlinx.coroutines.launch
+
+/**
+ * Worst fix accuracy for which "From your position" is shown. Weaker fixes can be hundreds of
+ * metres off. Same limit as the Home "Cameras near you" card.
+ */
+private const val MAX_FROM_YOU_ACCURACY_M = 200f
 
 sealed interface CameraDetailsState {
     data object Loading : CameraDetailsState
@@ -69,12 +86,33 @@ sealed interface CameraDetailsState {
 class CameraDetailsViewModel @Inject constructor(
     savedStateHandle: SavedStateHandle,
     repository: CameraRepository,
+    probe: ForegroundLocationProbe,
+    @ApplicationContext private val context: Context,
 ) : ViewModel() {
     private val cameraId = savedStateHandle.toRoute<CameraDetailsRoute>().cameraId
 
     val state: StateFlow<CameraDetailsState> = repository.observeCamera(cameraId)
         .map { camera -> if (camera == null) CameraDetailsState.NotFound else CameraDetailsState.Loaded(camera) }
         .stateIn(viewModelScope, SharingStarted.WhileSubscribed(5_000), CameraDetailsState.Loading)
+
+    private val _userPosition = MutableStateFlow<GeoPoint?>(null)
+
+    /**
+     * Where the user is, for "From your position". Null while unknown or too imprecise: no precise
+     * location permission (approximate locations are blurred by about 2 km), location off, no fix,
+     * or a fix worse than ±200 m.
+     */
+    val userPosition: StateFlow<GeoPoint?> = _userPosition.asStateFlow()
+
+    init {
+        // One read per screen: a cached fix up to 2 min old, otherwise a single balanced-power fix.
+        // This screen never asks for a permission; without precise location the row stays hidden.
+        viewModelScope.launch {
+            if (!LocationPermissions.hasPreciseLocation(context)) return@launch
+            val fix = probe.currentLocation(maxCachedAgeMs = 120_000L) ?: return@launch
+            if (fix.accuracyM <= MAX_FROM_YOU_ACCURACY_M) _userPosition.value = GeoPoint(fix.latitude, fix.longitude)
+        }
+    }
 }
 
 @Composable
@@ -84,6 +122,7 @@ fun CameraDetailsScreen(
     viewModel: CameraDetailsViewModel = hiltViewModel(),
 ) {
     val state by viewModel.state.collectAsStateWithLifecycle()
+    val userPosition by viewModel.userPosition.collectAsStateWithLifecycle()
     Scaffold(topBar = { BackTopBar(stringResource(R.string.camera_details_title), onBack) }) { padding ->
         when (val s = state) {
             CameraDetailsState.Loading -> Box(Modifier.fillMaxSize().padding(padding), contentAlignment = Alignment.Center) {
@@ -92,13 +131,13 @@ fun CameraDetailsScreen(
             CameraDetailsState.NotFound -> Box(Modifier.fillMaxSize().padding(padding), contentAlignment = Alignment.Center) {
                 Text(stringResource(R.string.camera_not_found), style = MaterialTheme.typography.bodyLarge)
             }
-            is CameraDetailsState.Loaded -> CameraDetailsContent(s.camera, Modifier.padding(padding), onReport)
+            is CameraDetailsState.Loaded -> CameraDetailsContent(s.camera, userPosition, Modifier.padding(padding), onReport)
         }
     }
 }
 
 @Composable
-private fun CameraDetailsContent(camera: Camera, modifier: Modifier, onReport: (String) -> Unit) {
+private fun CameraDetailsContent(camera: Camera, userPosition: GeoPoint?, modifier: Modifier, onReport: (String) -> Unit) {
     Column(
         modifier
             .fillMaxSize()
@@ -136,6 +175,14 @@ private fun CameraDetailsContent(camera: Camera, modifier: Modifier, onReport: (
                 stringResource(R.string.label_coordinates),
                 String.format(Locale.US, "%.5f, %.5f", camera.latitude, camera.longitude),
             )
+            if (userPosition != null) {
+                val distanceM = GeoMath.distanceMeters(userPosition.latitude, userPosition.longitude, camera.latitude, camera.longitude)
+                val bearingDeg = GeoMath.initialBearingDeg(userPosition.latitude, userPosition.longitude, camera.latitude, camera.longitude)
+                LabeledValue(
+                    stringResource(R.string.label_from_you),
+                    formatBearingFromYou(AlertThresholdPolicy.roundForAnnouncement(distanceM), bearingDeg),
+                )
+            }
             HorizontalDivider(Modifier.padding(vertical = 4.dp))
             LabeledValue(stringResource(R.string.label_direction), formatDirection(camera.bearingDeg, camera.directionality))
             LabeledValue(
